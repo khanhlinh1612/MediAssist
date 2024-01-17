@@ -1,0 +1,14 @@
+.container-sidebar{
+    background-color: white !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.element{
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
+    font-weight: 600;
+    color: #3949AB;
+}

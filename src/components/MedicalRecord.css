@@ -1,0 +1,53 @@
+.main-record{
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1%;
+}
+.title{
+    display:flex;
+    justify-content: flex-start;
+    padding: 1.5%;
+    padding-left: 3%;
+    color: #3AA8A8;
+    column-gap: 30vw;
+}
+.result{
+    color: #E13C3C;
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.7vw;
+    justify-content: center;
+    align-items: center;
+}
+.result-detail{
+    color: black ;
+    margin-top: 0.8vh;
+}
+.main-form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+}
+.form-control-element{
+    display: flex;
+    flex-direction: row;
+    margin-top: 1.5%;
+    column-gap: 5%;
+    align-items: center;
+    justify-content: center;
+}
+.invalid {
+    border: 1px red solid ;
+}
+.form-message{
+    margin-top: 0.3%;
+    color: red;
+    font-size: medium;
+}
+.button-group{
+    display: flex;
+    flex-direction: row;
+    column-gap: 1%;
+    justify-content: flex-end;
+    margin-right: 10%;
+}
