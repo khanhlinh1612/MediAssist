@@ -1,9 +1,10 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import logo from '../images/logo.png'
-import avatar from '../images/avatar.jpg'
+import logo from '../images/logo.png';
+import avatar from '../images/avatar.jpg';
 import './Navbar.css';
 function NavbarApp(){
     return (
@@ -26,7 +27,7 @@ function NavbarApp(){
                     <img alt="" src={avatar} width="35" height="35" className="avatar"/>
                     <Nav.Link href="profile-form" className="nav-script">Hieu Nguyen</Nav.Link>
                 </div>
-                <Nav.Link href="SignOut" className="nav-script">Đăng xuất</Nav.Link>
+                <Link to="/" className="nav-script">Đăng xuất</Link>
             </Nav>
         </Navbar.Collapse>
         </Container>

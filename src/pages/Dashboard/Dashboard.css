@@ -1,0 +1,54 @@
+.appointment{
+    display: flex;
+    flex-direction: row;
+}
+.dashboard-page{
+    overflow-x:hidden ;
+    background-color: #F6FAFB;
+}
+.dashboard-content{
+    display: flex;
+    flex-direction: column;
+    padding-left: 2vw;
+}
+.info-page{
+    width: 60%;
+    margin-top: 3vh;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: linear-gradient(to right, #f0d0d3, #dcdce4);
+    font-weight: 500;
+    transition: transform 0.3s ease-in-out;
+}
+.info-page:hover{
+    transform: scale(1.05);
+}
+.title_part{
+    color: #3AA8A8 ;
+    text-align: left;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+}
+.text-box{
+    padding-left: 5%;
+    padding-top: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content: center;
+}
+.img-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.doctor_avatar {
+    width: 60%;
+    height: auto;
+}
+.work-schedule{
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}

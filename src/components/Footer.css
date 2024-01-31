@@ -1,8 +1,11 @@
 .Footer{
     background-color: #3AA8A8;
-    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 55px;
+    height: 8vh;
   }

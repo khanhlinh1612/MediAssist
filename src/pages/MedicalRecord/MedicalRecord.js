@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './MedicalRecord.css';
+import Sidebar from '../../components/Sidebar';
 import Form from 'react-bootstrap/Form';
 const MedicalRecord = () => {
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState(2);
   const [formData, setFormData] = useState({
     age: "",
     gender: "0",
@@ -55,7 +56,11 @@ const MedicalRecord = () => {
   }
 
   return (
-    <div className="main-record">
+    <div className='row'>
+      <div className='sidebar col-2'>
+        <Sidebar />
+      </div>
+      <div className="main-record col-10">
       <div className="title">
         <h3>Hồ Sơ Bệnh Án</h3>
         <div className='result'>
@@ -63,8 +68,10 @@ const MedicalRecord = () => {
           {
             result === 1 ? (
               <h6 className="result-detail">Có xu hướng nhồi máu cơ tim</h6>
-            ):(
+            ) : result === 0 ? (
               <h6 className="result-detail">Không có xu hướng nhồi máu cơ tim</h6>
+            ) : (
+              <h6 className="result-detail">Chưa chẩn đoán</h6>
             )
           }
 
@@ -143,28 +150,28 @@ const MedicalRecord = () => {
         <Form.Group className='form-control-element' controlId='exampleForm.ControlInput2' >
           <Form.Label className='mt-1 fw-medium w-25'>Độ dốc của đoạn sóng ST - Slope</Form.Label>
           <Form.Control as="select" className='w-50' value={formData.slope} onChange={(e) => setFormData({...formData, slope: e.target.value})}>
-            <option value="0">Độ dốc xuống - Negative Slope</option>
+            <option value="0">Độ dốc lên - Positive Slope</option>
             <option value="1">Độ dốc phẳng - Flat Slope</option>
-            <option value="2">Độ dốc lên - Positive Slope</option>
+            <option value="2">Độ dốc xuống - Negative Slope</option>
           </Form.Control>
         </Form.Group>
 
         <Form.Group className='form-control-element' controlId='exampleForm.ControlInput2' >
-          <Form.Label className='mt-1 fw-medium w-25'>Số lượng mạch máu lớn ở tim bị tắc nghẽn hoặc ảnh hưởng</Form.Label>
+          <Form.Label className='mt-1 fw-medium w-25'>Số lượng mạch máu lớn ở tim</Form.Label>
           <Form.Control as="select" className='w-50' value={formData.numOfVessels} onChange={(e) => setFormData({...formData, numOfVessels: e.target.value})}>
-              <option value="0">Không có mạch máu lớn nào bị tắc nghẽn hoặc ảnh hưởng</option>
-              <option value="1">Một mạch máu lớn bị tắc nghẽn hoặc ảnh hưởng</option>
-              <option value="2">Hai mạch máu lớn bị tắc nghẽn hoặc ảnh hưởng</option>
-              <option value="3">Ba mạch máu lớn bị tắc nghẽn hoặc ảnh hưởng</option>
+              <option value="0">Không có mạch máu lớn ở tim</option>
+              <option value="1">Một mạch máu lớn ở tim</option>
+              <option value="2">Hai mạch máu lớn ở tim</option>
+              <option value="3">Ba mạch máu lớn ở tim</option>
           </Form.Control>
         </Form.Group>
 
         <Form.Group className='form-control-element' controlId='exampleForm.ControlInput2' >
           <Form.Label className='mt-1 fw-medium w-25'>Mức độ thalassemia (bệnh máu di truyển)</Form.Label>
           <Form.Control as="select" className='w-50' value={formData.thalRate} onChange={(e) => setFormData({...formData, thalRate: e.target.value})}>
-            <option value="1">Mức độ thalassemia nhẹ</option>
-            <option value="2">Mức độ thalassemia trung bình</option>
-            <option value="3">Mức độ thalassemia nặng</option>
+            <option value="1">Có bị thalassemia</option>
+            <option value="2">Không có dấu hiệu</option>
+            <option value="3">Bị thalassemia nhưng đang phục hồi</option>
           </Form.Control>
         </Form.Group>
       </Form>
@@ -174,7 +181,10 @@ const MedicalRecord = () => {
         <button onClick={handleSubmit} className='btn btn-success ms-2'>Cập Nhật</button>
       </div>
 
+      </div>
     </div>
+
+
   );
 }
 

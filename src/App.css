@@ -1,17 +1,5 @@
 .app{
   text-align: center;
-  background-color: green;
-  height: 100vh;
-}
-.app-body {
-  display: flex;
-  flex-direction: row;
-  background-color: #f8f9fa;
-}
-.sidebar{
-  width: 15vw;
-}
-.main-content{
-  padding: 2%;
-  width: 85vw;
+  background-color: #ffffff;
+  height: 100%;
 }

@@ -1,31 +1,32 @@
-import React from 'react';
-// import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import NavbarApp from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import MedicalRecord from './components/MedicalRecord'
+import MedicalRecord from './pages/MedicalRecord/MedicalRecord'
 import FooterApp from './components/Footer'
+import HomePage from './pages/Homepage';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Login from './pages/Login/Login';
 import './App.css'
+import { useEffect } from 'react';
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+  const location = useLocation();
+
   return (
-    // <Router>
       <div className='app'>
-        <NavbarApp />
-        <div className='app-body'>
-          <div className='sidebar'>
-            <Sidebar />
-          </div>
-          <div className='main-content'>
-            <MedicalRecord/>
-          </div>
+        {location.pathname!=="/login" && <NavbarApp />}
+          <Routes>
+            <Route exact path="/" element={<HomePage/>}/>
+            <Route path="/login" element={<Login/>} />
+            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/profile-form" element={<MedicalRecord/>} />
 
-          {/* <Routes>
-            <Route path="/profile-form" component={MedicalRecord} />
-
-          </Routes> */}
-        </div>
-        <FooterApp />
+          </Routes>
+        {location.pathname!=="/login" &&<FooterApp /> }
       </div>
-    // </Router>
+
   );
 }
 

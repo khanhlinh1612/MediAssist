@@ -1,0 +1,46 @@
+.app-body {
+  display: flex;
+  flex-direction: row;
+  background-color: #ffffff;
+}
+.welillustration{
+    width: 100%;
+    height: 100%;
+}
+.main-content{
+    padding: 4%;
+    width: 100%;
+    background-color:white;
+}
+.home-container{
+    display: flex;
+    flex-direction: row;
+}
+.home-script{
+    text-align: center;
+    margin-top: 20px;
+}
+.home-content{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.home-btn-box{
+    position: absolute;
+    bottom: 0;
+}
+.home-btn{
+
+    background-color: #D5D2F6;
+    color: black;
+    font-weight: bold;
+
+
+}
+.home-title{
+    font-size: 3em;
+    margin-bottom: 3%;
+}
