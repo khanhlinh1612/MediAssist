@@ -1,0 +1,21 @@
+.show-post-page{
+    overflow-x:hidden ;
+    background-color: #F6FAFB;
+    min-height: 84vh;
+}
+.show-post-box{
+    padding: 1%;
+}
+.show-post-content{
+    padding-top: 3vh;
+    z-index: 5;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+}
+.image-cover-post-detail{
+    margin-bottom: 5vh;
+}

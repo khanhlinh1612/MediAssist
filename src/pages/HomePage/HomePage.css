@@ -1,20 +1,23 @@
-.app-body {
-  display: flex;
-  flex-direction: row;
-  background-color: #ffffff;
-}
+
 .welillustration{
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    height: auto;
 }
 .main-content{
-    padding: 4%;
+    overflow-y: scroll;
+    position: relative;
     width: 100%;
+    height: 84vh;
+    padding: 4%;
     background-color:white;
+
 }
+
 .home-container{
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 .home-script{
     text-align: center;
@@ -26,21 +29,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
 
-}
-.home-btn-box{
-    position: absolute;
-    bottom: 0;
-}
 .home-btn{
-
     background-color: #D5D2F6;
     color: black;
     font-weight: bold;
-
-
 }
 .home-title{
     font-size: 3em;
     margin-bottom: 3%;
+    margin-top: 1%;
 }

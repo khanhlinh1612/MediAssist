@@ -1,14 +1,93 @@
-.container-sidebar{
-    background-color: white !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+.container-sidebar {
+    position: sticky;
+    color: #273589;
+    z-index: 1;
+    background-color: white;
     min-height: 84vh;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    top: 0;
+    transition: all 0.5s ease;
+    overflow-y: auto; /* Đảm bảo sidebar có thể cuộn khi nội dung vượt quá chiều cao */
 }
-.element{
-    margin-top: 2.5vh;
-    margin-bottom: 2.5vh;
+
+.top-sidebar {
+    display: block;
+    height: 30vh;
+}
+
+.active-sidebar.container-sidebar {
+    width: 100%;
+}
+
+.inactive-sidebar.container-sidebar {
+    width: 50%;
+}
+
+#btn-sidebar {
+    position: absolute;
+    left: 50%;
+    display: block;
+    font-size: 1.2rem;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+.active-sidebar #btn-sidebar {
+    left: 82.5%;
+}
+
+.list-content-sidebar {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 9vh;
+}
+
+.container-sidebar ul {
+    padding-left: 0%;
+}
+
+.container-sidebar li {
+    list-style: none;
+    transition: all 0.1s ease-in-out;
+    height: 70px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 5%;
+}
+
+.container-sidebar.inactive-sidebar li {
+    justify-content: center;
+    padding-left: 0%;
+}
+
+.container-sidebar li:hover {
+    background-color: rgba(240, 208, 211, 0.5);
+    box-shadow: 4px 3px 9px -1px gray;
+    border-radius: 10%;
+    padding: auto;
+    width: 95%;
+    padding-left: 2.5%;
+    transform: translateY(-5px);
+}
+
+.item-nav {
     font-weight: 600;
-    color: #3949AB;
+    font-size: medium;
+}
+
+.container-sidebar.inactive-sidebar .item-nav {
+    display: none;
+}
+
+.container-sidebar.active-sidebar a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.container-sidebar.active-sidebar .item-nav {
+    margin-left: 1vw;
 }

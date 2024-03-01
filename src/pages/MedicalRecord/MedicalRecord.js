@@ -38,12 +38,10 @@ const MedicalRecord = () => {
       "ca": parseInt(formData.numOfVessels),
       "thal": parseInt(formData.thalRate),
     };
-    console.log(formData);
-    console.log(sendData);
+
     try {
       // Gửi yêu cầu đến server AI và xử lý kết quả
       const response = await axios.post(URL_API_AI, sendData);
-      console.log(response.data);
       if (response.data.prediction === 1){
         setResult(1);
       }

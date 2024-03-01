@@ -6,7 +6,6 @@
 }
 .login-contain{
     height: 75vh;
-    width: 70%;
     border-radius: 1rem;
     background: linear-gradient(to right bottom,rgba(236,236,236,0.7),rgba(236,236,236,0.3) );
     margin: 2rem auto;
@@ -20,7 +19,6 @@
     margin: 2rem;
     box-shadow: 0.5rem 0.5rem 2rem -1rem rgb(58,57,57);
     height: 80%;
-    width: 100%;
 }
 .left-side{
     display: flex;

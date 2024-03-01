@@ -1,0 +1,19 @@
+.create-post-page{
+    overflow-x:hidden ;
+    background-color: #F6FAFB;
+}
+.create-post-content{
+    background-color:white;
+    padding-top: 3vw;
+}
+.bold-label {
+    display: block;
+    font-weight: bold;
+    margin-top: 2vh;
+    margin-bottom: 0.5vh;
+}
+.create-post-content .form-group{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}

@@ -1,0 +1,36 @@
+.show-post-page{
+    overflow-x:hidden ;
+    background-color: #F6FAFB;
+}
+.show-post-box{
+    padding: 1%;
+}
+.show-post-content{
+    padding-top: 3vh;
+    z-index: 5;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+}
+.show-post-card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    row-gap: 2vw;
+}
+
+.title_part_show-post{
+    color: #3AA8A8 ;
+    text-align: left  !important;
+    margin-bottom: 2vh;
+    margin-top: 1vh;
+}
+.show-post-title{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+

@@ -1,6 +1,6 @@
 .Footer{
     background-color: #3AA8A8;
-    position: fixed;
+    /* position:; */
     left: 0;
     bottom: 0;
     width: 100vw;
@@ -8,4 +8,6 @@
     justify-content: center;
     align-items: center;
     height: 8vh;
+    z-index:2;
+    margin-top: auto;
   }
