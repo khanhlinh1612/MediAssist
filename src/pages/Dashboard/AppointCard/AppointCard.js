@@ -6,7 +6,7 @@ const AppointList = ({appointment}) => {
             <p><b>Bệnh nhân :</b> {appointment.patientName}</p>
             <p><b>Ngày khám :</b> {appointment.appointmentDate}</p>
             <p><b>Giờ khám :</b> {appointment.appointmentTime}</p>
-            <p><b>Bệnh nhân :</b> {appointment.appointmentDetails}</p>
+            <p><b>Nội dung :</b> {appointment.appointmentDetails}</p>
         </div>
     );
 }

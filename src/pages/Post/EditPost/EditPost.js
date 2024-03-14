@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Sidebar from "../../../components/Sidebar";
 import {Navigate} from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import './CreatePost.css';
+import {useParams} from 'react-router-dom';
+import './EditPost.css';
 
 const modules = {
     toolbar: [
@@ -28,21 +29,39 @@ const modules = {
     ]
 };
 
-export default function CreatePost() {
+export default function EditPost() {
+    const {id} = useParams();
     const [title, setTitle] = useState('');
     const [summary, setSummary] = useState('');
     const [content, setContent] = useState('');
     const [files, setFiles] = useState('');
     const [redirect, setRedirect] = useState(false);
-    function createNewPost(event) {
+
+    useEffect(() => {
+        fetch(`http://localhost:4000/posts/${id}`)
+        .then((response) => response.json().then(postInfo => {
+            setTitle(postInfo.title);
+            setSummary(postInfo.summary);
+            setContent(postInfo.content);
+        }))
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation:', error);
+        })
+
+    },[id]);
+
+    function updatePost(event) {
         const data = new FormData();
         data.set('title', title);
         data.set('summary', summary);
-        data.set('file', files[0]);
+        data.set('id', id);
         data.set('content', content);
+        if( files?.[0]) {
+            data.set('file', files?.[0]);
+        }
         event.preventDefault();
-        fetch('http://localhost:4000/posts', {
-            method: 'POST',
+        fetch(`http://localhost:4000/posts/${id}`, {
+            method: 'PUT',
             body: data,
             credentials: 'include',
         })
@@ -53,13 +72,13 @@ export default function CreatePost() {
         })
         .catch( error =>
             {
-                alert("Failed post creations");
+                alert("Failed post update");
                 console.error("Request failed:", error);
             }
         )
     }
     if(redirect) {
-        return <Navigate to={'/posts/show'}/>
+        return <Navigate to={'/posts/'+id}/>
     }
     return (
         <div className='create-post-page row'>
@@ -68,7 +87,7 @@ export default function CreatePost() {
             </div>
 
             <div className="col-md-10 col-9 create-post-content">
-                <form onSubmit={createNewPost}>
+                <form onSubmit={updatePost}>
                     <div className="form-group w-50">
                         <label className="bold-label" htmlFor="title">Title</label>
                         <input
@@ -114,6 +133,7 @@ export default function CreatePost() {
                     <button type="submit" className="btn btn-primary mt-5">Submit</button>
                 </form>
             </div>
+            <h1>Edit Post</h1>
         </div>
     );
 }

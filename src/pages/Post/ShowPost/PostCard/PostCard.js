@@ -4,14 +4,14 @@ import './PostCard.css'
 export default function PostCard({ _id,title, summary, cover, content, createdAt, updatedAt, author }) {
     const daysPassed = differenceInDays(new Date(), new Date(updatedAt));
     return (
-        <div class="col-xl-4 col-md-5 col-8 mb-3">
+        <div class="col-xl-4 col-md-6 col-11 mb-3">
             <div className="post-card card">
-                <Link to='/posts/{_id}'>
-                    <img src={'http://localhost:4000/uploads/' + cover} class="card-img-top" alt="..." />
+                <Link to={`/posts/${_id}`}>
+                    <img src={'http://localhost:4000/' + cover} class="card-img-top" alt="..." />
                 </Link>
 
                 <div class="card-body">
-                    <Link to='/posts/{_id}'>
+                    <Link to={`/posts/${_id}`}>
                         <h5 class="card-title">{title}</h5>
                     </Link>
 

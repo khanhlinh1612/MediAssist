@@ -12,7 +12,9 @@
     background-color:white;
 
 }
-
+.home-box h1{
+    text-align: center;
+}
 .home-container{
     display: flex;
     flex-direction: row;

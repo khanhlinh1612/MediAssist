@@ -1,21 +1,75 @@
-.show-post-page{
+.detail-post-page{
     overflow-x:hidden ;
     background-color: #F6FAFB;
     min-height: 84vh;
 }
-.show-post-box{
+.detail-post-box{
     padding: 1%;
 }
-.show-post-content{
+.detail-post-content{
     padding-top: 3vh;
     z-index: 5;
     padding: 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     background-color: white;
 }
 .image-cover-post-detail{
     margin-bottom: 5vh;
+    max-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.image-cover-post-detail img{
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+}
+.detail-post-content a{
+    color: #333;
+    text-decoration: underline;
+}
+.detail-post-content h1{
+    text-align: center;
+    margin: 10px 0 5px;
+}
+.detail-post-content time{
+    text-align: center;
+    display: block;
+    font-size: .8rem;
+    color: #aaa;
+    font-weight: bold;
+}
+.main-content img {
+    width: 100%;
+    height: auto;
+}
+.detail-post-content .author{
+    text-align: center;
+    margin-bottom: 1vh;
+    font-size: .8rem;
+    font-weight: bold;
+}
+.detail-post-content .main-content p{
+    line-height: 1.6rem;
+}
+
+.edit-row {
+    text-align: center;
+}
+.edit-row a{
+    text-decoration: none;
+    height: 20px;
+}
+.edit-btn{
+    background-color: #3AA8A8;
+    color: #fff !important;
+    padding: 15px 30px;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1vh;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 5px;
+    text-decoration: none;
 }

@@ -20,18 +20,22 @@
     align-items: flex-start;
     justify-content: flex-start;
 }
-.show-post-card{
+.btn-to-history{
+    background-color: #FF7783;
+    font-weight: 500;
+    color: white;
+}
+.btn-to-record{
+    font-weight: 500;
+    color: white;
+    background-color: #7F86FF;
+}
+.btn-group-patient-info{
     display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: center;
-    row-gap: 2vw;
+    gap: 1vw;
+    padding-right: 1vw;
+    padding-bottom: 2vh;
 }
-
-.title_part_show-post{
-    color: #3AA8A8 ;
-    text-align: left  !important;
-    margin-bottom: 2vh;
-    margin-top: 1vh;
-}
-
-

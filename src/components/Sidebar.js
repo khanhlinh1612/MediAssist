@@ -8,6 +8,7 @@ const Sidebar = () => {
       sidebar === "active-sidebar" ? "inactive-sidebar" : "active-sidebar"
     );
   };
+
   return (
     <div className={`container-sidebar ${sidebar}`}>
 
@@ -25,7 +26,7 @@ const Sidebar = () => {
           </li>
 
           <li className="mt-2">
-            <Link to="/show-post">
+            <Link to="/posts/show">
               <box-icon type="solid" name="file-plus" color="#3AA8A8"></box-icon>
               <span className="item-nav">Quản lý bài viết</span>
             </Link>
@@ -33,7 +34,7 @@ const Sidebar = () => {
           </li>
 
           <li className="mt-2">
-            <Link to="/profile-form">
+            <Link to="/patients/show">
               <box-icon
                 type="solid"
                 name="contact"

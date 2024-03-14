@@ -12,8 +12,15 @@ import Calendar from './pages/Calendar/Calendar';
 import ShowPost from './pages/Post/ShowPost/ShowPost';
 import CreatePost from './pages/Post/CreatePost/CreatePost';
 import PostDetail from './pages/Post/PostDetail/PostDetail';
+import EditPost from './pages/Post/EditPost/EditPost';
+import CreatePatient from './pages/Patient/CreatePatient/CreatePatient';
+import UpdatePatient from './pages/Patient/UpdatePatient/UpdatePatient';
+import ShowPatient from './pages/Patient/ShowPatient/ShowPatient';
+import CreateHistory from './pages/History/CreateHistory/CreateHistory';
+import Modal from 'react-modal';
 import './App.css'
 import {UserContextProvider} from './UserContext';
+Modal.setAppElement('#root');
 function App() {
 
   const location = useLocation();
@@ -29,10 +36,17 @@ function App() {
               <Route path="/dashboard" element={<Dashboard/>}/>
               <Route path="/profile-form" element={<MedicalRecord/>} />
               <Route path="/calendar" element={<Calendar/>} />
-              <Route path="/show-post" element={<ShowPost/>} />
-              <Route path="/create-post" element={<CreatePost/>} />
+              <Route path="/posts/show" element={<ShowPost/>} />
+              <Route path="/posts/create" element={<CreatePost/>} />
               <Route path="/posts/:id" element={<PostDetail/>} />
+              <Route path="/posts/edit/:id" element={<EditPost/>} />
+              <Route path="/patients/show" element={<ShowPatient/>} />
+              <Route path="/patients/create" element={<CreatePatient/>}/>
+              <Route path="/patients/:id" element={<UpdatePatient/>}/>
+              <Route path="/history/create" element={<CreateHistory/>}/>
+
             </Routes>
+
         </div>
 
         {location.pathname!=="/login" &&<FooterApp /> }

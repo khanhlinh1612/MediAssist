@@ -3,6 +3,7 @@
     min-width: 100vw;
     overflow-x: hidden;
     background: linear-gradient(to right, rgb(236,236,236) 50%, #3AA8A8 50%);
+    text-align: center;
 }
 .login-contain{
     height: 75vh;

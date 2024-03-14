@@ -8,7 +8,6 @@ const ShowPost = () => {
         fetch('http://localhost:4000/posts', {}) //default method is GET
             .then(response => response.json().then(
                 posts => {
-                    console.log(posts);
                     setPosts(posts);
                 }
             ))
@@ -28,7 +27,6 @@ const ShowPost = () => {
                 <div className='show-post-content justify-content-between'>
                     <div className='row show-post-card'>
                         {posts.length > 0 && posts.map(post => {
-                            console.log(post)
                             return <PostCard {...post} />
                         })
 

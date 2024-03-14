@@ -1,0 +1,49 @@
+.create-patient-page{
+    overflow-x:hidden ;
+    background-color: #F6FAFB;
+}
+.create-patient-box{
+    padding: 0.5%;
+}
+.create-patient-content{
+    z-index: 5;
+    padding: 2%;
+    background-color: white;
+}
+.create-patient-title{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.title_part_show-post{
+    color: #3AA8A8 ;
+    text-align: left  !important;
+    margin-bottom: 2vh;
+    margin-top: 1vh;
+}
+.title_create_patient{
+    color: #3C5999 ;
+    text-align: left  !important;
+    margin-bottom: 2vh;
+}
+.btn-create-patient{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 1vw;
+
+}
+.btn-create-patient .submit{
+    background-color: #3AA8A8;
+    width: 15%;
+    min-width: fit-content;
+    color: white;
+    font-weight: 500;
+}
+.btn-create-patient .cancel{
+    width: 15%;
+    min-width: fit-content;
+    font-weight: 500;
+}

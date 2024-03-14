@@ -1,7 +1,67 @@
-.calendar-page{
+.show-post-page{
+    overflow-x:hidden ;
     background-color: #F6FAFB;
-    overflow-x: hidden;
 }
-.calendar-container {
-height: 500px;
+
+.show-post-title{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.btn-add-event{
+    position:absolute;
+    right: 3vw;
+    top: 12vh;
+}
+.calendar-content{
+    width: 98%;
+    background-color:aliceblue;
+    padding: 3%;
+    color:#273589;
+}
+.calendar-content a{
+    text-decoration: none;
+    color: black ;
+}
+
+.calendar-content button{
+    background-color: #dcf6e8 !important;
+    color: #3AA8A8 !important;
+    font-weight: bold !important;
+    margin-bottom: 1vh;
+}
+.calendar-content .fc-event{
+    background-color: #dfdcfc;
+    margin-bottom: 1vh !important;
+    border-radius: 1%;
+    color: #8b81f2;
+    width: 90%;
+    padding-left: 1vw;
+    margin: auto !important;
+}
+.calendar-content .fc-event-main {
+    color: black !important;
+}
+.fc-event-title{
+    color: black !important;
+    font-weight: bold !important;
+}
+.fc-daygrid-event-harness{
+    margin-bottom: 1vh;
+}
+.fc-daygrid-day-frame.fc-scrollgrid-sync-inner{
+    overflow-y:auto;
+}
+.fc-daygrid-event-dot{
+    display: none;
+}
+.fc-event-time{
+    font-weight: bold;
+}
+.fc-event-title{
+    z-index: 10;
+}
+.form-modal .form-text{
+    color: '#effffcfc';
 }
