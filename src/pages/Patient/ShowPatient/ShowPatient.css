@@ -6,9 +6,11 @@
     padding: 1%;
 }
 .show-patient-content{
+    min-height: 84vh;
     z-index: 5;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    min-height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,6 +30,7 @@
 .btn-box{
     display: block ;
     margin-bottom: 2vh;
+    padding-right: 2vw;
     width: 100%;
 }
 .table-striped>tbody>tr:nth-child(odd)>td,
@@ -48,5 +51,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 40vh;
     padding-right: 2%;
+}
+.empty-title-box{
+    min-height: 50vh;
+    padding-top: 18vh;
 }

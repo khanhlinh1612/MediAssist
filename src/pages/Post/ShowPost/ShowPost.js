@@ -27,7 +27,7 @@ const ShowPost = () => {
                 <div className='show-post-content justify-content-between'>
                     <div className='row show-post-card'>
                         {posts.length > 0 && posts.map(post => {
-                            return <PostCard {...post} />
+                            return <PostCard key={post._id} {...post} />
                         })
 
                         }

@@ -81,7 +81,6 @@ const MedicalRecord = () => {
           <Form.Label className='mt-1 fw-medium w-25'>Độ tuổi</Form.Label>
           <Form.Control type="number" value={formData.age} onChange={(e)=>setFormData({...formData, age: e.target.value})} className='w-50' />
         </Form.Group>
-        {/* <span class="form-message age">Hi</span> */}
         <Form.Group className='form-control-element' controlId='exampleForm.ControlInput1' >
           <Form.Label className='mt-1 fw-medium w-25'>Giới tính</Form.Label>
           <Form.Control as="select" value={formData.gender} onChange={(e)=>setFormData({...formData, gender: e.target.value})} className='w-50'>

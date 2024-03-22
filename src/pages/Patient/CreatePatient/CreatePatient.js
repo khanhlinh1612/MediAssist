@@ -77,6 +77,7 @@ const CreatePatient = () => {
             });
             return;
         }
+        formData.fullname.trim();
         axios.post('http://localhost:4000/patient/', formData)
             .then(response => {
                 if (response.status === 200) {

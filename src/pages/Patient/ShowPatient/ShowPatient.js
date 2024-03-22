@@ -46,7 +46,7 @@ const ShowPatient = () => {
             <button className='patient-create-button btn btn-warning'>Tạo mới</button>
         </Link>
     </div>
-    <div className='table-box table-responsive'>
+    <div className='table-box table-responsive mb-5'>
         <table className="table table-striped">
             <thead>
                 <tr>
@@ -56,7 +56,6 @@ const ShowPatient = () => {
                     <th scope="col">Giới tính</th>
                     <th scope="col">Số điện thoại</th>
                     <th scope="col">Địa chỉ</th>
-                    <th scope="col">Thao tác</th>
                 </tr>
             </thead>
             <tbody>

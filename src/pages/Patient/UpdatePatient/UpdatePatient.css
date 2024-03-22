@@ -37,5 +37,6 @@
     align-items: center;
     gap: 1vw;
     padding-right: 1vw;
-    padding-bottom: 2vh;
+    padding-top: 1vh;
+    padding-bottom: 3vh;
 }

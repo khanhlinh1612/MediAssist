@@ -11,7 +11,6 @@ function NavbarApp() {
   const navigate = useNavigate();
   const { setUserInfo, userInfo } = useContext(UserContext);
   const [userInfoUpdated, setUserInfoUpdated] = useState(false);
-
   const userName = userInfo?.first_name + ' ' + userInfo?.last_name;
   const userAvatar = userInfo?.avatar;
 

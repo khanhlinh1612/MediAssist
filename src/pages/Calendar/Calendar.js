@@ -9,41 +9,41 @@ import AddEventModal from './AddEventModal/AddEventModal';
 import './Calendar.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import axios from 'axios';
+import { useLocation, useNavigate} from 'react-router-dom';
 import moment from 'moment';
 const Calendar = () => {
+  const navigate = useNavigate();
+  const location = useLocation() ;
   const [status, setStatus] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [events, setEvents] = useState([]);
   const [clickedEventInfo, setClickedEventInfo] = useState(null);
+  const isFirstRun = useRef(true);
   const calendarRef = useRef(null);
   const onEventAdded = async (event) => {
     const {isAdded,data} = await handleEventAdd(event);
-    let calendarApi = calendarRef.current.getApi();
     if (isAdded) {
-
-      console.log('Đây là data trả về từ Server khi tạo mới', data)
-      calendarApi.addEvent(
-        {
-          id: data._id,
-          start: moment(data.start).toDate(),
-          end: moment(data.end).toDate(),
-          title: data.title,
-          content: data.content,
-          patientName: data.patientName,
-          patientPhone: data.patientPhone,
+      let newEvents = events.map((item)=>{
+        if(item._id === data._id){
+          return data;
         }
-      );
+        else {
+          return item;
+        }
+      });
+      setEvents(newEvents);
+      calendarRef.current.getApi().refetchEvents();
     }
 
     setStatus(null);
-    console.log("In events sau khi tạo mới",calendarApi.getEvents());
+    isFirstRun.current = false;
+    navigate("/calendar", { state: '' });
   }
   async function handleEventAdd(data) {
     try {
       const response = await axios.post('http://localhost:4000/appointments/', data, {
-        withCredentials: true // Cho phép gửi và nhận cookie
+        withCredentials: true
       });
-
       return {isAdded: true, data: response.data};
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
@@ -60,6 +60,16 @@ const Calendar = () => {
     setEvents(response.data);
   }
   useEffect(() => {
+    console.log(isFirstRun.current);
+
+    if (isFirstRun.current) {
+      if(location.state &&  location.state === 'create'){
+        setModalOpen(true);
+        setStatus('create');
+      }
+
+    }
+    isFirstRun.current = false;
     fetch('http://localhost:4000/appointments/')
       .then(response => {
         if (!response.ok) {
@@ -75,7 +85,7 @@ const Calendar = () => {
       });
 
     calendarRef.current.getApi().refetchEvents();
-  }, []);
+  }, [location.key, location.state]);
 
 
   async function updateEvent(info){
@@ -110,8 +120,6 @@ const Calendar = () => {
     window.location.reload();
   }
 
-
-
   return (
     <div className='show-post-page row'>
       <div className="col-md-2 col-3">
@@ -126,7 +134,7 @@ const Calendar = () => {
           <FullCalendar
             ref={calendarRef}
             plugins={[interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin]}
-            initialView="dayGridMonth"
+            initialView={location.state === 'list' ? 'listMonth' : 'dayGridMonth'}
             headerToolbar={{
               start: 'prev,next today',
               center: 'title',
@@ -144,7 +152,7 @@ const Calendar = () => {
             navLinks={true}
             // weekends={false}
             dayMaxEvents={true}
-            eventClick = {event => {setModalOpen(true); setStatus('update'); setClickedEventInfo(event); console.log("This is clickedEvent",event)}}
+            eventClick = {event => {setModalOpen(true); setStatus('update'); setClickedEventInfo(event)}}
             datesSet={(date) => handleDatesSet(date)}
             events={events}
           />
@@ -155,7 +163,7 @@ const Calendar = () => {
         <AddEventModal
           isOpen={modalOpen}
           shouldCloseOnOverlayClick={false}
-          onClose={() => {setModalOpen(false); setStatus(null)}}
+          onClose={() => {setModalOpen(false); setStatus(null); navigate("/calendar", { state: '' });}}
           onEventAdded={event => onEventAdded(event) }
           onEventUpdated={event => updateEvent(event)}
           status={status}

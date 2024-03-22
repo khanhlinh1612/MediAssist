@@ -20,15 +20,11 @@
     align-items: flex-start;
     justify-content: flex-start;
 }
-.btn-to-history{
-    background-color: #FF7783;
-    font-weight: 500;
-    color: white;
-}
-.btn-to-record{
-    font-weight: 500;
-    color: white;
+.btn-to-invoice, .btn-to-prescription{
     background-color: #7F86FF;
+    font-weight: 500;
+    color: white;
+    min-width: fit-content;
 }
 .btn-group-patient-info{
     display: flex;
@@ -39,3 +35,30 @@
     padding-right: 1vw;
     padding-bottom: 2vh;
 }
+.invoice-box, .prescription-box{
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+}
+.submit-box{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+    gap: 1vw;
+
+}
+.submit-box .submit{
+    background-color: #3AA8A8;
+    width: 15%;
+    min-width: fit-content;
+    color: white;
+    font-weight: 500;
+}
+.submit-box .cancel{
+    width: 15%;
+    min-width: fit-content;
+    font-weight: 500;
+}
+

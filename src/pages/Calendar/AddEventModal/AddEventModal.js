@@ -15,8 +15,6 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
 
     useEffect(() => {
         if (status === 'update' && updateEventInfo) {
-            console.log(updateEventInfo.event.start);
-            console.log(updateEventInfo.event.end);
             const updateEvent = updateEventInfo.event._def.extendedProps;
             setTitle(updateEventInfo.event._def.title);
             setContent(updateEvent.content);
@@ -46,8 +44,14 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
             return;
         }
         if (onDelete) {
-            console.log("Đây là updateInfo",updateEventInfo);
-            await deleteEvent(updateEventInfo.event.id);
+            let info_id = '';
+                if(updateEventInfo.event._def.extendedProps._id === '') {
+                    info_id = updateEventInfo.event.id;
+                }
+                else {
+                    info_id = updateEventInfo.event._def.extendedProps._id;
+            }
+            await deleteEvent(info_id);
             setOndDelete(false);
         }
         else {
@@ -62,8 +66,15 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
                 })
             }
             if (status === 'update') {
+                let info_id = '';
+                if(updateEventInfo.event._def.extendedProps._id === '') {
+                    info_id = updateEventInfo.event.id;
+                }
+                else {
+                    info_id = updateEventInfo.event._def.extendedProps._id;
+                }
                 await onEventUpdated({
-                    id: updateEventInfo.event._def.extendedProps._id,
+                    id: info_id,
                     title,
                     start,
                     end,
@@ -89,8 +100,7 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose} >
             <ToastContainer />
-            <form onSubmit={onSubmit} className='form-modal'>
-
+            <form onSubmit={onSubmit} className='form-modal-add-event'>
                 <div className="form-group">
                     <div className='close-icon' onClick={() => { onClose(); resetVariable() }}>
                         <box-icon type='solid' name='x-circle' color='red' size='lg'></box-icon>
@@ -106,19 +116,19 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
                 <div className="form-group">
                     <label>Ngày giờ kết thúc</label>
                     <DateTime className='w-75' value={end} onChange={date => { setEnd(date) }} aria-describedby="endTimeDescribe"></DateTime>
-                    <div id="endTimeDescribe" class="form-text mt-1">
+                    <div id="endTimeDescribe" className="form-text mt-1">
                         Thời gian kết thúc phải sau thời gian bắt đầu.
                     </div>
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <label htmlFor="content">Nội dung khám bệnh</label>
                     <input type="text" className="form-control" id="content" placeholder="Nội dung khám" value={content} onChange={event => { setContent(event.target.value) }} />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <label htmlFor="patient-name">Họ tên bệnh nhân</label>
                     <input type="text" className="form-control" id="patient name" placeholder="Họ tên bệnh nhân" value={patientName} onChange={event => { setPatientName(event.target.value) }} />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <label htmlFor="patient-name">Số điện thoại bệnh nhân</label>
                     <input type="text" className="form-control" id="patient name" placeholder="Số điện thoại bệnh nhân" value={patientPhone} onChange={event => { setPatientPhone(event.target.value) }} />
                 </div>

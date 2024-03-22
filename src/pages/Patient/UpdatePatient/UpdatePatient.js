@@ -137,6 +137,10 @@ const UpdatePatient = () => {
         navigate("/patients/show");
     };
 
+
+    const handleToHistory = () => {
+        navigate('/history/show',  { state: {patientId: formData._id, patientName: formData.fullname, patientPhone: formData.phone_number} });
+    }
     return (
         <div className='create-patient-page row'>
             <div className="col-md-2 col-3">
@@ -147,10 +151,10 @@ const UpdatePatient = () => {
                 <div className="create-patient-title">
                     <h3 className="title_part_show-post">Cập nhật bệnh nhân</h3>
                 </div>
-
                 <div className='create-patient-content'>
                     <div className='btn-group-patient-info'>
-                        <button className='btn btn-to-history btn-secondary'>Lịch sử thăm khám</button>
+                        <button type="button" className='btn btn-to-history btn-secondary' onClick={handleToHistory}>Lịch sử thăm khám</button>
+
                         <button className='btn btn-to-record btn-secondary'>Hồ sơ bệnh án</button>
                     </div>
                     <form onSubmit={handleSubmit} className='row justify-content-between'>

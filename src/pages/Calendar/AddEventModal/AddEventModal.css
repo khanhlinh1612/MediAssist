@@ -1,56 +1,55 @@
 .ReactModal__Overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
 
 .ReactModal__Content {
-    background-color: rgba(232,230,253,255) !important; /* Màu tím với độ trong suốt 50% */
-    color:rgba(130,119,241,255);
-    font-weight: bold;
-    width: 50%;
-    margin-left: 25% !important;
-    margin-top: 2%;
-    height: 87%;
+  background-color: rgba(232,230,253,255) !important; /* Màu tím với độ trong suốt 50% */
+  color:rgba(130,119,241,255);
+  font-weight: bold;
+  width: 50%;
+  margin-left: 25% !important;
+  height: 87%;
 }
-.form-modal {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+.form-modal-add-event {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
-  }
-
-  .form-group {
-    width: 100%;
-  }
-
-  .form-modal .btn-group{
-    display: flex;
-    align-items:center;
-    justify-content: center;
-    margin-top: 2vh;
-    gap: 5%;
-  }
-  .form-modal button{
-    width: 8vw;
-    border-radius: 5%;
-    min-width:max-content;
-  }
-.form-modal .form-group{
-  margin-top: 1.2vh;
-  margin-bottom: 1.2vh;
 }
-.form-modal label{
-  margin-bottom: 0.5vh;
+
+.form-group {
+  width: 100%;
 }
-.close-icon{
-  float: right;
-  cursor: pointer;
+
+.form-modal-add-event .btn-group{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  margin-top: 2vh;
+  gap: 5%;
+}
+.form-modal-add-event button{
+  width: 8vw;
+  border-radius: 5%;
+  min-width:max-content;
+}
+.form-modal-add-event .form-group{
+margin-top: 1.2vh;
+margin-bottom: 1.2vh;
+}
+.form-modal-add-event label{
+margin-bottom: 0.5vh;
+}
+.add-event .close-icon{
+float: right;
+cursor: pointer;
 }

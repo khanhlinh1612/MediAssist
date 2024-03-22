@@ -1,0 +1,58 @@
+.show-post-page{
+    overflow-x:hidden ;
+    background-color: #F6FAFB;
+}
+.show-post-box{
+    padding: 1%;
+}
+.show-patient-content{
+    z-index: 5;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+}
+.show-post-title{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.history-create-button{
+    color: white;
+    background-color: #49B583;
+    font-weight: 500;
+    float: right;
+}
+.btn-box{
+    display: block ;
+    margin-bottom: 2vh;
+    padding-right: 2vw;
+    width: 100%;
+}
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #F7F6FE;
+}
+.table .col-content1 {
+    align-items: center;
+    text-align: center;
+    vertical-align: center;
+    min-width: fit-content;
+}
+.table th {
+    text-align: center;
+    vertical-align: center;
+}
+.table-box{
+    width: 100%;
+    padding-left: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40vh;
+    padding-right: 2%;
+}
