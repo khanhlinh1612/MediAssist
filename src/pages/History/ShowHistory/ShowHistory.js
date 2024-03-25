@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from "../../../components/Sidebar";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './ShowHistory.css';
 import axios from 'axios';
 import { format } from 'date-fns';
@@ -11,6 +11,7 @@ const ShowHistory = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const location = useLocation();
+    const navigate = useNavigate();
     useEffect(() => {
         let url = 'http://localhost:4000/history/';
         if (location.state) {
@@ -37,6 +38,10 @@ const ShowHistory = () => {
     const indexOfLastHistory = (currentPage + 1) * 5;
     const indexOfFirstHistory = indexOfLastHistory - 5;
     const currentHistories = histories.slice(indexOfFirstHistory, indexOfLastHistory);
+
+    const handleToDetail = (historyId ) =>{
+        navigate(`/history/${historyId}`);
+    }
 
     return (
         <div className='show-post-page row'>
@@ -84,7 +89,7 @@ const ShowHistory = () => {
                                         <td className='col-content'>{history.diagnosis}</td>
                                         <td>
                                             <Link to={`/history/${history._id}`} className="me-2">
-                                                <box-icon name='edit' color='#624DE3'></box-icon>
+                                                <box-icon name='edit' color='#624DE3' onClick={handleToDetail}></box-icon>
                                             </Link>
                                             <Link to={`/history/${history._id}`} className="me-2">
                                                 <box-icon name='trash' color='#A30D11'></box-icon>

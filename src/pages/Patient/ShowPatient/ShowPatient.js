@@ -9,7 +9,15 @@ const ShowPatient = () => {
     const [patients, setPatients] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
-
+    const handleDelete = async (id) => {
+        const result = await axios.delete(`http://localhost:4000/patient/${id}`);
+        if(result.status === 200) {
+            window.location.reload();
+        }
+        else{
+            alert('Error deleting');
+        }
+    }
     useEffect(() => {
         axios.get('http://localhost:4000/patient/')
             .then(response => {
@@ -71,7 +79,7 @@ const ShowPatient = () => {
                             <Link to={`/patients/${patient._id}`} className="me-2">
                                 <box-icon name='edit' color='#624DE3'></box-icon>
                             </Link>
-                            <Link to={`/patients/${patient._id}`} className="me-2">
+                            <Link onClick={() => {handleDelete(patient._id)}} className="me-2">
                                 <box-icon name='trash' color='#A30D11'></box-icon>
                             </Link>
                         </td>

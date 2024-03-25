@@ -1,5 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Sidebar from "../../../components/Sidebar";
+import { useParams } from 'react-router-dom';
+import { format } from 'date-fns';
 import './HistoryDetail.css';
 import axios from 'axios';
 import AddPrescriptionModal from '../CreateHistory//AddPrescriptionModal/AddPrescriptionModal';
@@ -10,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const HistoryDetail = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const [modalPrescriptionOpen, setModalPrescriptionOpen] = useState(false);
     const [modalServiceOpen, setModalServiceOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -23,9 +26,9 @@ const HistoryDetail = () => {
         prescription: [],
         service: [],
     });
-    const [prescriptionData, setPrescriptionData] = useState(null);
-    const [serviceData, setServiceData] = useState(null);
-
+    const [prescriptionData, setPrescriptionData] = useState([]);
+    const [serviceData, setServiceData] = useState([]);
+    const statusModal = 'update';
     const fullnameRef = useRef(null);
     const phoneNumberRef = useRef(null);
     const examDateRef = useRef(null);
@@ -47,6 +50,28 @@ const HistoryDetail = () => {
         prescription: prescriptionRef,
         service: serviceRef,
     };
+    const formattedExamDate = formData.examDate ? format(new Date(formData.examDate), 'yyyy-MM-dd') : '';
+    const formattedReExamDate = formData.reExamDate ? format(new Date(formData.reExamDate), 'yyyy-MM-dd') : '';
+    useEffect(() => {
+        axios.get(`http://localhost:4000/history/${id}`)
+            .then(response => {
+                console.log('Data from server: ', response.data);
+                const { medicalServices, medicines } = response.data.invoice;
+                setFormData({
+                    ...response.data,
+                    prescription: medicines ? medicines : [],
+                    service: medicalServices ? medicalServices : []
+                });
+                setPrescriptionData(medicines);
+                setServiceData(medicalServices);
+                console.log('This is data from server', response.data);
+                console.log('This is data from FormData', formData);
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id,]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -55,14 +80,15 @@ const HistoryDetail = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log('Đây là dữ liệu của formData sau update', formData);
         if (validateFormData()) {
-            axios.post('http://localhost:4000/history/', formData, {
+            axios.put(`http://localhost:4000/history/${formData._id}`, formData, {
                 withCredentials: true // Cho phép gửi và nhận cookie
             })
                 .then(response => {
                     if (response.status === 200) {
-                        // clearForm();
-                        // navigate("/history/show");
+                        clearForm();
+                        navigate("/history/show");
                     }
                 })
                 .catch(error => {
@@ -121,30 +147,31 @@ const HistoryDetail = () => {
             transition: Bounce,
         });
     };
-
+    console.log(formData);
     //function of Prescription Modal
-        const closePrescriptionModal = () => {
-            setModalPrescriptionOpen(false);
-        };
-        const getValuePrescription = (data) => {
-            setPrescriptionData(data);
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                prescription: data
-            }));
-        };
+    const closePrescriptionModal = () => {
+        setModalPrescriptionOpen(false);
+    };
+    const getValuePrescription = (data) => {
+        setPrescriptionData(data);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            prescription: data
+        }));
+    };
 
     //function of service Modal
-        const closeServiceModal = () => {
-            setModalServiceOpen(false);
-        };
-        const getValueService = (data) => {
-            setServiceData(data);
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                service: data
-            }));
-        };
+    const closeServiceModal = () => {
+        setModalServiceOpen(false);
+    };
+    const getValueService = (data) => {
+        setServiceData(data);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            service: data
+        }));
+    };
+
 
     return (
         <div className='create-patient-page row'>
@@ -170,7 +197,7 @@ const HistoryDetail = () => {
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="examDate" className="form-label fw-medium">Ngày thăm khám </label>
-                                <input type="date" className="form-control" id="examDate" name="examDate" value={formData.examDate} onChange={handleChange} ref={examDateRef} />
+                                <input type="date" className="form-control" id="examDate" name="examDate" value={formattedExamDate} onChange={handleChange} ref={examDateRef} />
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="examContent" className="form-label fw-medium">Nội dung khám</label>
@@ -191,21 +218,28 @@ const HistoryDetail = () => {
                                 <label htmlFor="prescription" className="form-label fw-medium">Đơn thuốc</label>
                                 <div className='prescription-box'>
                                     <input type="text" className="form-control" id="prescription" name="prescription" placeholder={`Số lượng thuốc đã tạo:  ${prescriptionData ? prescriptionData.length : 0}`} onChange={handleChange} ref={prescriptionRef} />
-                                    <button type="button" className='btn btn-to-invoice btn-secondary' onClick={() => setModalPrescriptionOpen(true)}>{prescriptionData ? 'Cập Nhật' : 'Tạo mới'}</button>
+                                    {prescriptionData.length > 0 && (
+
+                                        <button type="button" className='btn btn-to-invoice btn-secondary' onClick={() => setModalPrescriptionOpen(true)}>{'Cập Nhật'}</button>
+                                    )}
+
                                 </div>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="service" className="form-label fw-medium">Dịch vụ</label>
                                 <div className='invoice-box'>
                                     <input type="text" className="form-control" id="service" name="service" placeholder={`Số lượng dịch vụ đã tạo:  ${serviceData ? serviceData.length : 0}`} onChange={handleChange} ref={serviceRef} />
-                                    <button type="button" className='btn btn-to-prescription btn-secondary' onClick={() => setModalServiceOpen(true)}>{serviceData ? 'Cập Nhật' : 'Tạo mới'}</button>
+                                    {serviceData.length > 0 && (
+                                        <button type="button" className='btn btn-to-prescription btn-secondary' onClick={() => setModalServiceOpen(true)}>Cập Nhật</button>
+                                    )}
+
                                 </div>
 
                             </div>
 
                             <div className="mb-3">
                                 <label htmlFor="reExamDate" className="form-label fw-medium">Ngày tái khám</label>
-                                <input type="date" className="form-control" id="reExamDate" name="reExamDate" value={formData.reExamDate} onChange={handleChange} ref={reExamDateRef} />
+                                <input type="date" className="form-control" id="reExamDate" name="reExamDate" value={formattedReExamDate} onChange={handleChange} ref={reExamDateRef} />
                             </div>
 
                         </div>
@@ -220,12 +254,16 @@ const HistoryDetail = () => {
                         isOpen={modalPrescriptionOpen}
                         onClose={closePrescriptionModal}
                         onSubmit={getValuePrescription}
+                        data={prescriptionData}
+                        status={statusModal}
                     />
 
                     <AddServiceModal
                         isOpen={modalServiceOpen}
                         onClose={closeServiceModal}
                         onSubmit={getValueService}
+                        data={serviceData}
+                        status={statusModal}
                     />
                 </div>
             </div>

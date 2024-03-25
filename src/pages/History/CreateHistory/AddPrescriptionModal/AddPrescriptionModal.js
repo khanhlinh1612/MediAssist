@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AddPrescriptionModal.css';
-export default function AddPrescriptionModal({ isOpen, onClose, onSubmit }) {
+export default function AddPrescriptionModal({ isOpen, onClose, onSubmit, data, status }) {
     const [formData, setFormData] = useState([{
         name: '',
         dosage: '',
         quantity: ''
     }]);
 
-    const clearFormData = () =>{
+    useEffect(() => {
+
+        if (data && Array.isArray(data) && data.length > 0) {
+            setFormData(data);
+        }
+    }, [data]);
+
+    const clearFormData = () => {
         setFormData([{
             name: '',
             dosage: '',
             quantity: ''
         }]);
     }
-    const cancel = () =>{
+    const cancel = () => {
         clearFormData();
         onSubmit(null);
         onClose();
@@ -78,9 +85,12 @@ export default function AddPrescriptionModal({ isOpen, onClose, onSubmit }) {
             </div>
 
             <h3 className='title-modal-prescription'>Thông tin đơn thuốc</h3>
-            <div className='add-drug-box'>
-                <button type="button" className='btn add-drug-btn' onClick={addMoreDrug}>Thêm thuốc</button>
-            </div>
+            {status === 'create' && (
+                <div className='add-drug-box'>
+                    <button type="button" className='btn add-drug-btn' onClick={addMoreDrug}>Thêm thuốc</button>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit} className='form-modal'>
                 {formData.map((drug, index) => (
                     <div key={index}>
@@ -118,8 +128,13 @@ export default function AddPrescriptionModal({ isOpen, onClose, onSubmit }) {
                     </div>
                 ))}
                 <div className='btn-group'>
-                    <button type="button" className='btn btn-warning' onClick={cancel}>Hủy</button>
-                    <button type="submit" className='btn btn-success'>Lưu</button>
+                    {status === 'create' && (
+                        <div>
+                           <button type="button" className='btn btn-warning' onClick={cancel}>Hủy</button>
+                        </div>
+                    )}
+
+                    <button type="submit" className='btn btn-success'>{status === 'create' ? 'Lưu' : 'Cập Nhật'}</button>
                 </div>
             </form>
         </Modal>

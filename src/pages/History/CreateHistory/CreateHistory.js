@@ -12,6 +12,7 @@ const CreateHistory = () => {
     const navigate = useNavigate();
     const [modalPrescriptionOpen, setModalPrescriptionOpen] = useState(false);
     const [modalServiceOpen, setModalServiceOpen] = useState(false);
+    const statusModal = 'create';
     const [formData, setFormData] = useState({
         fullname: '',
         phoneNumber: '',
@@ -23,8 +24,8 @@ const CreateHistory = () => {
         prescription: [],
         service: [],
     });
-    const [prescriptionData, setPrescriptionData] = useState(null);
-    const [serviceData, setServiceData] = useState(null);
+    const [prescriptionData, setPrescriptionData] = useState([]);
+    const [serviceData, setServiceData] = useState([]);
 
     const fullnameRef = useRef(null);
     const phoneNumberRef = useRef(null);
@@ -190,15 +191,15 @@ const CreateHistory = () => {
                             <div className="mb-3">
                                 <label htmlFor="prescription" className="form-label fw-medium">Đơn thuốc</label>
                                 <div className='prescription-box'>
-                                    <input type="text" className="form-control" id="prescription" name="prescription" placeholder={`Số lượng thuốc đã tạo:  ${prescriptionData ? prescriptionData.length : 0}`} onChange={handleChange} ref={prescriptionRef} />
-                                    <button type="button" className='btn btn-to-invoice btn-secondary' onClick={() => setModalPrescriptionOpen(true)}>{prescriptionData ? 'Cập Nhật' : 'Tạo mới'}</button>
+                                    <input type="text" className="form-control" id="prescription" name="prescription" placeholder={`Số lượng thuốc đã tạo:  ${prescriptionData.length}`} onChange={handleChange} ref={prescriptionRef} />
+                                    <button type="button" className='btn btn-to-invoice btn-secondary' onClick={() => setModalPrescriptionOpen(true)}>{prescriptionData.length > 0  ? 'Cập Nhật' : 'Tạo mới'}</button>
                                 </div>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="service" className="form-label fw-medium">Dịch vụ</label>
                                 <div className='invoice-box'>
-                                    <input type="text" className="form-control" id="service" name="service" placeholder={`Số lượng dịch vụ đã tạo:  ${serviceData ? serviceData.length : 0}`} onChange={handleChange} ref={serviceRef} />
-                                    <button type="button" className='btn btn-to-prescription btn-secondary' onClick={() => setModalServiceOpen(true)}>{serviceData ? 'Cập Nhật' : 'Tạo mới'}</button>
+                                    <input type="text" className="form-control" id="service" name="service" placeholder={`Số lượng dịch vụ đã tạo:  ${serviceData.length}`} onChange={handleChange} ref={serviceRef} />
+                                    <button type="button" className='btn btn-to-prescription btn-secondary' onClick={() => setModalServiceOpen(true)}>{serviceData.length > 0 ? 'Cập Nhật' : 'Tạo mới'}</button>
                                 </div>
 
                             </div>
@@ -220,12 +221,16 @@ const CreateHistory = () => {
                         isOpen={modalPrescriptionOpen}
                         onClose={closePrescriptionModal}
                         onSubmit={getValuePrescription}
+                        data={prescriptionData}
+                        status={statusModal}
                     />
 
                     <AddServiceModal
                         isOpen={modalServiceOpen}
                         onClose={closeServiceModal}
                         onSubmit={getValueService}
+                        data={serviceData}
+                        status={statusModal}
                     />
                 </div>
             </div>
