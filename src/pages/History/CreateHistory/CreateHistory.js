@@ -62,8 +62,8 @@ const CreateHistory = () => {
             })
                 .then(response => {
                     if (response.status === 200) {
-                        // clearForm();
-                        // navigate("/history/show");
+                        clearForm();
+                        navigate("/history/show");
                     }
                 })
                 .catch(error => {

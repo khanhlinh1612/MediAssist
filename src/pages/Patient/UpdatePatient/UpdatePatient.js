@@ -137,7 +137,9 @@ const UpdatePatient = () => {
         navigate("/patients/show");
     };
 
-
+    const handleToMedicalHistory = () => {
+        navigate(`/medical-record/${formData.medical_record}`);
+    }
     const handleToHistory = () => {
         navigate('/history/show',  { state: {patientId: formData._id, patientName: formData.fullname, patientPhone: formData.phone_number} });
     }
@@ -155,7 +157,7 @@ const UpdatePatient = () => {
                     <div className='btn-group-patient-info'>
                         <button type="button" className='btn btn-to-history btn-secondary' onClick={handleToHistory}>Lịch sử thăm khám</button>
 
-                        <button className='btn btn-to-record btn-secondary'>Hồ sơ bệnh án</button>
+                        <button type="button" className='btn btn-to-record btn-secondary' onClick={handleToMedicalHistory}>Hồ sơ bệnh án</button>
                     </div>
                     <form onSubmit={handleSubmit} className='row justify-content-between'>
                         <div className='col-7'>

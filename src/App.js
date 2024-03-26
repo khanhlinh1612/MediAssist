@@ -36,7 +36,7 @@ function App() {
               <Route exact path="/" element={<HomePage/>}/>
               <Route path="/login" element={<Login/>} />
               <Route path="/dashboard" element={<Dashboard/>}/>
-              <Route path="/medical-record" element={<MedicalRecord/>} />
+              <Route path="/medical-record/:id" element={<MedicalRecord/>} />
               <Route path="/calendar" element={<Calendar/>} />
               <Route path="/posts/show" element={<ShowPost/>} />
               <Route path="/posts/create" element={<CreatePost/>} />
