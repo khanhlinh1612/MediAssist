@@ -1,38 +1,9 @@
 .title-modal-service {
   color: #3AA8A8;
   text-align: center;
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
+  margin-top: 3vh;
 }
-
-.ReactModal__Overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.ReactModal__Content {
-  background-color: rgba(232, 230, 253, 255) !important;
-  color: rgba(130, 119, 241, 255);
-  font-weight: bold;
-  width: 50%;
-  margin-left: 25% !important;
-  margin-top: 2%;
-  height: 87%;
-}
-
-@media (min-width: 768px) {
-  .ReactModal__Content {
-    width: 35%;
-    margin-left:32.5% !important;
-  }
-}
-
 .form-modal {
   display: flex;
   flex-direction: column;
@@ -63,7 +34,6 @@
   border-radius: 5%;
   min-width: max-content;
 }
-
 .form-modal .form-group {
   margin-top: 1.2vh;
   margin-bottom: 1.2vh;
@@ -71,6 +41,12 @@
 
 .form-modal label {
   margin-bottom: 0.5vh;
+}
+.addDrug label{
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 0.3vh;
+  color: gray;
 }
 
 .close-icon {
@@ -101,4 +77,10 @@
 .add-drug-box {
   min-width: 100%;
   height: 1vh;
+}
+.icon :hover {
+  cursor: pointer;
+}
+.close-icon :hover{
+  cursor: pointer;
 }

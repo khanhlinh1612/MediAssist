@@ -11,7 +11,7 @@ export default function PostDetail() {
     const [postInfo, setPostInfo] = useState(null);
 
     useEffect(() => {
-        if (!id) return; // Handle case where id is not available
+        if (!id) return;
         fetch(`http://localhost:4000/posts/${id}`)
             .then(response => {
                 if (!response.ok) {
@@ -23,7 +23,7 @@ export default function PostDetail() {
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
-                setPostInfo(null); // Set postInfo to null in case of error
+                setPostInfo(null);
             });
     }, [id]);
 
@@ -36,16 +36,14 @@ export default function PostDetail() {
             </div>
             <div className="col-md-10 col-9 show-post-box">
                 <div className="detail-post-title">
-                    <h3 className="title_part_show-post">Tạo bài viết mới</h3>
+                    <h3 className="title_part_show-post">Chi Tiết Bài Viết</h3>
                 </div>
                 <div className='detail-post-content'>
-
                     <h1>{postInfo.title}</h1>
                     <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
                     <div className="author">Người đăng: {postInfo.author.first_name} {postInfo.author.last_name}</div>
-
                     {
-                        userInfo.id === postInfo.author._id && (
+                        userInfo._id === postInfo.author._id && (
                             <div className='edit-row'>
                                 <Link className='edit-btn' to={`/posts/edit/${id}`}>
                                     <box-icon type='solid' name='edit' color="white"></box-icon> Chỉnh sửa bài viết

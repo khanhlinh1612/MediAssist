@@ -1,8 +1,12 @@
 .title-modal-prescription {
   color: #3AA8A8;
   text-align: center;
+  margin-bottom: 1vh;
+}
+
+.title-modal-invoice {
+  color: orange;
   margin-bottom: 2vh;
-  margin-top: 3vh;
 }
 .form-modal {
   display: flex;
@@ -11,13 +15,18 @@
   align-items: center;
   margin-top: 5vh;
 }
+.status-invoice {
+  color:brown;
+}
 
 .form-group {
   width: 100%;
 }
-.form-modal .form-control{
+
+.form-modal .form-control {
   width: 100%;
 }
+
 .form-modal .btn-group {
   display: flex;
   align-items: center;
@@ -25,17 +34,11 @@
   margin-top: 2vh;
   gap: 5%;
 }
- .addDrugBtn{
+
+.btn-group .btn {
   font-weight: 500;
-  min-width: 25%;
-  margin-left: 1vw;
 }
-.addDrug label{
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 0.3vh;
-  color: gray;
-}
+
 .form-modal button {
   width: 8vw;
   border-radius: 5%;
@@ -66,46 +69,60 @@
   color: white;
   font-weight: 500;
 }
-.hasQuantity .form-control{
-  width: 50%;
-}
-.input-group{
-  display: flex;
-  flex-direction: row;
-}
-.input-group-text{
-  background-color: white;
-  border: white;
-  color: black;
+
+.invoice-section label {
   font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 0.3vh;
+  color: gray;
 }
+
 .close-icon .icon {
   cursor: pointer;
 }
 
+.invoice-section .form-control{
+  background-color: white;
+  margin-top: 0.5vh;
+}
+
 .drug-divider {
-  margin-top: 3vh;
+  margin: 5vh 0;
   border-top: 2px dashed orange;
 }
-.iconDelete{
-  font-size: large !important;
-}
-.header-container{
-  height: 1vh;
-}
+
 .add-drug-box {
   min-width: 100%;
-  min-height: 2vh;
+  height: 1vh;
 }
-.delete-icon-container{
-  margin-bottom: 1vh;
-}
-.delete-icon-container :hover{
+
+.delete-icon-container :hover {
   cursor: pointer;
 }
+
 .icon :hover {
   cursor: pointer;
 }
-.close-icon :hover{
+
+.close-icon :hover {
   cursor: pointer;
+}
+.table-title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 2vh;
+  color: #666666;
+}
+.total-modal-prescription{
+  color: #666666;
+}
+.total-amount {
+  margin-left: 2%;
+  margin-right: 2%;
+  color:#3AA8A8;
+}
+.total-section {
+  text-align: center;
 }

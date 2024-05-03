@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Sidebar from "../../../components/Sidebar";
 import './CreateHistory.css';
 import axios from 'axios';
@@ -7,7 +7,6 @@ import AddServiceModal from './AddServiceModal/AddServiceModal';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 const CreateHistory = () => {
     const navigate = useNavigate();
     const [modalPrescriptionOpen, setModalPrescriptionOpen] = useState(false);
@@ -16,7 +15,7 @@ const CreateHistory = () => {
     const [formData, setFormData] = useState({
         fullname: '',
         phoneNumber: '',
-        examDate: '',
+        examDate: new Date().toISOString().slice(0, 10),
         examContent: '',
         symptom: '',
         diagnosis: '',
@@ -26,7 +25,10 @@ const CreateHistory = () => {
     });
     const [prescriptionData, setPrescriptionData] = useState([]);
     const [serviceData, setServiceData] = useState([]);
-
+    const [patientNames, setPatientNames] = useState([]);
+    const [patientPhones, setPatientPhones] = useState([]);
+    const [services, setServices] = useState([]);
+    const [drugs, setDrugs] = useState([]);
     const fullnameRef = useRef(null);
     const phoneNumberRef = useRef(null);
     const examDateRef = useRef(null);
@@ -36,6 +38,45 @@ const CreateHistory = () => {
     const reExamDateRef = useRef(null);
     const prescriptionRef = useRef(null);
     const serviceRef = useRef(null);
+
+
+    useEffect(() => {
+        // Gọi API để lấy danh sách tên các bệnh nhân
+        axios.get('http://localhost:4000/patient/names')
+            .then(response => {
+                const options = response.data.fullnames.map(name => ({ value: name, label: name }));
+                console.log(options);
+                setPatientNames(options);
+                setPatientPhones(response.data.phoneNumbers);
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+            });
+
+
+        // Gọi API để lấy danh sách tên các dịch vụ
+        axios.get('http://localhost:4000/history/services')
+            .then(response => {
+                const options = response.data.map(name => ({ value: name, label: name }));
+                console.log(options);
+                setServices(options);
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+            });
+
+        // Gọi API để lấy danh sách tên các thuốc
+        axios.get('http://localhost:4000/history/drugs')
+            .then(response => {
+                const options = response.data.map(name => ({ value: name, label: name }));
+                console.log(options);
+                setDrugs(options);
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+            });
+
+    }, []);
 
     const refs = {
         fullname: fullnameRef,
@@ -52,7 +93,26 @@ const CreateHistory = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        if (name === "fullname") {
+            const phone_number = patientPhones.find(entry => {
+                const fullName = Object.keys(entry)[0];
+                return fullName === value;
+            });
+            if (phone_number) {
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    phoneNumber: phone_number[value]
+                }));
+            } else {
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    phoneNumber: ''
+                }));
+            }
+        }
     };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -124,28 +184,28 @@ const CreateHistory = () => {
     };
 
     //function of Prescription Modal
-        const closePrescriptionModal = () => {
-            setModalPrescriptionOpen(false);
-        };
-        const getValuePrescription = (data) => {
-            setPrescriptionData(data);
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                prescription: data
-            }));
-        };
+    const closePrescriptionModal = () => {
+        setModalPrescriptionOpen(false);
+    };
+    const getValuePrescription = (data) => {
+        setPrescriptionData(data);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            prescription: data
+        }));
+    };
 
     //function of service Modal
-        const closeServiceModal = () => {
-            setModalServiceOpen(false);
-        };
-        const getValueService = (data) => {
-            setServiceData(data);
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                service: data
-            }));
-        };
+    const closeServiceModal = () => {
+        setModalServiceOpen(false);
+    };
+    const getValueService = (data) => {
+        setServiceData(data);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            service: data
+        }));
+    };
 
     return (
         <div className='create-patient-page row'>
@@ -163,7 +223,12 @@ const CreateHistory = () => {
                         <div className='col-7'>
                             <div className="mb-3">
                                 <label htmlFor="fullname" className="form-label fw-medium">Họ và tên</label>
-                                <input type="text" className="form-control" id="fullname" name="fullname" value={formData.fullname} onChange={handleChange} ref={fullnameRef} />
+                                <input className="form-control" list="patientNames" id="fullname" name="fullname" value={formData.fullname} onChange={handleChange} ref={fullnameRef} placeholder="Chọn bệnh nhân..." />
+                                <datalist id="patientNames">
+                                    {patientNames.map((patient, index) => (
+                                        <option key={index} value={patient.value} />
+                                    ))}
+                                </datalist>
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="phoneNumber" className="form-label fw-medium">Số điện thoại</label>
@@ -192,7 +257,7 @@ const CreateHistory = () => {
                                 <label htmlFor="prescription" className="form-label fw-medium">Đơn thuốc</label>
                                 <div className='prescription-box'>
                                     <input type="text" className="form-control" id="prescription" name="prescription" placeholder={`Số lượng thuốc đã tạo:  ${prescriptionData.length}`} onChange={handleChange} ref={prescriptionRef} />
-                                    <button type="button" className='btn btn-to-invoice btn-secondary' onClick={() => setModalPrescriptionOpen(true)}>{prescriptionData.length > 0  ? 'Cập Nhật' : 'Tạo mới'}</button>
+                                    <button type="button" className='btn btn-to-invoice btn-secondary' onClick={() => setModalPrescriptionOpen(true)}>{prescriptionData.length > 0 ? 'Cập Nhật' : 'Tạo mới'}</button>
                                 </div>
                             </div>
                             <div className="mb-3">
@@ -222,6 +287,7 @@ const CreateHistory = () => {
                         onClose={closePrescriptionModal}
                         onSubmit={getValuePrescription}
                         data={prescriptionData}
+                        drugNames={drugs}
                         status={statusModal}
                     />
 
@@ -230,6 +296,7 @@ const CreateHistory = () => {
                         onClose={closeServiceModal}
                         onSubmit={getValueService}
                         data={serviceData}
+                        serviceNames={services}
                         status={statusModal}
                     />
                 </div>

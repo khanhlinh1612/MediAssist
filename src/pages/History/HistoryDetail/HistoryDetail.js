@@ -6,6 +6,7 @@ import './HistoryDetail.css';
 import axios from 'axios';
 import AddPrescriptionModal from '../CreateHistory//AddPrescriptionModal/AddPrescriptionModal';
 import AddServiceModal from '../CreateHistory/AddServiceModal/AddServiceModal';
+import ShowInvoiceModal from './ShowInvoiceModal/ShowInvoiceModal';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,6 +16,7 @@ const HistoryDetail = () => {
     const { id } = useParams();
     const [modalPrescriptionOpen, setModalPrescriptionOpen] = useState(false);
     const [modalServiceOpen, setModalServiceOpen] = useState(false);
+    const [modalInvoiceOpen, setModalInvoiceOpen] = useState(false);
     const [formData, setFormData] = useState({
         fullname: '',
         phoneNumber: '',
@@ -28,6 +30,7 @@ const HistoryDetail = () => {
     });
     const [prescriptionData, setPrescriptionData] = useState([]);
     const [serviceData, setServiceData] = useState([]);
+    const [invoiceData, setInvoiceData] = useState({});
     const statusModal = 'update';
     const fullnameRef = useRef(null);
     const phoneNumberRef = useRef(null);
@@ -56,7 +59,7 @@ const HistoryDetail = () => {
         axios.get(`http://localhost:4000/history/${id}`)
             .then(response => {
                 console.log('Data from server: ', response.data);
-                const { medicalServices, medicines } = response.data.invoice;
+                const { medicalServices, medicines, total, status } = response.data.invoice;
                 setFormData({
                     ...response.data,
                     prescription: medicines ? medicines : [],
@@ -64,6 +67,7 @@ const HistoryDetail = () => {
                 });
                 setPrescriptionData(medicines);
                 setServiceData(medicalServices);
+                setInvoiceData({medicines, medicalServices, total, status});
                 console.log('This is data from server', response.data);
                 console.log('This is data from FormData', formData);
             })
@@ -173,6 +177,12 @@ const HistoryDetail = () => {
     };
 
 
+    //function of invoiec Modal
+    const closeInvoiceModal = () => {
+        setModalInvoiceOpen(false);
+    };
+
+
     return (
         <div className='create-patient-page row'>
             <div className="col-md-2 col-3">
@@ -185,6 +195,9 @@ const HistoryDetail = () => {
                 </div>
 
                 <div className='create-patient-content'>
+                    <div className='btn-box'>
+                        <button className='patient-create-button btn btn-primary' onClick={() => setModalInvoiceOpen(true)}>Xem hóa đơn</button>
+                    </div>
                     <form onSubmit={handleSubmit} className='row justify-content-between'>
                         <div className='col-7'>
                             <div className="mb-3">
@@ -255,6 +268,7 @@ const HistoryDetail = () => {
                         onClose={closePrescriptionModal}
                         onSubmit={getValuePrescription}
                         data={prescriptionData}
+                        drugNames={[]}
                         status={statusModal}
                     />
 
@@ -263,7 +277,13 @@ const HistoryDetail = () => {
                         onClose={closeServiceModal}
                         onSubmit={getValueService}
                         data={serviceData}
+                        serviceNames={[]}
                         status={statusModal}
+                    />
+                    <ShowInvoiceModal
+                        isOpen={modalInvoiceOpen}
+                        onClose={closeInvoiceModal}
+                        data={invoiceData}
                     />
                 </div>
             </div>

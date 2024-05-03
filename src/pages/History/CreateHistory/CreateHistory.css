@@ -4,6 +4,7 @@
 }
 .show-post-box{
     padding: 1%;
+    min-height: 84vh;
 }
 .show-post-content{
     padding-top: 3vh;

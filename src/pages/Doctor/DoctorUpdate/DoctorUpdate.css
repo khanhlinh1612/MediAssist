@@ -1,0 +1,97 @@
+.doctor-detail-content{
+    z-index: 5;
+    padding: 1% 2%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.doctor-detail-content .info-box{
+    display: flex;
+    padding-top: 1vh;
+    align-items: center;
+    flex-direction: column;
+}
+.doctor-detail-content .title-info{
+    color: #4a7fc9;
+    text-align: center;
+}
+.doctor-detail-content .description-info{
+    color: #767477;
+    margin-left: 3vh;
+    margin-bottom: 2vh;
+    text-align: center;
+}
+.doctor-detail-content .container-info{
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5vh;
+}
+.doctor-detail-content .label-info{
+    color: #ae7f6c ;
+    font-weight: 650;
+    font-size: larger;
+    width: 8vw;
+    min-width: fit-content;
+
+}
+.doctor-detail-content .avatar-box{
+    background: url('https://i.pinimg.com/236x/0c/2b/1c/0c2b1c013f042ae3faf860e45853e795.jpg');
+    background-size: cover ;
+    padding: 3% 3%;
+}
+ .avatar-update{
+    border-radius: 50%;
+    border: 2px solid #ccc !important;
+    width: 210px;
+    height: 210px;
+    padding: 2px 2px;
+}
+.doctor-detail-content .content-info{
+    color: #8c8c8c;
+    font-size: larger;
+    font-weight: 600;
+    margin-left: 4vw;
+}
+.doctor-detail-content .main-box{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0% 5%;
+    padding-top: 6%;
+}
+.special-btn {
+    background-color: #feebf2;
+    margin-left: 2vw;
+    color: #ae7f6c;
+    font-weight: 600;
+    margin-bottom: 2vh;
+}
+.btn-box-avatar{
+    display: flex ;
+    justify-content: center ;
+    align-items: center ;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+    width: 100%;
+    flex-direction: column;
+}
+.btn-box-avatar .btn {
+    margin-top: 1vh;
+}
+.main-box .main-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.invalid-feedback {
+    color: #dc3545;
+    margin-top: .25rem;
+    font-size: 80%;
+}
+.pick-img{
+    color:#ae7f6c;
+    font-weight: bold !important;
+    background-color: bisque;
+}

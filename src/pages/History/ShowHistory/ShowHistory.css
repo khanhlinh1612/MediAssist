@@ -21,6 +21,12 @@
     align-items: flex-start;
     justify-content: flex-start;
 }
+.btn-box-show-post{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 .history-create-button{
     color: white;
     background-color: #49B583;

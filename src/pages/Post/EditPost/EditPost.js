@@ -60,6 +60,7 @@ export default function EditPost() {
             data.set('file', files?.[0]);
         }
         event.preventDefault();
+        console.log("This is data", files[0]);
         fetch(`http://localhost:4000/posts/${id}`, {
             method: 'PUT',
             body: data,
@@ -116,7 +117,6 @@ export default function EditPost() {
                             id="files"
                             className="form-control"
                             type="file"
-
                             onChange={(event) => {setFiles(event.target.files)}}
                         />
                     </div>
@@ -130,10 +130,9 @@ export default function EditPost() {
                             onChange={newValue => { setContent(newValue) }}
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary mt-5">Submit</button>
+                    <button type="submit" className="btn btn-primary mt-5 mb-1 float-end me-5">Submit</button>
                 </form>
             </div>
-            <h1>Edit Post</h1>
         </div>
     );
 }

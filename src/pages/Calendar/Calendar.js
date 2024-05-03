@@ -9,11 +9,11 @@ import AddEventModal from './AddEventModal/AddEventModal';
 import './Calendar.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import axios from 'axios';
-import { useLocation, useNavigate} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 const Calendar = () => {
   const navigate = useNavigate();
-  const location = useLocation() ;
+  const location = useLocation();
   const [status, setStatus] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [events, setEvents] = useState([]);
@@ -21,10 +21,10 @@ const Calendar = () => {
   const isFirstRun = useRef(true);
   const calendarRef = useRef(null);
   const onEventAdded = async (event) => {
-    const {isAdded,data} = await handleEventAdd(event);
+    const { isAdded, data } = await handleEventAdd(event);
     if (isAdded) {
-      let newEvents = events.map((item)=>{
-        if(item._id === data._id){
+      let newEvents = events.map((item) => {
+        if (item._id === data._id) {
           return data;
         }
         else {
@@ -33,25 +33,29 @@ const Calendar = () => {
       });
       setEvents(newEvents);
       calendarRef.current.getApi().refetchEvents();
+      setStatus(null);
+      isFirstRun.current = false;
+      navigate("/calendar", { state: '' });
+      return true;
+    }
+    else{
+      return false;
     }
 
-    setStatus(null);
-    isFirstRun.current = false;
-    navigate("/calendar", { state: '' });
   }
   async function handleEventAdd(data) {
     try {
       const response = await axios.post('http://localhost:4000/appointments/', data, {
         withCredentials: true
       });
-      return {isAdded: true, data: response.data};
+      return { isAdded: true, data: response.data };
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         alert(error.response.data.error);
       } else {
         alert(error.message);
       }
-      return {isAdded: false, data: null};
+      return { isAdded: false, data: null };
     }
   }
 
@@ -63,7 +67,7 @@ const Calendar = () => {
     console.log(isFirstRun.current);
 
     if (isFirstRun.current) {
-      if(location.state &&  location.state === 'create'){
+      if (location.state && location.state === 'create') {
         setModalOpen(true);
         setStatus('create');
       }
@@ -88,11 +92,11 @@ const Calendar = () => {
   }, [location.key, location.state]);
 
 
-  async function updateEvent(info){
-    const response = await axios.put('http://localhost:4000/appointments/'+info.id, info);
-    if(response.status === 200){
-      let newEvents = events.map((item)=>{
-        if(item._id === response.data._id){
+  async function updateEvent(info) {
+    const response = await axios.put('http://localhost:4000/appointments/' + info.id, info);
+    if (response.status === 200) {
+      let newEvents = events.map((item) => {
+        if (item._id === response.data._id) {
           return response.data;
         }
         else {
@@ -101,14 +105,19 @@ const Calendar = () => {
       });
       setEvents(newEvents);
       calendarRef.current.getApi().refetchEvents();
+      setModalOpen(false);
+      setStatus(null);
+      return true;
     }
-    setModalOpen(false);
-    setStatus(null);
+    else{
+      return false;
+    }
+
   }
 
-  async function deleteEvent(id){
+  async function deleteEvent(id) {
     try {
-      await axios.delete('http://localhost:4000/appointments/'+id);
+      await axios.delete('http://localhost:4000/appointments/' + id);
       const newEvents = events.filter(event => event._id !== id);
       setEvents(newEvents);
       calendarRef.current.getApi().refetchEvents();
@@ -129,7 +138,7 @@ const Calendar = () => {
         <div className="show-post-title">
           <h3 className="title_part_show-post">Quản lý lịch hẹn</h3>
         </div>
-        <button className='btn-add-event btn btn-warning mb-2' onClick={() => {setModalOpen(true); setStatus('create')}}>Tạo lịch hẹn</button>
+        <button className='btn-add-event btn btn-warning mb-2' onClick={() => { setModalOpen(true); setStatus('create') }}>Tạo lịch hẹn</button>
         <div className="calendar-content">
           <FullCalendar
             ref={calendarRef}
@@ -152,7 +161,7 @@ const Calendar = () => {
             navLinks={true}
             // weekends={false}
             dayMaxEvents={true}
-            eventClick = {event => {setModalOpen(true); setStatus('update'); setClickedEventInfo(event)}}
+            eventClick={event => { setModalOpen(true); setStatus('update'); setClickedEventInfo(event) }}
             datesSet={(date) => handleDatesSet(date)}
             events={events}
           />
@@ -163,8 +172,8 @@ const Calendar = () => {
         <AddEventModal
           isOpen={modalOpen}
           shouldCloseOnOverlayClick={false}
-          onClose={() => {setModalOpen(false); setStatus(null); navigate("/calendar", { state: '' });}}
-          onEventAdded={event => onEventAdded(event) }
+          onClose={() => { setModalOpen(false); setStatus(null); navigate("/calendar", { state: '' }); }}
+          onEventAdded={event => onEventAdded(event)}
           onEventUpdated={event => updateEvent(event)}
           status={status}
           updateEventInfo={clickedEventInfo}

@@ -20,6 +20,7 @@
     background: linear-gradient(to right, #f0d0d3, #dcdce4);
     font-weight: 500;
     transition: transform 0.3s ease-in-out;
+    margin-left: 0vw;
 }
 .info-page:hover{
     transform: scale(1.05);

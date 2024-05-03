@@ -19,6 +19,8 @@ import ShowPatient from './pages/Patient/ShowPatient/ShowPatient';
 import CreateHistory from './pages/History/CreateHistory/CreateHistory';
 import ShowHistory from './pages/History/ShowHistory/ShowHistory';
 import HistoryDetail from './pages/History/HistoryDetail/HistoryDetail';
+import DoctorDetail from './pages/Doctor/DoctorDetail/DoctorDetail';
+import DoctorUpdate from './pages/Doctor/DoctorUpdate/DoctorUpdate';
 import Modal from 'react-modal';
 import './App.css'
 import {UserContextProvider} from './UserContext';
@@ -48,6 +50,8 @@ function App() {
               <Route path="/history/create" element={<CreateHistory/>}/>
               <Route path="/history/:id" element={<HistoryDetail/>}/>
               <Route path="/history/show" element={<ShowHistory/>}/>
+              <Route path="/infor" element={<DoctorDetail/>}/>
+              <Route path="/updateInfor" element={<DoctorUpdate/>}/>
             </Routes>
 
         </div>

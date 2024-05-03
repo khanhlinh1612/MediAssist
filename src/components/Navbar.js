@@ -20,8 +20,9 @@ function NavbarApp() {
     })
       .then(response =>
         response.json().then(userInfo => {
+          console.log(userInfo);
           if (userInfo.status === 'valid') {
-            setUserInfo(userInfo);
+            setUserInfo(userInfo.Doctor);
             setUserInfoUpdated(true); // Đánh dấu rằng userInfo đã được cập nhật
           }
         })
@@ -58,10 +59,10 @@ function NavbarApp() {
             {userInfoUpdated ? (
               userInfo ? (
                 <div className="info-user">
-                  <img alt="" src={userAvatar} width="35" height="35" className="avatar" />
-                  <Nav.Link href="profile-form" className="nav-script">
+                  <img alt="" src={'http://localhost:4000/'+userAvatar} width="35" height="35" className="avatar" />
+                  <Link to={'/infor'} className='nav-script ms-2'>
                     {userName}
-                  </Nav.Link>
+                  </Link>
                 </div>
               ) : (
                 <Link to="/login" className="nav-script">

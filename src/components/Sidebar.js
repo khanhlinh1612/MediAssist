@@ -50,6 +50,12 @@ const Sidebar = () => {
               <span className="item-nav">Lịch sử thăm khám</span>
             </Link>
           </li>
+          <li className="mt-2">
+            <Link to="/history/show">
+              <box-icon name='history'  color="#3AA8A8"></box-icon>
+              <span className="item-nav">Hồ sơ bệnh án</span>
+            </Link>
+          </li>
 
           <li className="mt-2">
             <Link to="/calendar">

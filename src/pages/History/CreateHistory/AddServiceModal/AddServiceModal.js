@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { Modal } from 'antd';
+import { toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AddServiceModal.css';
-export default function AddServiceModal({ isOpen, onClose, onSubmit, data, status }) {
+import { CloseCircleTwoTone } from '@ant-design/icons';
+export default function AddServiceModal({ isOpen, onClose, onSubmit, data, serviceNames, status }) {
     const [formData, setFormData] = useState([{
         name: '',
-        price: '',
         quantity: ''
     }]);
 
@@ -19,18 +19,19 @@ export default function AddServiceModal({ isOpen, onClose, onSubmit, data, statu
     const clearFormData = () => {
         setFormData([{
             name: '',
-            price: '',
             quantity: ''
         }]);
     }
     const cancel = () => {
         clearFormData();
-        onSubmit(null);
+        onSubmit([]);
         onClose();
     }
-    const addMoreService = () => {
+
+    const checkLastService = () => {
         const lastService = formData[formData.length - 1];
-        if (!lastService.name || !lastService.price || !lastService.quantity) {
+        // if (!lastService.name || !lastService.price || !lastService.quantity) {
+        if (!lastService.name || !lastService.quantity) {
             toast.warning("Vui lòng điền đầy đủ thông tin.", {
                 position: "top-right",
                 autoClose: 2000,
@@ -42,9 +43,41 @@ export default function AddServiceModal({ isOpen, onClose, onSubmit, data, statu
                 theme: "light",
                 transition: Bounce,
             });
-            return;
+            return false;
         }
-        setFormData(prevFormData => [...prevFormData, { name: '', price: '', quantity: '' }]);
+        return true;
+    }
+
+    const checkIsQuantity = () => {
+        const isQuantityNumber = formData.every(service => {
+            if (isNaN(service.quantity) || service.quantity <= 0) {
+                return false;
+            }
+            else return true;
+        }
+        );
+        if (!isQuantityNumber) {
+            toast.warning("Số lượng phải là một số dương.", {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+            return false;
+        }
+        return true;
+    }
+
+    const addMoreService = () => {
+        if (checkLastService() && checkIsQuantity()) {
+            setFormData(prevFormData => [...prevFormData, { name: '', quantity: '' }])
+        }
+
     };
 
     const handleChange = (index, e) => {
@@ -54,35 +87,31 @@ export default function AddServiceModal({ isOpen, onClose, onSubmit, data, statu
         setFormData(newData);
     };
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const isQuantityNumber = formData.every(service => !isNaN(service.quantity));
-
-        if (!isQuantityNumber) {
-            toast.warning("Số lượng phải là một số.", {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
-            return;
+        if (checkLastService() && checkIsQuantity()) {
+            onSubmit(formData);
+            onClose();
         }
-        onSubmit(formData);
-        onClose();
+    };
+
+    const handleDelete = (index) => {
+        const updatedData = [...formData];
+        updatedData.splice(index, 1);
+        setFormData(updatedData);
     };
 
     return (
-        <Modal isOpen={isOpen} onRequestClose={onClose}>
-            <ToastContainer />
-            <div className='close-icon' >
-                <box-icon type='solid' name='x-circle' color='red' size='lg' className='icon-to-close' onClick={() => { onClose(); }} ></box-icon>
-            </div>
-
+        <Modal open={isOpen} onCancel={onClose} footer={[
+            <button key="back" onClick={cancel} className='btn btn-warning addDrugBtn'>
+                Hủy
+            </button>,
+            <button key="submit" type="primary" className='btn btn-success addDrugBtn' onClick={handleSubmit}>
+                Lưu
+            </button>,
+        ]}>
             <h3 className='title-modal-service'>Thông tin dịch vụ</h3>
             {status === 'create' && (
                 <div className='add-drug-box'>
@@ -90,51 +119,47 @@ export default function AddServiceModal({ isOpen, onClose, onSubmit, data, statu
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className='form-modal'>
+            <form onSubmit={handleSubmit} className='form-modal addDrug'>
                 {formData.map((service, index) => (
                     <div key={index}>
+                        {index > 0 && (
+                            <div className='header-container'>
+                                <div className="delete-icon-container float-end">
+                                    <CloseCircleTwoTone
+                                        className='iconDelete'
+                                        onClick={() => handleDelete(index)} />
+                                </div>
+                            </div>
+                        )}
                         <div className="form-group">
                             <label>Tên dịch vụ</label>
-                            <input
-                                className='form-control'
-                                placeholder='Nhập tên dịch vụ'
-                                name="name"
-                                value={service.name}
-                                onChange={(e) => handleChange(index, e)}
-                            />
+                            <input className="form-control" list="serviceNames" name="name" value={service.name} onChange={(e) => handleChange(index, e)} placeholder="Chọn dịch vụ..." />
+                            <datalist id="serviceNames">
+                                {serviceNames.map((service, index) => (
+                                    <option key={index} value={service.value} />
+                                ))}
+                            </datalist>
                         </div>
-                        <div className="form-group">
-                            <label>Giá dịch vụ</label>
-                            <input
-                                className='form-control'
-                                placeholder='Nhập giá dịch vụ'
-                                name="price"
-                                value={service.price}
-                                onChange={(e) => handleChange(index, e)}
-                            />
-                        </div>
+
+
                         <div className="form-group">
                             <label>Số lượng</label>
-                            <input
-                                className='form-control'
-                                placeholder='Nhập số lượng'
-                                name="quantity"
-                                value={service.quantity}
-                                onChange={(e) => handleChange(index, e)}
-                            />
+                            <div className="input-group">
+                                <input
+                                    type="number"
+                                    className='form-control w-50'
+                                    placeholder='Nhập số lượng'
+                                    name="quantity"
+                                    value={service.quantity}
+                                    onChange={(e) => handleChange(index, e)}
+                                />
+                                <span className="input-group-text">( lần )</span>
+                            </div>
+
                         </div>
                         <div className="drug-divider"></div>
                     </div>
                 ))}
-                <div className='btn-group'>
-                    {status === 'create' && (
-                        <div>
-                           <button type="button" className='btn btn-warning' onClick={cancel}>Hủy</button>
-                        </div>
-                    )}
-
-                    <button type="submit" className='btn btn-success'>{status === 'create' ? 'Lưu' : 'Cập Nhật'}</button>
-                </div>
             </form>
         </Modal>
     );

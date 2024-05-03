@@ -5,15 +5,18 @@
 .show-post-box{
     padding: 1%;
 }
-.show-post-content{
-    padding-top: 3vh;
+.show-post-content1{
     z-index: 5;
     padding: 5%;
+    padding-top: 4vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: white;
+}
+.search-box input.ant-input {
+    font-weight: 500;
 }
 .show-post-title{
     display: flex;

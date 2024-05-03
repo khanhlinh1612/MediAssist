@@ -28,6 +28,7 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
         }
     }, [status, updateEventInfo]);
     const onSubmit = async (event) => {
+        let result = true;
         event.preventDefault();
         if (end <= start) {
             toast.warning("Thời gian không hợp lệ", {
@@ -45,18 +46,19 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
         }
         if (onDelete) {
             let info_id = '';
-                if(updateEventInfo.event._def.extendedProps._id === '') {
-                    info_id = updateEventInfo.event.id;
-                }
-                else {
-                    info_id = updateEventInfo.event._def.extendedProps._id;
+            if (updateEventInfo.event._def.extendedProps._id === '') {
+                info_id = updateEventInfo.event.id;
+            }
+            else {
+                info_id = updateEventInfo.event._def.extendedProps._id;
             }
             await deleteEvent(info_id);
             setOndDelete(false);
         }
         else {
+
             if (status === 'create') {
-                await onEventAdded({
+                result = await onEventAdded({
                     title,
                     start,
                     end,
@@ -67,13 +69,13 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
             }
             if (status === 'update') {
                 let info_id = '';
-                if(updateEventInfo.event._def.extendedProps._id === '') {
+                if (updateEventInfo.event._def.extendedProps._id === '') {
                     info_id = updateEventInfo.event.id;
                 }
                 else {
                     info_id = updateEventInfo.event._def.extendedProps._id;
                 }
-                await onEventUpdated({
+                result = await onEventUpdated({
                     id: info_id,
                     title,
                     start,
@@ -84,10 +86,10 @@ export default function AddEventModal({ isOpen, onClose, onEventAdded, status, o
                 });
             }
         }
-        resetVariable();
-
-        onClose();
-
+        if (result) {
+            resetVariable();
+            onClose();
+        }
     };
     const resetVariable = () => {
         setTitle('');

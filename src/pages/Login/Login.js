@@ -8,8 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../UserContext";
 const Login = () => {
   const {setUserInfo} = useContext(UserContext);
-  const [phone, setPhone] = useState("0849429956");
-  const [password, setPassword] = useState("123456");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   async function loginHandler(event) {
