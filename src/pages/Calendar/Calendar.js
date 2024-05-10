@@ -64,8 +64,6 @@ const Calendar = () => {
     setEvents(response.data);
   }
   useEffect(() => {
-    console.log(isFirstRun.current);
-
     if (isFirstRun.current) {
       if (location.state && location.state === 'create') {
         setModalOpen(true);

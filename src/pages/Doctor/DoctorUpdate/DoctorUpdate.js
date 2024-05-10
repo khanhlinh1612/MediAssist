@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import Sidebar from "../../../components/Sidebar";
 import { format } from 'date-fns';
 import './DoctorUpdate.css';
-import Avatar from '@mui/material/Avatar';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -125,7 +124,6 @@ const DoctorUpdate = () => {
             updatedFormData.specialist.forEach((speciality, index) => {
                 data.append('specialist[]',speciality );
             });
-            console.log(updatedFormData.specialist);
             fetch(`http://localhost:4000/profile/${updatedFormData._id}`, {
                 method: 'PUT',
                 body: data,

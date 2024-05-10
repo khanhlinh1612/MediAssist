@@ -111,7 +111,7 @@ export default function CreatePost() {
                             onChange={newValue => { setContent(newValue) }}
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary mt-5">Submit</button>
+                    <button type="submit" className="btn btn-primary mt-5 mb-2">Submit</button>
                 </form>
             </div>
         </div>

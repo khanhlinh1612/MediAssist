@@ -58,7 +58,6 @@ const HistoryDetail = () => {
     useEffect(() => {
         axios.get(`http://localhost:4000/history/${id}`)
             .then(response => {
-                console.log('Data from server: ', response.data);
                 const { medicalServices, medicines, total, status } = response.data.invoice;
                 setFormData({
                     ...response.data,
@@ -68,8 +67,6 @@ const HistoryDetail = () => {
                 setPrescriptionData(medicines);
                 setServiceData(medicalServices);
                 setInvoiceData({medicines, medicalServices, total, status});
-                console.log('This is data from server', response.data);
-                console.log('This is data from FormData', formData);
             })
             .catch(error => {
                 console.error("Request failed:", error);
@@ -84,7 +81,6 @@ const HistoryDetail = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Đây là dữ liệu của formData sau update', formData);
         if (validateFormData()) {
             axios.put(`http://localhost:4000/history/${formData._id}`, formData, {
                 withCredentials: true // Cho phép gửi và nhận cookie
@@ -151,7 +147,6 @@ const HistoryDetail = () => {
             transition: Bounce,
         });
     };
-    console.log(formData);
     //function of Prescription Modal
     const closePrescriptionModal = () => {
         setModalPrescriptionOpen(false);

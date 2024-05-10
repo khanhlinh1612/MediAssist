@@ -4,7 +4,6 @@ import welcomeillustration from '../../images/welcomeillustration.jpg';
 import './HomePage.css'
 const HomePage = () => {
     return (
-
         <div className='main-content'>
             <div className='home-container row'>
                 <div className="col-sm-6 col-12">

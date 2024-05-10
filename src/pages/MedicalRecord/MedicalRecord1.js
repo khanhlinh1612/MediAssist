@@ -103,7 +103,6 @@ const MedicalRecord = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log('This is updated formData', formData); // sử dụng giá trị mới nhất của formData
   };
 
   const showWarningToast = (message) => {

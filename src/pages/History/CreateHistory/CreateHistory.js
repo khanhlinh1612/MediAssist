@@ -45,7 +45,6 @@ const CreateHistory = () => {
         axios.get('http://localhost:4000/patient/names')
             .then(response => {
                 const options = response.data.fullnames.map(name => ({ value: name, label: name }));
-                console.log(options);
                 setPatientNames(options);
                 setPatientPhones(response.data.phoneNumbers);
             })
@@ -58,7 +57,6 @@ const CreateHistory = () => {
         axios.get('http://localhost:4000/history/services')
             .then(response => {
                 const options = response.data.map(name => ({ value: name, label: name }));
-                console.log(options);
                 setServices(options);
             })
             .catch(error => {
@@ -69,7 +67,6 @@ const CreateHistory = () => {
         axios.get('http://localhost:4000/history/drugs')
             .then(response => {
                 const options = response.data.map(name => ({ value: name, label: name }));
-                console.log(options);
                 setDrugs(options);
             })
             .catch(error => {

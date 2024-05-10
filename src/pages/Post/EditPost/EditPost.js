@@ -60,7 +60,6 @@ export default function EditPost() {
             data.set('file', files?.[0]);
         }
         event.preventDefault();
-        console.log("This is data", files[0]);
         fetch(`http://localhost:4000/posts/${id}`, {
             method: 'PUT',
             body: data,

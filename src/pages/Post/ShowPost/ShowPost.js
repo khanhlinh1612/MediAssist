@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PostCard from './PostCard/PostCard';
 import Sidebar from "../../../components/Sidebar";
 import { Link } from 'react-router-dom';
-import { Input } from 'antd';
+import { Input, Pagination } from 'antd'; // Thêm Pagination vào imports
 import './ShowPost.css';
 
 const { Search } = Input;
@@ -10,12 +10,13 @@ const { Search } = Input;
 const ShowPost = () => {
     const [posts, setPosts] = useState([]);
     const [originalPosts, setOriginalPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1); // Thêm state cho trang hiện tại
 
     useEffect(() => {
         fetch('http://localhost:4000/posts')
             .then(response => response.json())
             .then(posts => {
-                console.log("This is posts", posts);
+                console.log("This is array of posts", posts);
                 setOriginalPosts(posts);
                 setPosts(posts);
             })
@@ -32,6 +33,15 @@ const ShowPost = () => {
             return titleMatch || author_firstname_Match || author_lastname_Match || descriptionMatch;
         });
         setPosts(filteredPosts);
+    };
+
+    const postsPerPage = 6;
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
 
     return (
@@ -57,12 +67,18 @@ const ShowPost = () => {
                         className="w-50 search-box mb-4"
                         onSearch={handleSearch}
                     />
-                    {/* <Search placeholder="Tìm kiếm bài viết" onSearch={handleSearch} enterButton className="w-50 search-box" /> */}
                     <div className='row show-post-card'>
-                        {posts.length > 0 && posts.map(post => (
+                        {currentPosts.map(post => (
                             <PostCard key={post._id} {...post} />
                         ))}
                     </div>
+                    <Pagination
+                        className="mt-4"
+                        defaultCurrent={1}
+                        total={posts.length}
+                        pageSize={postsPerPage}
+                        onChange={handlePageChange}
+                    />
                 </div>
             </div>
         </div>

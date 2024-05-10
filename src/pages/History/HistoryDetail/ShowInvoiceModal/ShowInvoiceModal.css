@@ -126,3 +126,8 @@
 .total-section {
   text-align: center;
 }
+.eye-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

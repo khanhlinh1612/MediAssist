@@ -15,12 +15,12 @@ function NavbarApp() {
   const userAvatar = userInfo?.avatar;
 
   useEffect(() => {
+    console.log("This is userInfo", userInfo);
     fetch('http://localhost:4000/profile', {
       credentials: 'include',
     })
       .then(response =>
         response.json().then(userInfo => {
-          console.log(userInfo);
           if (userInfo.status === 'valid') {
             setUserInfo(userInfo.Doctor);
             setUserInfoUpdated(true); // Đánh dấu rằng userInfo đã được cập nhật
@@ -56,30 +56,23 @@ function NavbarApp() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="info-container w-100">
-            {userInfoUpdated ? (
-              userInfo ? (
-                <div className="info-user">
-                  <img alt="" src={'http://localhost:4000/'+userAvatar} width="35" height="35" className="avatar" />
-                  <Link to={'/infor'} className='nav-script ms-2'>
-                    {userName}
-                  </Link>
-                </div>
-              ) : (
-                <Link to="/login" className="nav-script">
-                  Đăng nhập
+            {userInfoUpdated && userInfo ? (
+              <div className="info-user">
+                <img alt="" src={'http://localhost:4000/' + userAvatar} width="35" height="35" className="avatar" />
+                <Link to={'/infor'} className='nav-script ms-2'>
+                  {userName}
                 </Link>
-              )
+                <Link onClick={Logout} className="nav-script ms-4">
+                  Đăng xuất
+                </Link>
+              </div>
             ) : (
               <Link to="/login" className="nav-script">
                 Đăng nhập
               </Link>
             )}
-            {userInfoUpdated ? (
-              <Link onClick={Logout} className="nav-script ms-4">
-                Đăng xuất
-              </Link>
-            ) : null}
           </Nav>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>

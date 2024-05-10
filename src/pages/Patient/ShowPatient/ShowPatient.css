@@ -1,11 +1,13 @@
-.show-post-page{
-    overflow-x:hidden ;
+.show-post-page {
+    overflow-x: hidden;
     background-color: #F6FAFB;
 }
-.show-post-box{
+
+.show-post-box {
     padding: 1%;
 }
-.show-patient-content{
+
+.show-patient-content {
     min-height: 84vh;
     z-index: 5;
     padding-top: 3%;
@@ -17,34 +19,50 @@
     flex-direction: column;
     background-color: white;
 }
-.show-post-title{
+
+.show-post-title {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
 }
-.patient-create-button{
+
+.patient-create-button {
     font-weight: 500;
     float: right;
 }
-.btn-box{
-    display: block ;
+.record-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.action-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-box {
+    display: block;
     margin-bottom: 2vh;
     padding-right: 2vw;
     width: 100%;
 }
+
 .table-striped>tbody>tr:nth-child(odd)>td,
 .table-striped>tbody>tr:nth-child(odd)>th {
-   background-color: #F7F6FE;
+    background-color: #F7F6FE;
 }
+
 .table td {
     text-align: center;
     vertical-align: center;
 }
+
 .table th {
     text-align: center;
     vertical-align: center;
 }
-.table-box{
+
+.table-box {
     width: 100%;
     padding-left: 2%;
     display: flex;
@@ -53,7 +71,8 @@
     min-height: 40vh;
     padding-right: 2%;
 }
-.empty-title-box{
+
+.empty-title-box {
     min-height: 50vh;
     padding-top: 18vh;
 }

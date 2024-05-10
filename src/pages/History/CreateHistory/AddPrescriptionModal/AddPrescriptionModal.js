@@ -16,7 +16,6 @@ export default function AddPrescriptionModal({ isOpen, onClose, onSubmit, data, 
         if (data && Array.isArray(data) && data.length > 0) {
             setFormData(data);
         }
-        console.log("This is drug names", drugNames);
     }, [data, drugNames]);
 
     const clearFormData = () => {

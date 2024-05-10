@@ -1,13 +1,16 @@
 .Footer{
     background-color: #3AA8A8;
-    /* position:; */
     left: 0;
     bottom: 0;
     width: 100vw;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 8vh;
+    height: fit-content;
     z-index:2;
     margin-top: auto;
   }
+.mainFooter{
+  background-color:#3AA8A8;
+  width: 100%;
+  display: block;
+}

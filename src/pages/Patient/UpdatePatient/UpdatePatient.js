@@ -116,7 +116,6 @@ const UpdatePatient = () => {
                 if (error.response && error.response.data && error.response.data.message && error.response.data.message.includes("expected `phone_number` to be unique")) {
                     alert("Số điện thoại này đã được đăng ký");
                 } else {
-                    // Nếu không, hiển thị thông báo lỗi mặc định
                     alert("Failed to create patient.");
                 }
                 console.error("Request failed:", error);

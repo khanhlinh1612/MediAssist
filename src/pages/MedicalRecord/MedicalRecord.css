@@ -37,6 +37,13 @@
     align-items: center;
     justify-content: center;
 }
+.medicalRecord .form-control {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
 .invalid {
     border: 1px red solid ;
 }

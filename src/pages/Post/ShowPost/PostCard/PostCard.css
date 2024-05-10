@@ -1,7 +1,7 @@
 .post-card .card-text.summary{
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 5; /* Số dòng muốn hiển thị */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     text-indent: 2vw;
@@ -10,10 +10,10 @@
     font-weight: 450;
 }
 .post-card{
-    padding-top: 1vh;
-    padding-left:0.5vw;
-    padding-right: 0.5vw;
-    height: 65vh;
+    padding-top: 2vh;
+    padding-left:1vw;
+    padding-right: 1vw;
+    height: 60vh;
     background-color: #F6FAFB;
 }
 .post-card a{
@@ -37,7 +37,7 @@
 
 }
 .post-card .card-title{
-    height: 10vh;
+    height: 8vh;
     display: flex;
     align-items: center;
     text-align: center;
@@ -54,7 +54,7 @@
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    white-space: nowrap; /* Ngăn phần tử xuống dòng tự động */
-    overflow: hidden; /* Ẩn nội dung bị tràn ra ngoài */
+    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
