@@ -23,7 +23,7 @@ import DoctorDetail from './pages/Doctor/DoctorDetail/DoctorDetail';
 import DoctorUpdate from './pages/Doctor/DoctorUpdate/DoctorUpdate';
 import Modal from 'react-modal';
 import './App.css'
-import {UserContextProvider} from './UserContext';
+import {UserContextProvider} from './context/UserContext';
 Modal.setAppElement('#root');
 function App() {
 

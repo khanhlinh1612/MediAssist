@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import welcomeillustration from '../../images/welcomeillustration.jpg';
+import welcomeillustration from '../../assets/welcomeillustration.jpg';
 import './HomePage.css'
 const HomePage = () => {
     return (

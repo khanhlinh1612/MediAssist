@@ -10,7 +10,7 @@
 .show-patient-content {
     min-height: 84vh;
     z-index: 5;
-    padding-top: 3%;
+    padding-top: 0.5%;
     padding-bottom: 3%;
     min-height: 70vh;
     display: flex;

@@ -1,6 +1,6 @@
 .doctor-detail-content{
     z-index: 5;
-    padding: 1% 2%;
+    padding: 0.2% 2%;
     background-color: white;
     display: flex;
     flex-direction: row;
@@ -8,7 +8,7 @@
 }
 .doctor-detail-content .info-box{
     display: flex;
-    padding-top: 1vh;
+    padding-top: 0.5vh;
     align-items: center;
     flex-direction: column;
 }
@@ -38,7 +38,9 @@
 .doctor-detail-content .avatar-box{
     background: url('https://i.pinimg.com/236x/0c/2b/1c/0c2b1c013f042ae3faf860e45853e795.jpg');
     background-size: cover ;
-    padding: 3% 3%;
+    padding: 4% 4%;
+    padding-bottom: 0%;
+    max-height: 68vh;
 }
 
 .doctor-detail-content .content-info{
@@ -52,7 +54,7 @@
     flex-direction: column;
     justify-content: flex-start;
     padding: 0% 5%;
-    padding-top: 6%;
+    padding-top: 2%;
 }
 .special-btn {
     background-color: #feebf2;
@@ -63,8 +65,8 @@
 }
 .doctor-detail-content .btn-box{
     display: block ;
-    margin-bottom: 4vh;
-    margin-top: 4vh;
+    margin-bottom: 1vh;
+    margin-top: 2vh;
     padding-right: 2vw;
     width: 100%;
 }

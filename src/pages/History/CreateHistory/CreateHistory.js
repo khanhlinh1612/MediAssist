@@ -72,7 +72,6 @@ const CreateHistory = () => {
             .catch(error => {
                 console.error("Request failed:", error);
             });
-
     }, []);
 
     const refs = {

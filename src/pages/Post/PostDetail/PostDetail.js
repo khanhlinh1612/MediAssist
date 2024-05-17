@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import './PostDetail.css';
 import {Link} from 'react-router-dom';
 import Sidebar from "../../../components/Sidebar";
-import {UserContext} from "../../../UserContext";
+import {UserContext} from "../../../context/UserContext";
 export default function PostDetail() {
     const { id } = useParams();
     const {userInfo} = useContext(UserContext);
@@ -51,7 +51,6 @@ export default function PostDetail() {
                             </div>
                         )
                     }
-
                     <div className="image-cover-post-detail">
                         <img src={'http://localhost:4000/' + postInfo.cover} alt="..." />
                     </div>

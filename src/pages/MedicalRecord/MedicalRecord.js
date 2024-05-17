@@ -27,8 +27,8 @@ const MedicalRecord = () => {
     const [loading, setLoading] = useState(false); // State để kiểm soát hiển thị Spin
 
     const [modalVisible, setModalVisible] = useState(false); // State để kiểm soát hiển thị Modal
-    // const URL_API_AI = "https://mediassist-model.onrender.com/api/predict";
-    const URL_API_AI = "http://127.0.0.1:8000/api/predict";
+    const URL_API_AI = "https://mediassist-model.onrender.com/api/predict";
+    // const URL_API_AI = "http://127.0.0.1:8000/api/predict";
     // Hàm mở Modal
     const showModal = () => {
         setModalVisible(true);
@@ -327,11 +327,11 @@ const MedicalRecord = () => {
                             <label className="form-label fw-medium">Giới tính</label>
                             <div className='d-flex align-items-center'>
                                 <div className="form-check me-5">
-                                    <input className="form-check-input" type="radio" id="female" name="gender" value="0" checked={formData.gender == "0"} onChange={handleChange} />
+                                    <input className="form-check-input" type="radio" id="female" name="gender" value="0" checked={formData.gender?.toString() === "0"} onChange={handleChange} />
                                     <label className="form-check-label" htmlFor="female">Nữ</label>
                                 </div>
                                 <div className="form-check ms-5">
-                                    <input className="form-check-input" type="radio" id="male" name="gender" value="1" checked={formData.gender == "1"} onChange={handleChange} />
+                                    <input className="form-check-input" type="radio" id="male" name="gender" value="1" checked={formData.gender?.toString() === "1"} onChange={handleChange} />
                                     <label className="form-check-label" htmlFor="male">Nam</label>
                                 </div>
                             </div>
@@ -340,19 +340,19 @@ const MedicalRecord = () => {
                         <div className="mb-3" id='chestPain'>
                             <label className="form-label fw-medium">Dạng đau ngực - Chest Pain</label>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="chestPain_0" name="chestPain" value="0" checked={formData.chestPain == "0"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="chestPain_0" name="chestPain" value="0" checked={formData.chestPain?.toString() === "0"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="chestPain_0">Đau thắt ngực điển hình</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="chestPain_1" name="chestPain" value="1" checked={formData.chestPain == "1"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="chestPain_1" name="chestPain" value="1" checked={formData.chestPain?.toString() === "1"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="chestPain_1">Đau thắt ngực không điển hình</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="chestPain_2" name="chestPain" value="2" checked={formData.chestPain == "2"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="chestPain_2" name="chestPain" value="2" checked={formData.chestPain?.toString() === "2"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="chestPain_2">Đau nhưng không thắt ngực</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="chestPain_3" name="chestPain" value="3" checked={formData.chestPain == "3"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="chestPain_3" name="chestPain" value="3" checked={formData.chestPain?.toString() === "3"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="chestPain_3">Không có triệu chứng đau ngực</label>
                             </div>
                         </div>
@@ -377,11 +377,11 @@ const MedicalRecord = () => {
                         <div className="mb-3" id='bloodSugar'>
                             <label className="form-label fw-medium">Đường huyết - Blood Sugar (mg/dl)</label>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="bloodSugar_0" name="bloodSugar" value="0" checked={formData.bloodSugar == "0"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="bloodSugar_0" name="bloodSugar" value="0" checked={formData.bloodSugar?.toString() === "0"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="bloodSugar_0">Lượng đường huyết nhỏ hơn hoặc bằng 120 mg/dl</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="bloodSugar_1" name="bloodSugar" value="1" checked={formData.bloodSugar == "1"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="bloodSugar_1" name="bloodSugar" value="1" checked={formData.bloodSugar?.toString() === "1"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="bloodSugar_1">Lượng đường huyết lớn hơn 120 mg/dl</label>
                             </div>
                         </div>
@@ -390,15 +390,15 @@ const MedicalRecord = () => {
                         <div className="mb-3" id='restElectrocardiographicResult'>
                             <label className="form-label fw-medium">Kết quả điện tâm đồ - ECG</label>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="restElectrocardiographicResult_0" name="restElectrocardiographicResult" value="0" checked={formData.restElectrocardiographicResult == "0"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="restElectrocardiographicResult_0" name="restElectrocardiographicResult" value="0" checked={formData.restElectrocardiographicResult?.toString() === "0"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="restElectrocardiographicResult_0">Bình thường</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="restElectrocardiographicResult_1" name="restElectrocardiographicResult" value="1" checked={formData.restElectrocardiographicResult == "1"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="restElectrocardiographicResult_1" name="restElectrocardiographicResult" value="1" checked={formData.restElectrocardiographicResult?.toString() === "1"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="restElectrocardiographicResult_1">Có sóng bất thường</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="restElectrocardiographicResult_2" name="restElectrocardiographicResult" value="2" checked={formData.restElectrocardiographicResult == "2"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="restElectrocardiographicResult_2" name="restElectrocardiographicResult" value="2" checked={formData.restElectrocardiographicResult?.toString() === "2"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="restElectrocardiographicResult_2">Có thể xảy ra phì đại thất trái</label>
                             </div>
                         </div>
@@ -415,11 +415,11 @@ const MedicalRecord = () => {
                         <div className="mb-3" id='exerciseAngina'>
                             <label className="form-label fw-medium">Đau thắt ngực khi tập thể dục - exerciseAngina</label>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="exerciseAngina_0" name="exerciseAngina" value="0" checked={formData.exerciseAngina == "0"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="exerciseAngina_0" name="exerciseAngina" value="0" checked={formData.exerciseAngina?.toString() === "0"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="exerciseAngina_0">Không đau thắt ngực khi tập thể dục</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="exerciseAngina_1" name="exerciseAngina" value="1" checked={formData.exerciseAngina == "1"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="exerciseAngina_1" name="exerciseAngina" value="1" checked={formData.exerciseAngina?.toString() === "1"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="exerciseAngina_1">Có đau thắt ngực khi tập thể dục</label>
                             </div>
                         </div>
@@ -436,15 +436,15 @@ const MedicalRecord = () => {
                         <div className="mb-3" id='slope'>
                             <label className="form-label fw-medium">Độ dốc của đoạn sóng ST - Slope</label>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="slope_0" name="slope" value="0" checked={formData.slope == "0"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="slope_0" name="slope" value="0" checked={formData.slope?.toString() === "0"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="slope_0">Độ dốc lên - Positive Slope</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="slope_1" name="slope" value="1" checked={formData.slope == "1"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="slope_1" name="slope" value="1" checked={formData.slope?.toString() === "1"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="slope_1">Độ dốc phẳng - Flat Slope</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="slope_2" name="slope" value="2" checked={formData.slope == "2"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="slope_2" name="slope" value="2" checked={formData.slope?.toString() === "2"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="slope_2">Độ dốc xuống - Negative Slope</label>
                             </div>
                         </div>
@@ -453,19 +453,19 @@ const MedicalRecord = () => {
                         <div className="mb-3" id='numOfVessels'>
                             <label className="form-label fw-medium">Số lượng mạch máu lớn ở tim - numOfVessels</label>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="numOfVessels_0" name="numOfVessels" value="0" checked={formData.numOfVessels == "0"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="numOfVessels_0" name="numOfVessels" value="0" checked={formData.numOfVessels?.toString() === "0"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="numOfVessels_0">Không có mạch máu lớn ở tim</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="numOfVessels_1" name="numOfVessels" value="1" checked={formData.numOfVessels == "1"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="numOfVessels_1" name="numOfVessels" value="1" checked={formData.numOfVessels?.toString() === "1"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="numOfVessels_1">Một mạch máu lớn ở tim</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="numOfVessels_2" name="numOfVessels" value="2" checked={formData.numOfVessels == "2"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="numOfVessels_2" name="numOfVessels" value="2" checked={formData.numOfVessels?.toString() === "2"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="numOfVessels_2">Hai mạch máu lớn ở tim</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="numOfVessels_3" name="numOfVessels" value="3" checked={formData.numOfVessels == "3"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="numOfVessels_3" name="numOfVessels" value="3" checked={formData.numOfVessels?.toString() === "3"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="numOfVessels_3">Ba mạch máu lớn ở tim</label>
                             </div>
                         </div>
@@ -474,15 +474,15 @@ const MedicalRecord = () => {
                         <div className="mb-3" id='thalRate'>
                             <label className="form-label fw-medium">Mức độ thalassemia (bệnh máu di truyền)</label>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="thalRate_1" name="thalRate" value="1" checked={formData.thalRate == "1"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="thalRate_1" name="thalRate" value="1" checked={formData.thalRate?.toString() === "1"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="thalRate_1">Có bị thalassemia</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="thalRate_2" name="thalRate" value="2" checked={formData.thalRate == "2"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="thalRate_2" name="thalRate" value="2" checked={formData.thalRate?.toString() === "2"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="thalRate_2">Không có dấu hiệu</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="thalRate_3" name="thalRate" value="3" checked={formData.thalRate == "3"} onChange={handleChange} />
+                                <input className="form-check-input" type="radio" id="thalRate_3" name="thalRate" value="3" checked={formData.thalRate?.toString() === "3"} onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="thalRate_3">Bị thalassemia nhưng đang phục hồi</label>
                             </div>
                         </div>

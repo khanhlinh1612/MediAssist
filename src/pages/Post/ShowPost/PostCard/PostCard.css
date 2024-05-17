@@ -20,6 +20,22 @@
     text-decoration: none;
     color: inherit;
 }
+.group-edit{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.group-edit .edit:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.group-edit .delete:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+}
 .post-info{
     display: flex;
     flex-direction: row;

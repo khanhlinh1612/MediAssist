@@ -18,22 +18,14 @@ const CreatePatient = () => {
         password: '',
     });
 
-    const fullnameRef = useRef(null);
-    const birthdayRef = useRef(null);
-    const genderRef = useRef(null);
-    const addressRef = useRef(null);
-    const idNumberRef = useRef(null);
-    const phone_numberRef = useRef(null);
-    const passwordRef = useRef(null);
-
     const refs = {
-        fullname: fullnameRef,
-        birthday: birthdayRef,
-        gender: genderRef,
-        address: addressRef,
-        idNumber: idNumberRef,
-        phone_number: phone_numberRef,
-        password: passwordRef,
+        fullname: useRef(null),
+        birthday: useRef(null),
+        gender: useRef(null),
+        address: useRef(null),
+        idNumber: useRef(null),
+        phone_number: useRef(null),
+        password: useRef(null),
     };
 
     const handleChange = (e) => {
@@ -41,30 +33,47 @@ const CreatePatient = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const basicInfoFields = ['fullname', 'birthday', 'gender', 'address', 'idNumber'];
-        const emptyBasicInfoField = basicInfoFields.find(field => !formData[field]);
-        if (emptyBasicInfoField) {
-            const emptyFieldRef = refs[emptyBasicInfoField].current;
-            emptyFieldRef.focus();
-            toast.warning("Vui lòng nhập đầy đủ thông tin cơ bản.", {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
-            return;
-        }
+        try {
+            // Form validation
+            const basicInfoFields = ['fullname', 'birthday', 'gender', 'address', 'idNumber'];
+            const emptyBasicInfoField = basicInfoFields.find(field => !formData[field]);
+            if (emptyBasicInfoField) {
+                const emptyFieldRef = refs[emptyBasicInfoField].current;
+                emptyFieldRef.focus();
+                throw new Error("Vui lòng nhập đầy đủ thông tin cơ bản.");
+            }
 
-        if (!formData.phone_number || !formData.password) {
-            phone_numberRef.current.focus();
-            toast.warning("Vui lòng nhập số điện thoại và mật khẩu.", {
+            // Validate ID number
+            if (!formData.idNumber || !/^\d{12}$/.test(formData.idNumber)) {
+                throw new Error("Vui lòng nhập số căn cước hợp lệ (12 chữ số).");
+            }
+
+            // Validate phone number
+            if (!formData.phone_number || !/^\d{10}$/.test(formData.phone_number)) {
+                throw new Error("Vui lòng nhập số điện thoại hợp lệ (10 chữ số).");
+            }
+            // Validate password
+            if (!formData.password) {
+                throw new Error("Vui lòng nhập mật khẩu.");
+            }
+
+            // Submit form
+            await axios.post('http://localhost:4000/patient/', formData);
+            setFormData({ fullname: '', birthday: '', gender: '', phone_number: '', address: '', idNumber: '', password: '' });
+            navigate("/patients/show");
+        } catch (error) {
+            let errorMessage = error.response ?  "Failed create patient" : error.message;
+            console.log(errorMessage);
+            if(error?.response?.data?.message?.includes('User validation failed: phone_number: Error, expected `phone_number` to be unique')){
+                errorMessage = "Số điện thoại đã được đăng ký"
+            }
+
+            if(error?.response?.data?.message?.includes('User validation failed: idNumber: Error, expected `idNumber` to be unique')){
+                errorMessage = "Số căn cước công dân đã được đăng ký"
+            }
+            toast.error(errorMessage, {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -75,33 +84,7 @@ const CreatePatient = () => {
                 theme: "light",
                 transition: Bounce,
             });
-            return;
         }
-        formData.fullname.trim();
-        axios.post('http://localhost:4000/patient/', formData)
-            .then(response => {
-                if (response.status === 200) {
-                    setFormData({
-                        fullname: '',
-                        birthday: '',
-                        gender: '',
-                        phone_number: '',
-                        address: '',
-                        idNumber: '',
-                        password: '',
-                    });
-                    navigate("/patients/show");
-                }
-            })
-            .catch(error => {
-                if (error.response && error.response.data && error.response.data.message && error.response.data.message.includes("expected `phone_number` to be unique")) {
-                    alert("Số điện thoại này đã được đăng ký");
-                } else {
-                    // Nếu không, hiển thị thông báo lỗi mặc định
-                    alert("Failed to create patient.");
-                }
-                console.error("Request failed:", error);
-            });
     };
 
     const onCancel = (e) => {
@@ -133,57 +116,64 @@ const CreatePatient = () => {
                     <form onSubmit={handleSubmit} className='row justify-content-between'>
                         <div className='col-7'>
                             <h4 className="title_create_patient">Thông tin cơ bản</h4>
-                            <div className="mb-3">
-                                <label htmlFor="fullname" className="form-label fw-medium">Họ và tên</label>
-                                <input type="text" className="form-control" id="fullname" name="fullname" value={formData.fullname} onChange={handleChange} ref={fullnameRef} />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="birthday" className="form-label fw-medium">Ngày sinh</label>
-                                <input type="date" className="form-control" id="birthday" name="birthday" value={formData.birthday} onChange={handleChange} ref={birthdayRef} />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="gender" className="form-label fw-medium">Giới tính</label>
-                                <select className="form-control" id="gender" name="gender" value={formData.gender} onChange={handleChange} ref={genderRef}>
-                                    <option value="">Chọn giới tính</option>
-                                    <option value="Nam">Nam</option>
-                                    <option value="Nữ">Nữ</option>
-                                    <option value="Khác">Khác</option>
-                                </select>
-                            </div>
-
-                            <div className="mb-3">
-                                <label htmlFor="address" className="form-label fw-medium">Địa chỉ</label>
-                                <input type="text" className="form-control" id="address" name="address" value={formData.address} onChange={handleChange} ref={addressRef} />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="idNumber" className="form-label fw-medium">Số căn cước</label>
-                                <input type="text" className="form-control" id="idNumber" name="idNumber" value={formData.idNumber} onChange={handleChange} ref={idNumberRef} />
-                            </div>
+                            <BasicInfoForm formData={formData} handleChange={handleChange} refs={refs} />
                         </div>
                         <div className='col-4'>
                             <h4 className="title_create_patient">Thông tin tài khoản</h4>
-
-                            <div className="mb-3">
-                                <label htmlFor="phone_number" className="form-label fw-medium">Số điện thoại</label>
-                                <input type="tel" className="form-control" id="phone_number" name="phone_number" value={formData.phone_number} onChange={handleChange} ref={phone_numberRef} />
-                            </div>
-
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label fw-medium">Mật khẩu</label>
-                                <input type="password" className="form-control" id="password" name="password" value={formData.password} onChange={handleChange} ref={passwordRef} />
-                            </div>
-
+                            <AccountInfoForm formData={formData} handleChange={handleChange} refs={refs} />
                         </div>
                         <div className='btn-create-patient'>
                             <button className="btn btn-warning cancel" onClick={onCancel}>Huỷ</button>
                             <button type="submit" className="btn submit">Tạo mới</button>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     );
 };
+
+const BasicInfoForm = ({ formData, handleChange, refs }) => (
+    <>
+        <div className="mb-3">
+            <label htmlFor="fullname" className="form-label fw-medium">Họ và tên</label>
+            <input type="text" className="form-control" id="fullname" name="fullname" value={formData.fullname} onChange={handleChange} ref={refs.fullname} />
+        </div>
+        <div className="mb-3">
+            <label htmlFor="birthday" className="form-label fw-medium">Ngày sinh</label>
+            <input type="date" className="form-control" id="birthday" name="birthday" value={formData.birthday} onChange={handleChange} ref={refs.birthday} />
+        </div>
+        <div className="mb-3">
+            <label htmlFor="gender" className="form-label fw-medium">Giới tính</label>
+            <select className="form-control" id="gender" name="gender" value={formData.gender} onChange={handleChange} ref={refs.gender}>
+                <option value="">Chọn giới tính</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="Khác">Khác</option>
+            </select>
+        </div>
+        <div className="mb-3">
+            <label htmlFor="address" className="form-label fw-medium">Địa chỉ</label>
+            <input type="text" className="form-control" id="address" name="address" value={formData.address} onChange={handleChange} ref={refs.address} />
+        </div>
+        <div className="mb-3">
+            <label htmlFor="idNumber" className="form-label fw-medium">Số căn cước</label>
+            <input type="text" className="form-control" id="idNumber" name="idNumber" value={formData.idNumber} onChange={handleChange} ref={refs.idNumber} />
+        </div>
+    </>
+);
+
+const AccountInfoForm = ({ formData, handleChange, refs }) => (
+    <>
+        <div className="mb-3">
+            <label htmlFor="phone_number" className="form-label fw-medium">Số điện thoại</label>
+            <input type="tel" className="form-control" id="phone_number" name="phone_number" value={formData.phone_number} onChange={handleChange} ref={refs.phone_number} />
+        </div>
+        <div className="mb-3">
+            <label htmlFor="password" className="form-label fw-medium">Mật khẩu</label>
+            <input type="password" className="form-control" id="password" name="password" value={formData.password} onChange={handleChange} ref={refs.password} />
+        </div>
+    </>
+);
 
 export default CreatePatient;

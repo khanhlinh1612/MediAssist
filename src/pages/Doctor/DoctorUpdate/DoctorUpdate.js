@@ -5,7 +5,7 @@ import './DoctorUpdate.css';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { UserContext } from '../../../UserContext';
+import { UserContext } from '../../../context/UserContext';
 const DoctorUpdate = () => {
     const { setUserInfo, userInfo } = useContext(UserContext);
     const navigate = useNavigate();

@@ -9,7 +9,17 @@
   justify-content: center;
   z-index: 9999;
 }
-
+.label-event{
+  display: block;
+  font-weight: bold;
+}
+.custom-drawer-title {
+  font-size: 26px;
+  font-weight: bold;
+  color:rgba(130,119,241,255);
+  text-align: center;
+  margin-bottom: 10px;
+}
 .ReactModal__Content {
   background-color: rgba(232,230,253,255) !important; /* Màu tím với độ trong suốt 50% */
   color:rgba(130,119,241,255);
@@ -52,4 +62,7 @@ margin-bottom: 0.5vh;
 .add-event .close-icon{
 float: right;
 cursor: pointer;
+}
+.buttonCreateEvent{
+  background-color: rgba(130,119,241,255);
 }

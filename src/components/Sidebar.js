@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from '../UserContext';
+import { UserContext } from '../context/UserContext';
 import "./Sidebar.css";
 const Sidebar = () => {
   const navigate = useNavigate();
   const [sidebar, setSidebar] = useState("active-sidebar");
-  const { setUserInfo, userInfo } = useContext(UserContext);
-  const [userInfoUpdated, setUserInfoUpdated] = useState(false);
+  const { setUserInfo} = useContext(UserContext);
+  const [setUserInfoUpdated] = useState(false);
   const toggleSidebar = () => {
     setSidebar(
       sidebar === "active-sidebar" ? "inactive-sidebar" : "active-sidebar"

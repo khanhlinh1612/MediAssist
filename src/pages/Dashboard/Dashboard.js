@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import Sidebar from "../../components/Sidebar";
-import Doctor from "../../images/doctor.svg";
+import Doctor from "../../assets/doctor.svg";
 import AppointCard from "./AppointCard/AppointCard";
 import moment from 'moment';
 import { Col, Row } from 'antd';
 import { NavLink } from "react-router-dom";
 import "./Dashboard.css";
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../context/UserContext';
 import TotalCountCard from "./TotalCountCard/TotalCountCard";
 import DashBoardChart from "./DashBoardChart/DashBoardChart";
 const Dashboard = () => {

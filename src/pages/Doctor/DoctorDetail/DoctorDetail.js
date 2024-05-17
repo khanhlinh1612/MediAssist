@@ -3,7 +3,7 @@ import Sidebar from "../../../components/Sidebar";
 import { Link } from "react-router-dom";
 import "./DoctorDetail.css";
 import "react-toastify/dist/ReactToastify.css";
-import { UserContext } from '../../../UserContext';
+import { UserContext } from '../../../context/UserContext';
 
 const Speciality = ({ specialities }) => {
   return (
@@ -53,15 +53,13 @@ const DoctorDetail = () => {
                   style={{
                     width: "100%",
                     height: "100%",
-                    maxHeight: "70vh",
+                    maxHeight: "60vh",
                     objectFit: "cover",
                     borderRadius: "10%",
                   }}
                 />
               </div>
               <div className="info-box col-12 col-md-8">
-
-
                 <div className="main-box">
                   <div className="main-title">
                     <h2 className="title-info">Bác sĩ {doctorInfo.fullname}</h2>

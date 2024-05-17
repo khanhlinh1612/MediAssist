@@ -28,11 +28,6 @@ export default function ShowInvoiceModal({ isOpen, onClose, data }) {
             key: 'name',
         },
         {
-            title: 'Liều dùng',
-            dataIndex: 'dosage',
-            key: 'dosage',
-        },
-        {
             title: 'Số lượng',
             dataIndex: 'quantity',
             key: 'quantity',
