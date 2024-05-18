@@ -6,11 +6,12 @@ import { FaPenClip } from "react-icons/fa6";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../context/UserContext";
+import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
   const { setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
-
+  const {login} = useContext(AuthContext);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -80,6 +81,8 @@ const Login = () => {
       }
       const userInfo = await response.json();
       setUserInfo(userInfo);
+      login(userInfo);
+
       toast.success("Đăng nhập thành công!", {
         position: "top-left",
         autoClose: 2000,

@@ -1,34 +1,38 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from '../context/UserContext';
+import { AuthContext } from '../context/AuthContext';
 import "./Sidebar.css";
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const [sidebar, setSidebar] = useState("active-sidebar");
-  const { setUserInfo} = useContext(UserContext);
-  const [setUserInfoUpdated] = useState(false);
+  const {logout} = useContext(AuthContext);
   const toggleSidebar = () => {
     setSidebar(
       sidebar === "active-sidebar" ? "inactive-sidebar" : "active-sidebar"
     );
   };
-  function Logout() {
-    fetch('http://localhost:4000/logout', {
-      credentials: 'include',
-      method: 'POST',
-    })
-      .then(() => {
-        setUserInfo(null);
-        setUserInfoUpdated(false);
-        navigate('/');
-      })
-      .catch(error => {
-        console.error('Error logging out:', error);
+
+  const logoutHandle = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/logout', {
+        credentials: 'include',
+        method: 'POST',
       });
-  }
+
+      if (response.ok) {
+        logout();
+        navigate('/');
+      } else {
+        console.error('Failed to log out:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
   return (
     <div className={`container-sidebar ${sidebar}`}>
-
       <div className="top-sidebar" onClick={toggleSidebar} id="btn-sidebar">
         <box-icon name="menu" size="lg" color="#3AA8A8"></box-icon>
       </div>
@@ -47,28 +51,18 @@ const Sidebar = () => {
               <box-icon type="solid" name="file-plus" color="#3AA8A8"></box-icon>
               <span className="item-nav">Quản lý bài viết</span>
             </Link>
-
           </li>
 
           <li className="mt-2">
             <Link to="/patients/show">
-              <box-icon
-                type="solid"
-                name="contact"
-                color="#3AA8A8"
-              ></box-icon>
+              <box-icon type="solid" name="contact" color="#3AA8A8"></box-icon>
               <span className="item-nav">Quản lý bệnh nhân</span>
             </Link>
           </li>
 
           <li className="mt-2">
             <Link to="/calendar">
-              <box-icon
-                color="#3AA8A8"
-                name="calendar-event"
-                className="icon-sidebar"
-                type="solid"
-              ></box-icon>
+              <box-icon color="#3AA8A8" name="calendar-event" className="icon-sidebar" type="solid"></box-icon>
               <span className="item-nav">Quản lý lịch hẹn</span>
             </Link>
           </li>
@@ -80,14 +74,11 @@ const Sidebar = () => {
             </Link>
           </li>
 
-
-
           <li className="mt-2">
-            <Link onClick={Logout} >
+            <Link onClick={logoutHandle}>
               <box-icon name="log-out" className="icon-sidebar" color="#3AA8A8"></box-icon>
               <span className="item-nav">Đăng xuất</span>
             </Link>
-
           </li>
         </ul>
       </div>

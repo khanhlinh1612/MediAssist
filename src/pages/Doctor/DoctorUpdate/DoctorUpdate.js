@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../../context/UserContext';
+import { AuthContext } from '../../../context/AuthContext';
 const DoctorUpdate = () => {
     const { setUserInfo, userInfo } = useContext(UserContext);
+    const {setUser} = useContext(AuthContext);
     const navigate = useNavigate();
     const [avaImage, setAvaImage] = useState('https://mhchealthcare.org/wp-content/uploads/2019/05/doctor-avatar-1.jpg');
     const [formData, setFormData] = useState({
@@ -132,6 +134,8 @@ const DoctorUpdate = () => {
                 .then(async response => {
                     if (response.ok) {
                         await setUserInfo(response.data);
+                        await setUser(response.data);
+
                         window.location.reload();
                     }
                 })
@@ -332,17 +336,6 @@ const DoctorUpdate = () => {
 
                 <div className='create-patient-content'>
                     <div className='btn-box-avatar'>
-                        {/* <Avatar
-                            alt="Remy Sharp"
-                            src={avaImage}
-                            sx={{
-                                width: 200,
-                                height: 200,
-                                borderRadius: '50%',
-                                border: '2px solid #ccc'
-                            }}
-                        /> */}
-
                             <img alt="" src={avaImage} className="avatar-update"/>
 
 

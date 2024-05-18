@@ -1,10 +1,11 @@
-import React  from 'react';
-import { Routes, Route} from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import 'boxicons';
-import { useLocation } from 'react-router-dom';
+import AuthProvider from './context/AuthContext';
+import PrivateRoute from './shared-layout/PrivateRoute';
 import NavbarApp from './components/Navbar';
-import MedicalRecord from './pages/MedicalRecord/MedicalRecord'
-import FooterApp from './components/Footer'
+import MedicalRecord from './pages/MedicalRecord/MedicalRecord';
+import FooterApp from './components/Footer';
 import HomePage from './pages/HomePage/HomePage';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Login from './pages/Login/Login';
@@ -22,46 +23,45 @@ import HistoryDetail from './pages/History/HistoryDetail/HistoryDetail';
 import DoctorDetail from './pages/Doctor/DoctorDetail/DoctorDetail';
 import DoctorUpdate from './pages/Doctor/DoctorUpdate/DoctorUpdate';
 import Modal from 'react-modal';
-import './App.css'
-import {UserContextProvider} from './context/UserContext';
+import './App.css';
+import { UserContextProvider } from './context/UserContext';
+
 Modal.setAppElement('#root');
+
 function App() {
+    const location = useLocation();
 
-  const location = useLocation();
-
-  return (
-    <UserContextProvider>
-      <div className='app'>
-        {location.pathname!=="/login" && <NavbarApp />}
-        <div className="app-content">
-            <Routes>
-              <Route exact path="/" element={<HomePage/>}/>
-              <Route path="/login" element={<Login/>} />
-              <Route path="/dashboard" element={<Dashboard/>}/>
-              <Route path="/medical-record/:id" element={<MedicalRecord/>} />
-              <Route path="/calendar" element={<Calendar/>} />
-              <Route path="/posts/show" element={<ShowPost/>} />
-              <Route path="/posts/create" element={<CreatePost/>} />
-              <Route path="/posts/:id" element={<PostDetail/>} />
-              <Route path="/posts/edit/:id" element={<EditPost/>} />
-              <Route path="/patients/show" element={<ShowPatient/>} />
-              <Route path="/patients/create" element={<CreatePatient/>}/>
-              <Route path="/patients/:id" element={<UpdatePatient/>}/>
-              <Route path="/history/create" element={<CreateHistory/>}/>
-              <Route path="/history/:id" element={<HistoryDetail/>}/>
-              <Route path="/history/show" element={<ShowHistory/>}/>
-              <Route path="/infor" element={<DoctorDetail/>}/>
-              <Route path="/updateInfor" element={<DoctorUpdate/>}/>
-            </Routes>
-
-        </div>
-
-        {location.pathname!=="/login" &&<FooterApp /> }
-      </div>
-    </UserContextProvider>
-
-
-  );
+    return (
+        <AuthProvider>
+            <UserContextProvider>
+                <div className='app'>
+                    {location.pathname !== "/login" && <NavbarApp />}
+                    <div className="app-content">
+                        <Routes>
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/dashboard" element={<PrivateRoute element={Dashboard} />} />
+                            <Route path="/medical-record/:id" element={<PrivateRoute element={MedicalRecord} />} />
+                            <Route path="/calendar" element={<PrivateRoute element={Calendar} />} />
+                            <Route path="/posts/show" element={<PrivateRoute element={ShowPost} />} />
+                            <Route path="/posts/create" element={<PrivateRoute element={CreatePost} />} />
+                            <Route path="/posts/:id" element={<PrivateRoute element={PostDetail} />} />
+                            <Route path="/posts/edit/:id" element={<PrivateRoute element={EditPost} />} />
+                            <Route path="/patients/show" element={<PrivateRoute element={ShowPatient} />} />
+                            <Route path="/patients/create" element={<PrivateRoute element={CreatePatient} />} />
+                            <Route path="/patients/:id" element={<PrivateRoute element={UpdatePatient} />} />
+                            <Route path="/history/create" element={<PrivateRoute element={CreateHistory} />} />
+                            <Route path="/history/:id" element={<PrivateRoute element={HistoryDetail} />} />
+                            <Route path="/history/show" element={<PrivateRoute element={ShowHistory} />} />
+                            <Route path="/infor" element={<PrivateRoute element={DoctorDetail} />} />
+                            <Route path="/updateInfor" element={<PrivateRoute element={DoctorUpdate} />} />
+                        </Routes>
+                    </div>
+                    {location.pathname !== "/login" && <FooterApp />}
+                </div>
+            </UserContextProvider>
+        </AuthProvider>
+    );
 }
 
 export default App;
