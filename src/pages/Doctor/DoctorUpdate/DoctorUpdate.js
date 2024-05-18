@@ -131,14 +131,14 @@ const DoctorUpdate = () => {
                 body: data,
                 credentials: 'include',
             })
-                .then(async response => {
-                    if (response.ok) {
-                        await setUserInfo(response.data);
-                        await setUser(response.data);
-
-                        window.location.reload();
-                    }
+            .then(response =>
+                response.json().then(userInfo => {
+                  if (userInfo.status === 'valid') {
+                    setUserInfo(userInfo.Doctor);
+                    setUser(userInfo.Doctor); // Đánh dấu rằng userInfo đã được cập nhật
+                  }
                 })
+              )
                 .catch(error => {
                     alert(error.response.data.error);
                     console.error("Request failed:", error);

@@ -1,53 +1,59 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { UserContext } from '../context/UserContext';
-export const AuthContext = createContext();
+import React, { createContext, useState, useEffect} from 'react';
+export const AuthContext = createContext({
+  user: null,
+  setUser: () => {},
+  login: () => {},
+  logout: () => {}
+});
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const { setUserInfo} = useContext(UserContext);
-    useEffect(() => {
-        // Kiểm tra nếu có token trong localStorage và xác thực người dùng
-        const token = localStorage.getItem('token');
-        if (token) {
-            // Gửi token đến API để xác thực và lấy thông tin người dùng
-            fetch('http://localhost:4000/profile', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'valid') {
-                    setUser(data.Doctor);
-                    setUserInfo(data.Doctor);
-                }
-            })
-            .catch(err => {
-                console.error('Error fetching profile:', err);
-                localStorage.removeItem('token');
-            });
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const checkUserAuth = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await fetch('http://localhost:4000/profile', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          const data = await response.json();
+          if (data.status === 'valid') {
+            setUser(data.Doctor);
+          } else {
+            throw new Error('Invalid token');
+          }
+        } catch (err) {
+          console.error('Error fetching profile:', err);
+          localStorage.removeItem('token');
+          setUser(null);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const login = (userData) => {
-        setUser(userData);
-        localStorage.setItem('token', userData.token);
+      }
     };
 
-    const logout = () => {
-        setUser(null);
-        setUserInfo(null);
-        localStorage.removeItem('token');
-    };
+    checkUserAuth();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ setUser ,user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const login = async (data) => {
+    setUser(data.userInfo);
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+    }
+  };
+
+  const logout = async () => {
+    setUser(null);
+    localStorage.removeItem('token');
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

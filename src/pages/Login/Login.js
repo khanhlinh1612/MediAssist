@@ -9,9 +9,9 @@ import { UserContext } from "../../context/UserContext";
 import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
-  const { setUserInfo } = useContext(UserContext);
+  const { setUserInfo, userInfo } = useContext(UserContext);
   const navigate = useNavigate();
-  const {login} = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -79,9 +79,11 @@ const Login = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const userInfo = await response.json();
-      setUserInfo(userInfo);
-      login(userInfo);
+      const data = await response.json();
+      setUserInfo(data.userInfo);
+      console.log("toynhoban",userInfo);
+      console.log("tinhcamcuabancothatkhong", data.userInfo);
+      login(data);
 
       toast.success("Đăng nhập thành công!", {
         position: "top-left",
