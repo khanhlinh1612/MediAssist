@@ -19,6 +19,7 @@ const Sidebar = () => {
     })
       .then(() => {
         setUserInfo(null);
+        localStorage.removeItem('userInfo');
         setUserInfoUpdated(false);
         navigate('/');
       })

@@ -79,6 +79,7 @@ const Login = () => {
         throw new Error("Network response was not ok");
       }
       const userInfo = await response.json();
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
       setUserInfo(userInfo);
       toast.success("Đăng nhập thành công!", {
         position: "top-left",

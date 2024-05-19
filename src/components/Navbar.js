@@ -40,6 +40,7 @@ function NavbarApp() {
     })
       .then(() => {
         setUserInfo(null);
+        localStorage.removeItem('userInfo');
         setUserInfoUpdated(false); // Đánh dấu rằng userInfo đã được cập nhật
         navigate('/');
       })
