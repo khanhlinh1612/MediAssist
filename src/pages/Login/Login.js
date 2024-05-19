@@ -6,9 +6,11 @@ import { FaPenClip } from "react-icons/fa6";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../context/UserContext";
+
 const Login = () => {
-  const { setUserInfo, userInfo } = useContext(UserContext);
+  const { setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
+
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -76,9 +78,8 @@ const Login = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json();
-      setUserInfo(data.userInfo);
-
+      const userInfo = await response.json();
+      setUserInfo(userInfo);
       toast.success("Đăng nhập thành công!", {
         position: "top-left",
         autoClose: 2000,
