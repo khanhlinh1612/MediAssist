@@ -13,7 +13,7 @@ const Sidebar = () => {
     );
   };
   function Logout() {
-    fetch('http://localhost:4000/logout', {
+    fetch(`${process.env.REACT_APP_API_URL}/logout`, {
       credentials: 'include',
       method: 'POST',
     })

@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../context/UserContext";
 
 const Login = () => {
+
   const { setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -69,7 +70,8 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:4000/login", {
+        console.log("Test URL",process.env.REACT_APP_API_URL);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

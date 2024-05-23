@@ -12,7 +12,7 @@ export default function PostDetail() {
 
     useEffect(() => {
         if (!id) return;
-        fetch(`http://localhost:4000/posts/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/posts/${id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -52,7 +52,7 @@ export default function PostDetail() {
                         )
                     }
                     <div className="image-cover-post-detail">
-                        <img src={'http://localhost:4000/' + postInfo.cover} alt="..." />
+                        <img src={`${process.env.REACT_APP_API_URL}/` + postInfo.cover} alt="..." />
                     </div>
 
                     <div className='main-content' dangerouslySetInnerHTML={{ __html: postInfo.content }}></div>

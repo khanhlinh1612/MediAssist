@@ -35,7 +35,7 @@ const DoctorUpdate = () => {
             if (Array.isArray(userInfo.specialist)) {
                 updatedFormData.specialist = handleArray(userInfo.specialist);
             }
-            setAvaImage('http://localhost:4000/' + updatedFormData.avatar);
+            setAvaImage(`${process.env.REACT_APP_API_URL}/` + updatedFormData.avatar);
             setFormData(updatedFormData);
         }
     }, [userInfo]);
@@ -124,7 +124,7 @@ const DoctorUpdate = () => {
             updatedFormData.specialist.forEach((speciality, index) => {
                 data.append('specialist[]',speciality );
             });
-            fetch(`http://localhost:4000/profile/${updatedFormData._id}`, {
+            fetch(`${process.env.REACT_APP_API_URL}/profile/${updatedFormData._id}`, {
                 method: 'PUT',
                 body: data,
                 credentials: 'include',

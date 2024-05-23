@@ -31,7 +31,7 @@ const UpdatePatient = () => {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/patient/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/patient/${id}`)
             .then(response => {
                 const birthday = new Date(response.data.birthday);
                 const formattedDate = isNaN(birthday.getTime()) ? '' : format(birthday, 'yyyy-MM-dd');
@@ -77,7 +77,7 @@ const UpdatePatient = () => {
             }
 
             // Submit form
-            await axios.put(`http://localhost:4000/patient/${id}`, formData);
+            await axios.put(`${process.env.REACT_APP_API_URL}/patient/${id}`, formData);
             setFormData({
                 fullname: '',
                 birthday: '',

@@ -56,7 +56,7 @@ const HistoryDetail = () => {
     const formattedExamDate = formData.examDate ? format(new Date(formData.examDate), 'yyyy-MM-dd') : '';
     const formattedReExamDate = formData.reExamDate ? format(new Date(formData.reExamDate), 'yyyy-MM-dd') : '';
     useEffect(() => {
-        axios.get(`http://localhost:4000/history/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/history/${id}`)
             .then(response => {
                 const { medicalServices, medicines, total, status } = response.data.invoice;
                 setFormData({
@@ -82,7 +82,7 @@ const HistoryDetail = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateFormData()) {
-            axios.put(`http://localhost:4000/history/${formData._id}`, formData, {
+            axios.put(`${process.env.REACT_APP_API_URL}/history/${formData._id}`, formData, {
                 withCredentials: true // Cho phép gửi và nhận cookie
             })
                 .then(response => {

@@ -38,7 +38,7 @@ export default function EditPost() {
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:4000/posts/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/posts/${id}`)
             .then((response) => response.json().then(postInfo => {
                 setTitle(postInfo.title);
                 setSummary(postInfo.summary);
@@ -60,7 +60,7 @@ export default function EditPost() {
             data.set('file', files?.[0]);
         }
         event.preventDefault();
-        fetch(`http://localhost:4000/posts/${id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/posts/${id}`, {
             method: 'PUT',
             body: data,
             credentials: 'include',

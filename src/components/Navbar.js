@@ -15,7 +15,7 @@ function NavbarApp() {
   const userAvatar = userInfo?.avatar;
 
   useEffect(() => {
-    fetch('http://localhost:4000/profile', {
+    fetch(`${process.env.REACT_APP_API_URL}/profile`, {
       credentials: 'include',
     })
       .then(response =>
@@ -34,7 +34,7 @@ function NavbarApp() {
   },[]);
 
   function Logout() {
-    fetch('http://localhost:4000/logout', {
+    fetch(`${process.env.REACT_APP_API_URL}/logout`, {
       credentials: 'include',
       method: 'POST',
     })
@@ -60,7 +60,7 @@ function NavbarApp() {
           <Nav className="info-container w-100">
             {userInfoUpdated && userInfo ? (
               <div className="info-user">
-                <img alt="" src={'http://localhost:4000/' + userAvatar} width="35" height="35" className="avatar" />
+                <img alt="" src={`${process.env.REACT_APP_API_URL}/` + userAvatar} width="35" height="35" className="avatar" />
                 <Link to={'/infor'} className='nav-script ms-2'>
                   {userName}
                 </Link>

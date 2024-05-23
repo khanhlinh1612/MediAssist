@@ -42,7 +42,7 @@ const CreateHistory = () => {
 
     useEffect(() => {
         // Gọi API để lấy danh sách tên các bệnh nhân
-        axios.get('http://localhost:4000/patient/names')
+        axios.get(`${process.env.REACT_APP_API_URL}/patient/names`)
             .then(response => {
                 const options = response.data.fullnames.map(name => ({ value: name, label: name }));
                 setPatientNames(options);
@@ -54,7 +54,7 @@ const CreateHistory = () => {
 
 
         // Gọi API để lấy danh sách tên các dịch vụ
-        axios.get('http://localhost:4000/history/services')
+        axios.get(`${process.env.REACT_APP_API_URL}/history/services`)
             .then(response => {
                 const options = response.data.map(name => ({ value: name, label: name }));
                 setServices(options);
@@ -64,7 +64,7 @@ const CreateHistory = () => {
             });
 
         // Gọi API để lấy danh sách tên các thuốc
-        axios.get('http://localhost:4000/history/drugs')
+        axios.get(`${process.env.REACT_APP_API_URL}/history/drugs`)
             .then(response => {
                 const options = response.data.map(name => ({ value: name, label: name }));
                 setDrugs(options);
@@ -113,7 +113,7 @@ const CreateHistory = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateFormData()) {
-            axios.post('http://localhost:4000/history/', formData, {
+            axios.post(`${process.env.REACT_APP_API_URL}/history/`, formData, {
                 withCredentials: true // Cho phép gửi và nhận cookie
             })
                 .then(response => {

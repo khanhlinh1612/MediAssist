@@ -39,7 +39,7 @@ const MedicalRecord = () => {
         setModalVisible(false);
     };
     useEffect(() => {
-        axios.get(`http://localhost:4000/medicalRecord/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/medicalRecord/${id}`)
             .then(response => {
                 setFormData(prevState => ({
                     ...prevState,
@@ -106,7 +106,7 @@ const MedicalRecord = () => {
         e.preventDefault();
         if (validateFormData()) {
             console.log("This is data of medical record", formData)
-            axios.put(`http://localhost:4000/medicalRecord/${id}`, formData, {
+            axios.put(`${process.env.REACT_APP_API_URL}/medicalRecord/${id}`, formData, {
                 withCredentials: true // Cho phép gửi và nhận cookie
             })
                 .then(response => {

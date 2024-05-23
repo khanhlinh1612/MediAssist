@@ -45,7 +45,7 @@ const Calendar = () => {
   }
   async function handleEventAdd(data) {
     try {
-      const response = await axios.post('http://localhost:4000/appointments/', data, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/appointments/`, data, {
         withCredentials: true
       });
       return { isAdded: true, data: response.data };
@@ -60,7 +60,7 @@ const Calendar = () => {
   }
 
   async function handleDatesSet(data) {
-    const response = await axios.get('http://localhost:4000/appointments/?start=' + moment(data.start).toISOString() + '&end=' + moment(data.end).toISOString());
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/appointments/?start=` + moment(data.start).toISOString() + '&end=' + moment(data.end).toISOString());
     setEvents(response.data);
   }
   useEffect(() => {
@@ -72,7 +72,7 @@ const Calendar = () => {
 
     }
     isFirstRun.current = false;
-    fetch('http://localhost:4000/appointments/')
+    fetch(`${process.env.REACT_APP_API_URL}/appointments/`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -91,7 +91,7 @@ const Calendar = () => {
 
 
   async function updateEvent(info) {
-    const response = await axios.put('http://localhost:4000/appointments/' + info.id, info);
+    const response = await axios.put(`${process.env.REACT_APP_API_URL}/appointments/` + info.id, info);
     if (response.status === 200) {
       let newEvents = events.map((item) => {
         if (item._id === response.data._id) {
@@ -115,7 +115,7 @@ const Calendar = () => {
 
   async function deleteEvent(id) {
     try {
-      await axios.delete('http://localhost:4000/appointments/' + id);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/appointments/` + id);
       const newEvents = events.filter(event => event._id !== id);
       setEvents(newEvents);
       calendarRef.current.getApi().refetchEvents();

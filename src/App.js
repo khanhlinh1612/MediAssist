@@ -24,7 +24,6 @@ import Modal from 'react-modal';
 import './App.css';
 import { UserContextProvider } from './context/UserContext';
 import PrivateRoute from './shared-layout/PrivateRoute';
-
 Modal.setAppElement('#root');
 
 function App() {

@@ -60,7 +60,7 @@ const CreatePatient = () => {
             }
 
             // Submit form
-            await axios.post('http://localhost:4000/patient/', formData);
+            await axios.post(`${process.env.REACT_APP_API_URL}/patient/`, formData);
             setFormData({ fullname: '', birthday: '', gender: '', phone_number: '', address: '', idNumber: '', password: '' });
             navigate("/patients/show");
         } catch (error) {

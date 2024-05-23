@@ -13,7 +13,7 @@ const ShowPatient = () => {
     const [patients, setPatients] = useState([]);
     const [originalPatients, setOriginalPatients] = useState([]);
     const handleDelete = async (id) => {
-        const result = await axios.delete(`http://localhost:4000/patient/${id}`);
+        const result = await axios.delete(`${process.env.REACT_APP_API_URL}/patient/${id}`);
         if (result.status === 200) {
             window.location.reload();
         } else {
@@ -22,7 +22,7 @@ const ShowPatient = () => {
     };
     useEffect(() => {
         axios
-            .get("http://localhost:4000/patient/")
+            .get(`${process.env.REACT_APP_API_URL}/patient/`)
             .then((response) => {
                 setPatients(response.data);
                 setOriginalPatients(response.data);

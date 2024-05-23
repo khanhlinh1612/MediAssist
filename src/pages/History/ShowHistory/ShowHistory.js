@@ -71,9 +71,9 @@ const ShowHistory = () => {
     };
 
     useEffect(() => {
-        let url = 'http://localhost:4000/history/';
+        let url = `${process.env.REACT_APP_API_URL}/history/`;
         if (location.state) {
-            url = `http://localhost:4000/history/?patient=${location.state.patientId}`;
+            url = `${process.env.REACT_APP_API_URL}/history/?patient=${location.state.patientId}`;
         }
         axios.get(url)
             .then(response => {
@@ -95,7 +95,7 @@ const ShowHistory = () => {
     }, [viewMode]);
 
     const confirmDelete = (historyId) => {
-        axios.delete(`http://localhost:4000/history/${historyId}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/history/${historyId}`)
             .then(response => {
                 window.location.reload();
                 message.success('Xoá thành công');

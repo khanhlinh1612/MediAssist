@@ -24,7 +24,7 @@ const Dashboard = () => {
   let currentDateStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0, 0);
   let currentDateEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
   useEffect(() => {
-    fetch(`http://localhost:4000/appointments?start=${moment(currentDateStart).toISOString()}&end=${moment(currentDateEnd).toISOString()}`)
+    fetch(`${process.env.REACT_APP_API_URL}/appointments?start=${moment(currentDateStart).toISOString()}&end=${moment(currentDateEnd).toISOString()}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -39,7 +39,7 @@ const Dashboard = () => {
       });
     setFormattedDate(currentTime.format("dddd, DD [tháng] MM [năm] YYYY"));
 
-    fetch('http://localhost:4000/totalCount')
+    fetch(`${process.env.REACT_APP_API_URL}/totalCount`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

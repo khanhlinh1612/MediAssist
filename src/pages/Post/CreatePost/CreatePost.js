@@ -72,7 +72,7 @@ export default function CreatePost() {
         data.set('file', files[0]);
         data.set('content', content);
 
-        fetch('http://localhost:4000/posts', {
+        fetch(`${process.env.REACT_APP_API_URL}/posts`, {
             method: 'POST',
             body: data,
             credentials: 'include',

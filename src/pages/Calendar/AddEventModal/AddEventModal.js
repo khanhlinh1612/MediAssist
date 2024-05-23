@@ -34,7 +34,7 @@ export default function AddEventDrawer({ isOpen, onClose, onEventAdded, status, 
 
     useEffect(() => {
         // Gọi API để lấy danh sách tên các bệnh nhân
-        axios.get('http://localhost:4000/patient/names')
+        axios.get(`${process.env.REACT_APP_API_URL}/patient/names`)
             .then(response => {
                 const options = response.data.fullnames.map(name => ({ value: name, label: name }));
                 setPatientNames(options);

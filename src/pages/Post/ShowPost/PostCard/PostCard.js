@@ -14,7 +14,7 @@ export default function PostCard({ _id, title, summary, cover, content, createdA
     };
 
     const handleDelete = async (id) => {
-        const result = await axios.delete(`http://localhost:4000/posts/${_id}`);
+        const result = await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${_id}`);
         if (result.status === 200) {
             window.location.reload();
         } else {
@@ -26,7 +26,7 @@ export default function PostCard({ _id, title, summary, cover, content, createdA
         <div className="col-xl-4 col-md-6 col-11 mb-3">
             <div className="post-card card">
                 <Link to={`/posts/${_id}`}>
-                    <img src={'http://localhost:4000/' + cover} className="card-img-top" alt={title} />
+                    <img src={`${process.env.REACT_APP_API_URL}/` + cover} className="card-img-top" alt={title} />
                 </Link>
 
                 <div className="card-body">
