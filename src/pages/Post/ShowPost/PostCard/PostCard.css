@@ -52,6 +52,11 @@
     text-align: justify;
 
 }
+.title-box{
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+}
 .post-card .card-title{
     height: 8vh;
     display: flex;

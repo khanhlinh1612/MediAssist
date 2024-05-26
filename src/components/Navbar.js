@@ -60,7 +60,7 @@ function NavbarApp() {
           <Nav className="info-container w-100">
             {userInfoUpdated && userInfo ? (
               <div className="info-user">
-                <img alt="" src={`${process.env.REACT_APP_API_URL}/` + userAvatar} width="35" height="35" className="avatar" />
+                <img alt="" src={userAvatar} width="35" height="35" className="avatar" />
                 <Link to={'/infor'} className='nav-script ms-2'>
                   {userName}
                 </Link>

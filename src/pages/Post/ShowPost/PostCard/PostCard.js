@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { formatISO9075, differenceInDays } from "date-fns";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Popconfirm } from 'antd';
+import { UserContext } from '../../../../context/UserContext';
 import './PostCard.css';
 import axios from "axios";
 export default function PostCard({ _id, title, summary, cover, content, createdAt, updatedAt, author }) {
@@ -12,7 +13,7 @@ export default function PostCard({ _id, title, summary, cover, content, createdA
     const handleEdit = () => {
         navigate(`/posts/edit/${_id}`);
     };
-
+    const { userInfo } = useContext(UserContext);
     const handleDelete = async (id) => {
         const result = await axios.delete(`${process.env.REACT_APP_API_URL}/posts/${_id}`);
         if (result.status === 200) {
@@ -26,25 +27,30 @@ export default function PostCard({ _id, title, summary, cover, content, createdA
         <div className="col-xl-4 col-md-6 col-11 mb-3">
             <div className="post-card card">
                 <Link to={`/posts/${_id}`}>
-                    <img src={`${process.env.REACT_APP_API_URL}/` + cover} className="card-img-top" alt={title} />
+                    <img src={cover} className="card-img-top" alt="" />
                 </Link>
 
                 <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center">
-                        <Link to={`/posts/${_id}`}>
-                            <h5 className="card-title">{title}</h5>
-                        </Link>
-                        <div className="group-edit">
-                            <FontAwesomeIcon icon={faEdit} className="text-primary me-2 edit" onClick={handleEdit} />
-                            <Popconfirm
-                                title="Bạn có chắc chắn muốn xóa bài viết này không?"
-                                onConfirm={handleDelete}
-                                okText="Xác nhận"
-                                cancelText="Hủy"
-                            >
-                                <FontAwesomeIcon icon={faTrashAlt} className="text-danger delete" />
-                            </Popconfirm>
+                        <div className='title-box'>
+                            <Link to={`/posts/${_id}`}>
+                                <h5 className="card-title">{title}</h5>
+                            </Link>
+                            <div className="group-edit">
+                                {userInfo?._id === author._id ? <FontAwesomeIcon icon={faEdit} className="text-primary me-2 edit" onClick={handleEdit} /> : null}
+                                {userInfo?._id === author._id ? <Popconfirm
+                                    title="Bạn có chắc chắn muốn xóa bài viết này không?"
+                                    onConfirm={handleDelete}
+                                    okText="Xác nhận"
+                                    cancelText="Hủy"
+                                >
+                                    <FontAwesomeIcon icon={faTrashAlt} className="text-danger delete" />
+                                </Popconfirm> : null}
+                            </div>
+
                         </div>
+
+
                     </div>
 
                     <div className="post-info">

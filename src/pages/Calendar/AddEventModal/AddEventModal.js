@@ -186,6 +186,7 @@ export default function AddEventDrawer({ isOpen, onClose, onEventAdded, status, 
                         showTime
                         className='w-75'
                         needConfirm
+                        value={moment(end)}
                         onChange={(date, dateString) => setEnd(dateString ? moment(dateString).toDate() : null)}
                     />
                     <div id="endTimeDescribe" className="form-text mt-1">

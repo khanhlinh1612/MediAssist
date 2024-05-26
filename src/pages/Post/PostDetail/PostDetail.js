@@ -52,7 +52,7 @@ export default function PostDetail() {
                         )
                     }
                     <div className="image-cover-post-detail">
-                        <img src={`${process.env.REACT_APP_API_URL}/` + postInfo.cover} alt="..." />
+                        <img src={postInfo.cover} alt="..." />
                     </div>
 
                     <div className='main-content' dangerouslySetInnerHTML={{ __html: postInfo.content }}></div>

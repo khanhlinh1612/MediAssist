@@ -35,7 +35,7 @@ const DoctorUpdate = () => {
             if (Array.isArray(userInfo.specialist)) {
                 updatedFormData.specialist = handleArray(userInfo.specialist);
             }
-            setAvaImage(`${process.env.REACT_APP_API_URL}/` + updatedFormData.avatar);
+            setAvaImage(updatedFormData.avatar);
             setFormData(updatedFormData);
         }
     }, [userInfo]);

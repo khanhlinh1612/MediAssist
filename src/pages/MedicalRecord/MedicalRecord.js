@@ -25,10 +25,8 @@ const MedicalRecord = () => {
         thalRate: "-1",
     });
     const [loading, setLoading] = useState(false); // State để kiểm soát hiển thị Spin
-
     const [modalVisible, setModalVisible] = useState(false); // State để kiểm soát hiển thị Modal
     const URL_API_AI = "https://mediassist-model.onrender.com/api/predict";
-    // const URL_API_AI = "http://127.0.0.1:8000/api/predict";
     // Hàm mở Modal
     const showModal = () => {
         setModalVisible(true);
@@ -41,22 +39,25 @@ const MedicalRecord = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/medicalRecord/${id}`)
             .then(response => {
-                setFormData(prevState => ({
-                    ...prevState,
-                    age: response.data.age,
-                    gender: response.data.gender,
-                    maxHeartRate: response.data.maxHeartRate,
-                    restElectrocardiographicResult: response.data.restElectrocardiographicResult,
-                    exerciseAngina: response.data.exerciseAngina,
-                    cholesterol: response.data.cholesterol,
-                    chestPain: response.data.chestPain,
-                    restBloodPressure: response.data.restBloodPressure,
-                    bloodSugar: response.data.bloodSugar,
-                    oldPeak: response.data.oldPeak,
-                    slope: response.data.slope,
-                    numOfVessels: response.data.numOfVessels,
-                    thalRate: response.data.thalRate,
-                }));
+                if (response && response.data) {
+                    console.log("This is FormData", response.data);
+                    setFormData(prevState => ({
+                        ...prevState,
+                        age: response.data.age,
+                        gender: response.data.gender,
+                        maxHeartRate: response.data.maxHeartRate,
+                        restElectrocardiographicResult: response.data.restElectrocardiographicResult,
+                        exerciseAngina: response.data.exerciseAngina,
+                        cholesterol: response.data.cholesterol,
+                        chestPain: response.data.chestPain,
+                        restBloodPressure: response.data.restBloodPressure,
+                        bloodSugar: response.data.bloodSugar,
+                        oldPeak: response.data.oldPeak,
+                        slope: response.data.slope,
+                        numOfVessels: response.data.numOfVessels,
+                        thalRate: response.data.thalRate,
+                    }));
+                }
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -102,10 +103,12 @@ const MedicalRecord = () => {
     };
 
     const handleSubmit = (e) => {
-
         e.preventDefault();
         if (validateFormData()) {
-            console.log("This is data of medical record", formData)
+            setFormData(prevState => ({
+                ...prevState,
+                result: result
+            }))
             axios.put(`${process.env.REACT_APP_API_URL}/medicalRecord/${id}`, formData, {
                 withCredentials: true // Cho phép gửi và nhận cookie
             })

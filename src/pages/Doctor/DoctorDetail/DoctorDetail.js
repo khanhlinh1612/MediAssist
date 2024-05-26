@@ -49,7 +49,7 @@ const DoctorDetail = () => {
               <div className="avatar-box col-6 col-md-4 mb-5">
                 <img
                   alt="Remy Sharp"
-                  src= {`${process.env.REACT_APP_API_URL}/`+doctorInfo.avatar}
+                  src= {doctorInfo.avatar}
                   style={{
                     width: "100%",
                     height: "100%",

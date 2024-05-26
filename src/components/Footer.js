@@ -1,8 +1,13 @@
+import { MDBCol, MDBContainer, MDBFooter, MDBIcon, MDBRow } from 'mdb-react-ui-kit';
 import React from 'react';
-import './Footer.css';
+import { FaGoogle } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
-
+import './Footer.css';
 function FooterApp() {
     return (
         <div className="Footer">
@@ -13,22 +18,22 @@ function FooterApp() {
                     </div> */}
                     <div className='ms-4 me-5'>
                         <Link to='/' className='me-4 text-reset'>
-                            <box-icon type='logo' name='facebook-circle' color="white"></box-icon>
+                            <FaFacebook color='white' />
                         </Link>
                         <Link to='/' className='me-4 text-reset'>
-                            <box-icon name='twitter' type='logo' color="white"></box-icon>
+                            <FaTwitter color='white' />
                         </Link>
                         <Link to='/' className='me-4 text-reset'>
-                            <box-icon type='logo' name='google' color="white"></box-icon>
+                            <FaGoogle color="white" />
                         </Link>
                         <Link to='/' className='me-4 text-reset'>
-                            <box-icon name='instagram-alt' type='logo' color="white"></box-icon>
+                            <FaInstagram  color='white'/>
                         </Link>
                         <Link to='/' className='me-4 text-reset'>
-                            <box-icon name='linkedin-square' type='logo' color="white"></box-icon>
+                            <FaLinkedin color='white' />
                         </Link>
                         <Link to='/' className='me-4 text-reset'>
-                            <box-icon type='logo' name='github' color="white"></box-icon>
+                            <FaGithub color='white' />
                         </Link>
                     </div>
                 </div>
@@ -111,8 +116,8 @@ function FooterApp() {
                 <div className='text-center p-4 text-light' style={{ backgroundColor: '#3AA8A8' }}>
                     ©2024 Copyright: {
                         <Link className='text-reset fw-bold' href='https://mdbootstrap.com/'>
-                        MediAssist
-                    </Link>
+                            MediAssist
+                        </Link>
                     }
 
                 </div>
