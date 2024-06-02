@@ -20,7 +20,6 @@ function NavbarApp() {
     })
       .then(response =>
         response.json().then(userInfo => {
-          console.log(userInfo);
           if (userInfo.status === 'valid') {
             setUserInfo(userInfo.Doctor);
             setUserInfoUpdated(true); // Đánh dấu rằng userInfo đã được cập nhật

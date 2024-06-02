@@ -5,6 +5,20 @@
 .show-post-box{
     padding: 1%;
 }
+.history-patient-content{
+    z-index: 5;
+    padding: 2%;
+    background-color: white;
+    min-height: 80vh;
+}
+.tab-content{
+    min-height: 58vh;
+}
+.prescription-box.update, .invoice-box.update{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .show-post-content{
     padding-top: 3vh;
     z-index: 5;
@@ -43,4 +57,10 @@
     font-weight: normal !important;
     float: right !important;
     color: white !important;
+}
+.title-info-tab {
+    width: 100%;
+    font-size: large;
+    display: flex;
+    align-items: center;
 }

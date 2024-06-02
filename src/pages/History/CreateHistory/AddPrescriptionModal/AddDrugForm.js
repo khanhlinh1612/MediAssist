@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Modal } from 'antd';
 import { toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './AddPrescriptionModal.css';
 import { CloseCircleTwoTone } from '@ant-design/icons';
 
-export default function AddPrescriptionModal({ isOpen, onClose, onSubmit, data, status, drugNames }) {
+const AddDrugForm = ({ data, onSubmit, drugNames, status, allowEdit, cancel}) => {
     const [formData, setFormData] = useState([{
         name: '',
         dosage: '',
         quantity: ''
     }]);
-
-    let originalData = JSON.parse(JSON.stringify(data));
+    const [originalData, setOriginalData] = useState(data);
+    const [medicines, SetMedicines] = useState(data);
     useEffect(() => {
         if (data && Array.isArray(data) && data.length > 0) {
             setFormData(data);
         }
     }, [data, drugNames]);
-
-    const handleOnClose = () => {
+    const handleCancel = () => {
         setFormData(originalData);
-        onClose();
     };
     const clearFormData = () => {
         setFormData([{
@@ -31,11 +27,6 @@ export default function AddPrescriptionModal({ isOpen, onClose, onSubmit, data, 
         }]);
     }
 
-    const cancel = () => {
-        clearFormData();
-        onSubmit([]);
-        onClose();
-    }
 
     const checkLastDrug = () => {
         const lastDrug = formData[formData.length - 1];
@@ -57,13 +48,13 @@ export default function AddPrescriptionModal({ isOpen, onClose, onSubmit, data, 
     }
 
     const checkIsQuantity = () => {
-        const isQuantityNumber = formData.every(service => {
-            if (isNaN(service.quantity) || service.quantity <= 0) {
+        const isQuantityNumber = formData.every(drug => {
+            if (isNaN(drug.quantity) || drug.quantity <= 0) {
                 return false;
+            } else {
+                return true;
             }
-            else return true;
-        }
-        );
+        });
         if (!isQuantityNumber) {
             toast.warning("Số lượng phải là một số dương.", {
                 position: "top-right",
@@ -104,43 +95,42 @@ export default function AddPrescriptionModal({ isOpen, onClose, onSubmit, data, 
         e.preventDefault();
         if (checkLastDrug() && checkIsQuantity()) {
             onSubmit(formData);
-            onClose();
+            clearFormData();
         }
+        else setFormData(originalData);
     };
 
     return (
-        <Modal open={isOpen} onCancel={handleOnClose} footer={[
-            <button key="back" onClick={cancel} className='btn btn-warning addDrugBtn mt-3'>
-                Hủy
-            </button>,
-            <button key="submit" type="primary" className='btn btn-success addDrugBtn mt-3' onClick={handleSubmit}>
-                Lưu
-            </button>,
-        ]}>
-            <h3 className='title-modal-prescription'>Thông tin đơn thuốc</h3>
+        <div className="info-form-tab">
+            <h3 className='title-modal-service'>Thông tin thuốc</h3>
             {status === 'create' && (
                 <div className='add-drug-box'>
                     <button type="button" className='btn add-drug-btn' onClick={addMoreDrug}>Thêm thuốc</button>
                 </div>
             )}
-
             <form onSubmit={handleSubmit} className='form-modal addDrug'>
                 {formData.map((drug, index) => (
                     <div key={index}>
                         {index > 0 && (
                             <div className='header-container'>
-
                                 <div className="delete-icon-container float-end">
                                     <CloseCircleTwoTone
                                         className='iconDelete'
-                                        onClick={() => handleDelete(index)} />
+                                        onClick={() => handleDelete(index)}
+                                    />
                                 </div>
                             </div>
-
                         )}
                         <div className="form-group">
                             <label>Tên thuốc</label>
-                            <input className="form-control" list="drugNames" name="name" value={drug.name} onChange={(e) => handleChange(index, e)} placeholder="Chọn tên thuốc..." />
+                            <input
+                                className="form-control"
+                                list="drugNames"
+                                name="name"
+                                value={drug.name}
+                                onChange={(e) => handleChange(index, e)}
+                                placeholder="Chọn tên thuốc..."
+                            />
                             <datalist id="drugNames">
                                 {drugNames.map((drug, index) => (
                                     <option key={index} value={drug.value} />
@@ -170,14 +160,31 @@ export default function AddPrescriptionModal({ isOpen, onClose, onSubmit, data, 
                                 />
                                 <span className="input-group-text">( viên )</span>
                             </div>
-
                         </div>
                         <div className="drug-divider"></div>
-
                     </div>
                 ))}
+                {status === 'create' && (
+                    <div className='add-drug-box'>
+                        <button type="button" className='btn add-drug-btn' onClick={addMoreDrug}>Thêm thuốc</button>
+                    </div>
+                )}
+                {allowEdit === "true" && (
+                    <div>
+                        <button key="back" onClick={cancel} className='btn btn-warning addDrugBtn'>
+                            Hủy
+                        </button>
+                        <button key="submit" type="primary" className='btn btn-success addDrugBtn' onClick={handleSubmit}>
+                            Lưu
+                        </button>
+                    </div>
+
+                )}
 
             </form>
-        </Modal>
+        </div>
+
     );
-}
+};
+
+export default AddDrugForm;

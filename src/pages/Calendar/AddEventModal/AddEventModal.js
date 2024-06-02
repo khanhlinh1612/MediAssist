@@ -141,8 +141,6 @@ export default function AddEventDrawer({ isOpen, onClose, onEventAdded, status, 
             const fullName = Object.keys(entry)[0];
             return fullName === event.target.value;
         });
-        console.log("Fullname", event.target.value);
-        console.log("Phone_number", phone_number);
         if (phone_number) {
            setPatientPhone(phone_number[event.target.value]);
         } else {

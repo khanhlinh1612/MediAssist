@@ -89,9 +89,7 @@ const UpdatePatient = () => {
             });
             navigate("/patients/show");
         } catch (error) {
-            console.log(error);
             let errorMessage = error.response ?  "Failed update patient" : error.message;
-            console.log(errorMessage);
             if(error?.response?.data?.code === 11000){
                 if(error.response?.data?.keyPattern?.phone_number ) {
                     errorMessage = "Số điện thoại đã được đăng ký"

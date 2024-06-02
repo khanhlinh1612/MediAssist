@@ -67,7 +67,7 @@ const ShowPatient = () => {
             dataIndex: "index",
             key: "index",
             align: "center",
-            render: (text, record, index) => { console.log(record); return index + 1 }
+            render: (text, record, index) => { return index + 1 }
         },
         {
             title: "Họ và tên",

@@ -84,3 +84,8 @@
 .close-icon :hover{
   cursor: pointer;
 }
+.action-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

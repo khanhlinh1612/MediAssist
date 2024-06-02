@@ -131,3 +131,8 @@
   align-items: center;
   justify-content: center;
 }
+.action-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

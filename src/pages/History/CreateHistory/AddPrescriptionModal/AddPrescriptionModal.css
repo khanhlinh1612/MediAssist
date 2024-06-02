@@ -109,3 +109,7 @@
 .close-icon :hover{
   cursor: pointer;
 }
+.info-form-tab{
+  height: 50vh;
+  overflow-y: scroll;
+}

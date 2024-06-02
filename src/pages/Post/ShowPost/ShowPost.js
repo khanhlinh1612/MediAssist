@@ -32,7 +32,6 @@ const ShowPost = () => {
         fetch(`${process.env.REACT_APP_API_URL}/posts`)
             .then(response => response.json())
             .then(posts => {
-                console.log("These posts have been fetched", posts);
                 setData(posts);
                 if (viewMode === 'personal') {
                     const personalData = posts.filter(post => post.author._id === userInfo._id);

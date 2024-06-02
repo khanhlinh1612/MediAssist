@@ -40,7 +40,6 @@ const MedicalRecord = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/medicalRecord/${id}`)
             .then(response => {
                 if (response && response.data) {
-                    console.log("This is FormData", response.data);
                     setFormData(prevState => ({
                         ...prevState,
                         age: response.data.age,

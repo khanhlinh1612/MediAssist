@@ -17,12 +17,14 @@ const Dashboard = () => {
     totalHistories: 0,
     totalUsers: 0,
   });
+  const daysOfWeek = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
   const userName = userInfo?.first_name + ' ' + userInfo?.last_name;
   let currentDate = new Date();
   const currentTime = moment();
   const [formattedDate, setFormattedDate] = useState("");
   let currentDateStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0, 0);
   let currentDateEnd = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
+  const currentDayOfWeek = daysOfWeek[currentDate.getDay()];
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/appointments?start=${moment(currentDateStart).toISOString()}&end=${moment(currentDateEnd).toISOString()}`)
       .then(response => {
@@ -37,7 +39,7 @@ const Dashboard = () => {
         console.error('There was a problem with the fetch operation:', error);
         setAppointments([]);
       });
-    setFormattedDate(currentTime.format("dddd, DD [tháng] MM [năm] YYYY"));
+    setFormattedDate(currentTime.format("DD [tháng] MM [năm] YYYY"));
 
     fetch(`${process.env.REACT_APP_API_URL}/totalCount`)
       .then(response => {
@@ -68,7 +70,7 @@ const Dashboard = () => {
         <div className="info-page row">
           <div className="col-8 text-box">
             <h3>Xin chào {userName}</h3>
-            <p>Hôm nay là {formattedDate}</p>
+            <p>Hôm nay là {currentDayOfWeek}, {formattedDate}</p>
           </div>
           <div className="col-4 img-box">
             <img alt="" src={Doctor} className="doctor_avatar" />

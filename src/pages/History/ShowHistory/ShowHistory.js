@@ -78,7 +78,6 @@ const ShowHistory = () => {
         axios.get(url)
             .then(response => {
                 setData(response.data);
-                console.log("Rain on someone parade", userInfo)
                 let personalData = response.data.filter(history => history.doctor === userInfo._id)
                 setOriginalHistories(personalData);
                 setHistories(personalData);

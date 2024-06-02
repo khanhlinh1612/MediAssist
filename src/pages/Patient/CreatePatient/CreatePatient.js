@@ -65,7 +65,6 @@ const CreatePatient = () => {
             navigate("/patients/show");
         } catch (error) {
             let errorMessage = error.response ?  "Failed create patient" : error.message;
-            console.log(errorMessage);
             if(error?.response?.data?.message?.includes('User validation failed: phone_number: Error, expected `phone_number` to be unique')){
                 errorMessage = "Số điện thoại đã được đăng ký"
             }
