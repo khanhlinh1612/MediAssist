@@ -13,12 +13,16 @@ const ServiceTable = ({ data }) => {
     }, [data]);
 
     const renderExamResults = (examResult) => {
+        if (!examResult || !Array.isArray(examResult) || (examResult.length === 1 && examResult[0].index === '')) {
+            return "Không có";
+        }
         return examResult.map((result, index) => (
             <div key={index}>
                 {`${result.index}: ${result.testValue} (${result.unit})`}
             </div>
         ));
     };
+
 
     const columnsMedicalServices = [
         {
@@ -52,6 +56,7 @@ const ServiceTable = ({ data }) => {
             dataIndex: 'conclusion',
             align: "center",
             key: 'conclusion',
+            render: (text) => text ? text : "Chưa có"
         },
         {
             title: 'Action',
