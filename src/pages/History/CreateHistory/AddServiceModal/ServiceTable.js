@@ -58,31 +58,6 @@ const ServiceTable = ({ data }) => {
             key: 'conclusion',
             render: (text) => text ? text : "Chưa có"
         },
-        {
-            title: 'Action',
-            align: "center",
-            key: 'action',
-            render: (patient, record) => {
-                return (
-                    <div className="action-icon mt-2">
-                        <Link to={`/patients/${patient._id}`} className="me-2">
-                            <box-icon name="edit" color="#624DE3"></box-icon>
-                        </Link>
-                        <Popconfirm
-                            title="Bạn có chắc chắn muốn xóa?"
-                            // onConfirm={() => handleDelete(patient._id)}
-                            okText="Xác nhận"
-                            cancelText="Hủy"
-                            className="me-2"
-                        >
-                            <Link>
-                                <box-icon name="trash" color="#A30D11"></box-icon>
-                            </Link>
-                        </Popconfirm>
-                    </div>
-                );
-            }
-        }
     ];
 
     return (
