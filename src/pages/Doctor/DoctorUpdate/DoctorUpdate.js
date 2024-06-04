@@ -1,32 +1,34 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect, useContext } from "react";
 import Sidebar from "../../../components/Sidebar";
-import { format } from 'date-fns';
-import './DoctorUpdate.css';
+import { format } from "date-fns";
+import "./DoctorUpdate.css";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { UserContext } from '../../../context/UserContext';
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../../../context/UserContext";
 const DoctorUpdate = () => {
     const { setUserInfo, userInfo } = useContext(UserContext);
     const navigate = useNavigate();
-    const [avaImage, setAvaImage] = useState('https://mhchealthcare.org/wp-content/uploads/2019/05/doctor-avatar-1.jpg');
+    const [avaImage, setAvaImage] = useState(
+        "https://mhchealthcare.org/wp-content/uploads/2019/05/doctor-avatar-1.jpg"
+    );
     const [formData, setFormData] = useState({
-        fullname: '',
-        gender: '',
-        birthday: '',
-        age: '',
-        email: '',
-        phone_number: '',
-        first_name: '',
-        last_name: '',
-        address: '',
-        idNumber: '',
-        avatar: '',
-        experienced_year: '',
+        fullname: "",
+        gender: "",
+        birthday: "",
+        age: "",
+        email: "",
+        phone_number: "",
+        first_name: "",
+        last_name: "",
+        address: "",
+        idNumber: "",
+        avatar: "",
+        experienced_year: "",
         specialist: [],
-        position: '',
-        workplace: '',
-        description: '',
+        position: "",
+        workplace: "",
+        description: "",
     });
 
     useEffect(() => {
@@ -71,31 +73,35 @@ const DoctorUpdate = () => {
         description: descriptionRef,
     };
 
-    const formattedBirthday = formData.birthday ? format(new Date(formData.birthday), 'yyyy-MM-dd') : '';
+    const formattedBirthday = formData.birthday
+        ? format(new Date(formData.birthday), "yyyy-MM-dd")
+        : "";
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevFormData => ({
+        setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: value,
-            [`${name}Valid`]: true
+            [`${name}Valid`]: true,
         }));
     };
     const handleArray = (specialityArray) => {
-        let specialityString = '';
+        let specialityString = "";
         specialityArray.forEach((element, index) => {
             if (index === 0) {
                 specialityString += element;
-            }
-            else {
-                specialityString += ', ' + element;
+            } else {
+                specialityString += ", " + element;
             }
         });
         return specialityString;
-    }
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateFormData()) {
-            const { first_name, last_name, age } = calculateAgeAndSeparateName({ fullname: formData.fullname, birthday: formData.birthday });
+            const { first_name, last_name, age } = calculateAgeAndSeparateName({
+                fullname: formData.fullname,
+                birthday: formData.birthday,
+            });
             const specialist = parseSpecialities(formData.specialist);
             const updatedFormData = {
                 ...formData,
@@ -105,7 +111,7 @@ const DoctorUpdate = () => {
                 specialist: specialist,
             };
             const data = new FormData();
-            data.set('file', updatedFormData.avatar);
+            data.set("file", updatedFormData.avatar);
             data.set("fullname", updatedFormData.fullname);
             data.set("gender", updatedFormData.gender);
             data.set("birthday", updatedFormData.birthday);
@@ -122,31 +128,43 @@ const DoctorUpdate = () => {
             data.set("workplace", updatedFormData.workplace);
             data.set("description", updatedFormData.description);
             updatedFormData.specialist.forEach((speciality, index) => {
-                data.append('specialist[]',speciality );
+                data.append("specialist[]", speciality);
             });
             fetch(`${process.env.REACT_APP_API_URL}/profile/${updatedFormData._id}`, {
-                method: 'PUT',
+                method: "PUT",
                 body: data,
-                credentials: 'include',
+                credentials: "include",
             })
-                .then(async response => {
+                .then(async (response) => {
                     if (response.ok) {
                         await setUserInfo(response.data);
                         window.location.reload();
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     alert(error.response.data.error);
                     console.error("Request failed:", error);
-                }
-                )
+                });
         }
-
     };
 
     const validateFormData = () => {
-        const requiredFields = ['fullname', 'gender', 'birthday', 'email', 'phone_number', 'address', 'idNumber', 'avatar', 'experienced_year', 'specialist', 'position', 'workplace', 'description'];
-        const emptyField = requiredFields.find(field => !formData[field]);
+        const requiredFields = [
+            "fullname",
+            "gender",
+            "birthday",
+            "email",
+            "phone_number",
+            "address",
+            "idNumber",
+            "avatar",
+            "experienced_year",
+            "specialist",
+            "position",
+            "workplace",
+            "description",
+        ];
+        const emptyField = requiredFields.find((field) => !formData[field]);
         if (emptyField) {
             const emptyFieldRef = refs[emptyField].current;
             emptyFieldRef.focus();
@@ -186,22 +204,22 @@ const DoctorUpdate = () => {
     };
     const clearForm = () => {
         setFormData({
-            fullname: '',
-            gender: '',
-            birthday: '',
-            age: '',
-            email: '',
-            phone_number: '',
-            first_name: '',
-            last_name: '',
-            address: '',
-            idNumber: '',
-            avatar: '',
-            experienced_year: '',
+            fullname: "",
+            gender: "",
+            birthday: "",
+            age: "",
+            email: "",
+            phone_number: "",
+            first_name: "",
+            last_name: "",
+            address: "",
+            idNumber: "",
+            avatar: "",
+            experienced_year: "",
             specialist: [],
-            position: '',
-            workplace: '',
-            description: '',
+            position: "",
+            workplace: "",
+            description: "",
         });
     };
 
@@ -229,17 +247,19 @@ const DoctorUpdate = () => {
         if (!input) {
             return [];
         }
-        const specialtiesArray = input.split(',');
-        const trimmedSpecialties = specialtiesArray.map((specialty) => specialty.trim()).filter((specialty) => specialty !== '');
+        const specialtiesArray = input.split(",");
+        const trimmedSpecialties = specialtiesArray
+            .map((specialty) => specialty.trim())
+            .filter((specialty) => specialty !== "");
         return trimmedSpecialties;
     };
 
     const calculateAgeAndSeparateName = function ({ fullname, birthday }) {
-        let first_name = '';
-        let last_name = '';
-        let age = '';
+        let first_name = "";
+        let last_name = "";
+        let age = "";
         if (fullname) {
-            const names = fullname.split(' ');
+            const names = fullname.split(" ");
             last_name = names[0];
             first_name = names[names.length - 1];
         }
@@ -273,28 +293,26 @@ const DoctorUpdate = () => {
         return age >= 18;
     };
 
-
     const handleBlur = (e) => {
         const { name, value } = e.target;
         let isValid = true;
         // Kiểm tra tính hợp lệ của từng trường dữ liệu
-        if (name === 'email' && !isValidEmail(value)) {
+        if (name === "email" && !isValidEmail(value)) {
             isValid = false;
-        } else if (name === 'idNumber' && !isValidIdNumber(value)) {
+        } else if (name === "idNumber" && !isValidIdNumber(value)) {
             isValid = false;
-
-        } else if (name === 'phone_number' && !isValidPhoneNumber(value)) {
+        } else if (name === "phone_number" && !isValidPhoneNumber(value)) {
             isValid = false;
-
-        } else if (name === 'experienced_year' && !isValidExperienceYear(value, formData.age)) {
+        } else if (
+            name === "experienced_year" &&
+            !isValidExperienceYear(value, formData.age)
+        ) {
             isValid = false;
-
-        } else if (name === 'birthday' && !isValidBirthday(value)) {
+        } else if (name === "birthday" && !isValidBirthday(value)) {
             isValid = false;
-
         }
         // Cập nhật trạng thái tính hợp lệ của trường dữ liệu
-        setFormData(prevFormData => ({
+        setFormData((prevFormData) => ({
             ...prevFormData,
             [`${name}Valid`]: isValid,
         }));
@@ -311,7 +329,7 @@ const DoctorUpdate = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setAvaImage(reader.result);
-                setFormData(prevFormData => ({
+                setFormData((prevFormData) => ({
                     ...prevFormData,
                     avatar: file,
                 }));
@@ -320,7 +338,7 @@ const DoctorUpdate = () => {
         }
     };
     return (
-        <div className='create-patient-page row'>
+        <div className="create-patient-page row">
             <div className="col-md-2 col-3">
                 <Sidebar />
             </div>
@@ -330,45 +348,66 @@ const DoctorUpdate = () => {
                     <h3 className="title_part_show-post">Thông Tin Cá Nhân</h3>
                 </div>
 
-                <div className='create-patient-content'>
-                    <div className='btn-box-avatar'>
-                        {/* <Avatar
-                            alt="Remy Sharp"
-                            src={avaImage}
-                            sx={{
-                                width: 200,
-                                height: 200,
-                                borderRadius: '50%',
-                                border: '2px solid #ccc'
-                            }}
-                        /> */}
-
-                            <img alt="" src={avaImage} className="avatar-update"/>
-
-
-                        <input type="file" onChange={handleAvatarChange} ref={avaImageRef} style={{ display: 'none' }} />
-                        <button className='btn pick-img' onClick={handleChooseAvatar}>Chọn ảnh</button>
+                <div className="create-patient-content">
+                    <div className="btn-box-avatar">
+                        <img alt="" src={avaImage} className="avatar-update" />
+                        <input
+                            type="file"
+                            onChange={handleAvatarChange}
+                            ref={avaImageRef}
+                            style={{ display: "none" }}
+                        />
+                        <button className="btn pick-img" onClick={handleChooseAvatar}>
+                            Chọn ảnh
+                        </button>
                     </div>
-                    <form onSubmit={handleSubmit} className='row justify-content-between'>
-                        <div className='col-6'>
+                    <form onSubmit={handleSubmit} className="row justify-content-between">
+                        <div className="col-6">
                             <div className="mb-3">
-                                <label htmlFor="fullname" className="form-label fw-medium">Họ và tên</label>
-                                <input type="text" className="form-control" id="fullname" name="fullname" value={formData.fullname} onChange={handleChange} ref={fullnameRef} />
+                                <label htmlFor="fullname" className="form-label fw-medium">
+                                    Họ và tên
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="fullname"
+                                    name="fullname"
+                                    value={formData.fullname}
+                                    onChange={handleChange}
+                                    ref={fullnameRef}
+                                />
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="birthday" className="form-label fw-medium">Ngày sinh</label>
-                                <input type="date" className={`form-control ${formData.birthdayValid === false ? 'is-invalid' : ''}`} onBlur={handleBlur} id="birthday" name="birthday" value={formattedBirthday} onChange={handleChange} ref={birthdayRef} />
+                                <label htmlFor="birthday" className="form-label fw-medium">
+                                    Ngày sinh
+                                </label>
+                                <input
+                                    type="date"
+                                    className={`form-control ${formData.birthdayValid === false ? "is-invalid" : ""
+                                        }`}
+                                    onBlur={handleBlur}
+                                    id="birthday"
+                                    name="birthday"
+                                    value={formattedBirthday}
+                                    onChange={handleChange}
+                                    ref={birthdayRef}
+                                />
                                 {formData.birthdayValid === false && (
-                                    <div className="invalid-feedback">Tuổi phải từ 18 trở lên.</div>
+                                    <div className="invalid-feedback">
+                                        Tuổi phải từ 18 trở lên.
+                                    </div>
                                 )}
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="email" className="form-label fw-medium">Email</label>
+                                <label htmlFor="email" className="form-label fw-medium">
+                                    Email
+                                </label>
                                 <input
                                     type="email"
-                                    className={`form-control ${formData.emailValid === false ? 'is-invalid' : ''}`}
+                                    className={`form-control ${formData.emailValid === false ? "is-invalid" : ""
+                                        }`}
                                     id="email"
                                     name="email"
                                     value={formData.email}
@@ -381,59 +420,166 @@ const DoctorUpdate = () => {
                                 )}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="position" className="form-label fw-medium">Chức vụ</label>
-                                <input type="text" className="form-control" id="position" name="position" value={formData.position} onChange={handleChange} ref={positionRef} />
+                                <label htmlFor="position" className="form-label fw-medium">
+                                    Chức vụ
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="position"
+                                    name="position"
+                                    value={formData.position}
+                                    onChange={handleChange}
+                                    ref={positionRef}
+                                />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="specialist" className="form-label fw-medium">Chuyên Ngành</label>
-                                <input type="text" className="form-control" id="specialist" name="specialist" value={formData.specialist} onChange={handleChange} ref={specialistRef} />
+                                <label htmlFor="specialist" className="form-label fw-medium">
+                                    Chuyên Ngành
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="specialist"
+                                    name="specialist"
+                                    value={formData.specialist}
+                                    onChange={handleChange}
+                                    ref={specialistRef}
+                                />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="description" className="form-label fw-medium">Giới Thiệu</label>
-                                <textarea className="form-control" id="description" name="description" value={formData.description} onChange={handleChange} ref={descriptionRef} />
+                                <label htmlFor="description" className="form-label fw-medium">
+                                    Giới Thiệu
+                                </label>
+                                <textarea
+                                    className="form-control"
+                                    id="description"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    ref={descriptionRef}
+                                />
                             </div>
                         </div>
-                        <div className='col-6'>
+                        <div className="col-6">
                             <div className="mb-3">
-                                <label htmlFor="gender" className="form-label fw-medium">Giới tính</label>
-                                <input type="text" className="form-control" id="gender" name="gender" value={formData.gender} onChange={handleChange} ref={genderRef} />
+                                <label htmlFor="gender" className="form-label fw-medium">
+                                    Giới tính
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="gender"
+                                    name="gender"
+                                    value={formData.gender}
+                                    onChange={handleChange}
+                                    ref={genderRef}
+                                />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="idNumber" className="form-label fw-medium">Số CCCD</label>
-                                <input type="text" className={`form-control ${formData.idNumberValid === false ? 'is-invalid' : ''}`} onBlur={handleBlur} id="idNumber" name="idNumber" value={formData.idNumber} onChange={handleChange} ref={idNumberRef} />
+                                <label htmlFor="idNumber" className="form-label fw-medium">
+                                    Số CCCD
+                                </label>
+                                <input
+                                    type="text"
+                                    className={`form-control ${formData.idNumberValid === false ? "is-invalid" : ""
+                                        }`}
+                                    onBlur={handleBlur}
+                                    id="idNumber"
+                                    name="idNumber"
+                                    value={formData.idNumber}
+                                    onChange={handleChange}
+                                    ref={idNumberRef}
+                                />
                                 {formData.idNumberValid === false && (
-                                    <div className="invalid-feedback">Số căn cước công dân phải có đúng 12 số.</div>
+                                    <div className="invalid-feedback">
+                                        Số căn cước công dân phải có đúng 12 số.
+                                    </div>
                                 )}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="phone_number" className="form-label fw-medium">Số điện thoại</label>
-                                <input type="text" className={`form-control ${formData.phone_numberValid === false ? 'is-invalid' : ''}`} onBlur={handleBlur} id="phone_number" name="phone_number" value={formData.phone_number} onChange={handleChange} ref={phone_numberRef} />
+                                <label htmlFor="phone_number" className="form-label fw-medium">
+                                    Số điện thoại
+                                </label>
+                                <input
+                                    type="text"
+                                    className={`form-control ${formData.phone_numberValid === false ? "is-invalid" : ""
+                                        }`}
+                                    onBlur={handleBlur}
+                                    id="phone_number"
+                                    name="phone_number"
+                                    value={formData.phone_number}
+                                    onChange={handleChange}
+                                    ref={phone_numberRef}
+                                />
                                 {formData.phone_numberValid === false && (
-                                    <div className="invalid-feedback">Số điện thoại phải có đúng 10 chữ số.</div>
+                                    <div className="invalid-feedback">
+                                        Số điện thoại phải có đúng 10 chữ số.
+                                    </div>
                                 )}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="experienced_year" className="form-label fw-medium">Số năm kinh nghiệm</label>
-                                <input type="number" className={`form-control ${formData.experienced_yearValid === false ? 'is-invalid' : ''}`} onBlur={handleBlur} id="experienced_year" name="experienced_year" value={formData.experienced_year} onChange={handleChange} ref={experienced_yearRef} />
+                                <label
+                                    htmlFor="experienced_year"
+                                    className="form-label fw-medium"
+                                >
+                                    Số năm kinh nghiệm
+                                </label>
+                                <input
+                                    type="number"
+                                    className={`form-control ${formData.experienced_yearValid === false ? "is-invalid" : ""
+                                        }`}
+                                    onBlur={handleBlur}
+                                    id="experienced_year"
+                                    name="experienced_year"
+                                    value={formData.experienced_year}
+                                    onChange={handleChange}
+                                    ref={experienced_yearRef}
+                                />
                                 {formData.experienced_yearValid === false && (
-                                    <div className="invalid-feedback">Số năm kinh nghiệm phải nhỏ hơn số tuổi.</div>
+                                    <div className="invalid-feedback">
+                                        Số năm kinh nghiệm phải nhỏ hơn số tuổi.
+                                    </div>
                                 )}
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="workplace" className="form-label fw-medium">Nơi làm việc</label>
-                                <input type="text" className="form-control" id="workplace" name="workplace" value={formData.workplace} onChange={handleChange} ref={workplaceRef} />
+                                <label htmlFor="workplace" className="form-label fw-medium">
+                                    Nơi làm việc
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="workplace"
+                                    name="workplace"
+                                    value={formData.workplace}
+                                    onChange={handleChange}
+                                    ref={workplaceRef}
+                                />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="address" className="form-label fw-medium">Địa chỉ</label>
-                                <input type="text" className="form-control" id="address" name="address" value={formData.address} onChange={handleChange} ref={addressRef} />
+                                <label htmlFor="address" className="form-label fw-medium">
+                                    Địa chỉ
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="address"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    ref={addressRef}
+                                />
                             </div>
                         </div>
-                        <div className='submit-box'>
-                            <button className="btn btn-warning cancel" onClick={onCancel}>Huỷ</button>
-                            <button type="submit" className="btn submit">Xác nhận</button>
+                        <div className="submit-box">
+                            <button className="btn btn-warning cancel" onClick={onCancel}>
+                                Huỷ
+                            </button>
+                            <button type="submit" className="btn submit">
+                                Xác nhận
+                            </button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>

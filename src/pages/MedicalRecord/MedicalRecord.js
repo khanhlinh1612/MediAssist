@@ -26,7 +26,8 @@ const MedicalRecord = () => {
     });
     const [loading, setLoading] = useState(false); // State để kiểm soát hiển thị Spin
     const [modalVisible, setModalVisible] = useState(false); // State để kiểm soát hiển thị Modal
-    const URL_API_AI = "https://mediassist-model.onrender.com/api/predict";
+    // const URL_API_AI = "https://mediassist-model.onrender.com/api/predict";
+    const URL_API_AI = 'http://127.0.0.1:8000/api/predict';
     // Hàm mở Modal
     const showModal = () => {
         setModalVisible(true);

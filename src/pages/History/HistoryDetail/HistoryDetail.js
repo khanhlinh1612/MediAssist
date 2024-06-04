@@ -17,6 +17,8 @@ const { TabPane } = Tabs;
 const HistoryDetail = () => {
     const navigate = useNavigate();
     const { id } = useParams();
+    const [services, setServices] = useState([]);
+    const [drugs, setDrugs] = useState([]);
     const [modalPrescriptionOpen, setModalPrescriptionOpen] = useState(false);
     const [modalServiceOpen, setModalServiceOpen] = useState(false);
     const [patientInfo, setPatientInfo] = useState(null);
@@ -54,25 +56,45 @@ const HistoryDetail = () => {
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/history/${id}`)
-            .then(response =>
-                {
-                    const { medicalServices, total, status } = response.data.invoice;
-                    const medicines = JSON.parse(JSON.stringify(response.data.invoice.medicines));
-                    setPatientInfo(response.data.patient);
-                    setDoctorInfo(response.data.doctor);
-                    setFormData({
-                        ...response.data,
-                        prescription: JSON.parse(JSON.stringify(response.data.invoice.medicines)) || [],
-                        service: medicalServices || []
-                    });
-                    setPrescriptionData(JSON.parse(JSON.stringify(response.data.invoice.medicines)) || []);
-                    setServiceData(medicalServices || []);
-                    setInvoiceData({ medicines, medicalServices, total, status });
-                })
-                .catch(error => {
-                    console.error("Request failed:", error);
-                }
+            .then(response => {
+                const { medicalServices, total, status } = response.data.invoice;
+                const medicines = JSON.parse(JSON.stringify(response.data.invoice.medicines));
+                setPatientInfo(response.data.patient);
+                setDoctorInfo(response.data.doctor);
+                setFormData({
+                    ...response.data,
+                    prescription: JSON.parse(JSON.stringify(response.data.invoice.medicines)) || [],
+                    service: medicalServices || []
+                });
+                setPrescriptionData(JSON.parse(JSON.stringify(response.data.invoice.medicines)) || []);
+                console.log("This is serviceResult",response.data.serviceResult);
+                setServiceData(response.data.serviceResult || medicalServices || []);
+                setInvoiceData({ medicines, medicalServices, total, status });
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+            }
             );
+
+        // Gọi API để lấy danh sách tên các dịch vụ
+        axios.get(`${process.env.REACT_APP_API_URL}/history/services`)
+            .then(response => {
+                const options = response.data.map(name => ({ value: name, label: name }));
+                setServices(options);
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+            });
+
+        // Gọi API để lấy danh sách tên các thuốc
+        axios.get(`${process.env.REACT_APP_API_URL}/history/drugs`)
+            .then(response => {
+                const options = response.data.map(name => ({ value: name, label: name }));
+                setDrugs(options);
+            })
+            .catch(error => {
+                console.error("Request failed:", error);
+            });
     }, [id]);
 
 
@@ -85,6 +107,7 @@ const HistoryDetail = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("Thiss isss formdata", formData);
         if (validateFormData()) {
             axios.put(`${process.env.REACT_APP_API_URL}/history/${formData._id}`, formData, { withCredentials: true })
                 .then(response => {
@@ -166,6 +189,7 @@ const HistoryDetail = () => {
         setModalServiceOpen(false);
     };
     const getValueService = (data) => {
+        console.log("Data of service",data);
         setServiceData(data);
         setFormData(prevFormData => ({
             ...prevFormData,
@@ -239,9 +263,10 @@ const HistoryDetail = () => {
                                 <div className='prescription-box update'>
                                     {/* <input type="text" className="form-control" id="prescription" name="prescription" placeholder={`Số lượng thuốc đã tạo:  ${prescriptionData.length}`} onChange={handleChange} ref={refs.prescription} /> */}
                                     <div className="title-info-tab form-control">{`Số lượng thuốc đã tạo:  ${prescriptionData.length}`}</div>
-                                    {prescriptionData.length > 0 && (
-                                        <button type="button" className='btn btn-to-invoice btn-secondary' onClick={() => setModalPrescriptionOpen(true)}>Cập Nhật</button>
-                                    )}
+
+                                    <button type="button" className='btn btn-to-invoice btn-secondary' onClick={() => setModalPrescriptionOpen(true)}>
+                                        {prescriptionData.length > 0 ? 'Cập Nhật' : 'Tạo mới'}</button>
+
                                 </div>
                             </div>
                             <AddPrescriptionModal
@@ -249,8 +274,8 @@ const HistoryDetail = () => {
                                 onClose={closePrescriptionModal}
                                 onSubmit={getValuePrescription}
                                 data={JSON.parse(JSON.stringify(prescriptionData))}
-                                drugNames={[]}
-                                status={statusModal}
+                                drugNames={drugs}
+                                status={prescriptionData.length > 0 ? statusModal : 'create'}
                             />
                             <PrescriptionTable
                                 data={JSON.parse(JSON.stringify(prescriptionData))}
@@ -262,9 +287,7 @@ const HistoryDetail = () => {
                                 <label htmlFor="service" className="form-label fw-medium">Dịch vụ</label>
                                 <div className='invoice-box update'>
                                     <div className="title-info-tab form-control">{`Số lượng dịch vụ đã tạo:  ${serviceData.length}`}</div>
-                                    {serviceData.length > 0 && (
-                                        <button type="button" className='btn btn-to-prescription btn-secondary' onClick={() => setModalServiceOpen(true)}>Cập Nhật</button>
-                                    )}
+                                    <button type="button" className='btn btn-to-prescription btn-secondary' onClick={() => setModalServiceOpen(true)}>{serviceData.length > 0 ? 'Cập Nhật' : 'Tạo mới'}</button>
                                 </div>
                             </div>
                             <AddServiceModal
@@ -272,8 +295,8 @@ const HistoryDetail = () => {
                                 onClose={closeServiceModal}
                                 onSubmit={getValueService}
                                 data={JSON.parse(JSON.stringify(serviceData))}
-                                serviceNames={[]}
-                                status={statusModal}
+                                serviceNames={services}
+                                status={serviceData.length > 0 ? statusModal : 'create'}
                             />
                             <ServiceTable
                                 data={JSON.parse(JSON.stringify(serviceData))}

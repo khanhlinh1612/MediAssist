@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { Table, Popconfirm } from 'antd';
 import '../../HistoryDetail/ShowInvoiceModal/ShowInvoiceModal.css';
 
-const ServiceTable  = ({ data }) => {
+const ServiceTable = ({ data }) => {
     const [medicalServices, setMedicalServices] = useState([]);
+
     useEffect(() => {
         if (data) {
             setMedicalServices(data || []);
         }
     }, [data]);
+
+    const renderExamResults = (examResult) => {
+        return examResult.map((result, index) => (
+            <div key={index}>
+                {`${result.index}: ${result.testValue} (${result.unit})`}
+            </div>
+        ));
+    };
 
     const columnsMedicalServices = [
         {
@@ -26,59 +35,62 @@ const ServiceTable  = ({ data }) => {
         },
         {
             title: 'Kết quả xét nghiệm',
-            dataIndex: 'name',
+            dataIndex: 'examResult',
             align: "center",
-            key: 'name',
+            key: 'examResult',
+            render: (examResult) => renderExamResults(examResult),
         },
         {
             title: 'Kết quả hình ảnh',
-            dataIndex: 'name',
+            dataIndex: 'imageResult',
             align: "center",
-            key: 'name',
+            key: 'imageResult',
+            render: (imageResult) => imageResult ? <img src={URL.createObjectURL(imageResult)} alt="Kết quả hình ảnh" style={{ width: '100px' }} /> : 'Không có',
         },
         {
             title: 'Kết luận',
-            dataIndex: 'quantity',
+            dataIndex: 'conclusion',
             align: "center",
-            key: 'quantity',
+            key: 'conclusion',
         },
         {
             title: 'Action',
             align: "center",
             key: 'action',
             render: (patient, record) => {
-                return (<div className="action-icon mt-2">
-                    <Link to={`/patients/${patient._id}`} className="me-2">
-                        <box-icon name="edit" color="#624DE3"></box-icon>
-                    </Link>
-                    <Popconfirm
-                        title="Bạn có chắc chắn muốn xóa?"
-                        // onConfirm={() => handleDelete(patient._id)}
-                        okText="Xác nhận"
-                        cancelText="Hủy"
-                        className="me-2"
-                    >
-                        <Link>
-                            <box-icon name="trash" color="#A30D11"></box-icon>
+                return (
+                    <div className="action-icon mt-2">
+                        <Link to={`/patients/${patient._id}`} className="me-2">
+                            <box-icon name="edit" color="#624DE3"></box-icon>
                         </Link>
-                    </Popconfirm>
-                </div>);
+                        <Popconfirm
+                            title="Bạn có chắc chắn muốn xóa?"
+                            // onConfirm={() => handleDelete(patient._id)}
+                            okText="Xác nhận"
+                            cancelText="Hủy"
+                            className="me-2"
+                        >
+                            <Link>
+                                <box-icon name="trash" color="#A30D11"></box-icon>
+                            </Link>
+                        </Popconfirm>
+                    </div>
+                );
             }
         }
     ];
 
-
     return (
         <div>
             <h3 className='title-modal-prescription mb-3'>Thông tin dịch vụ</h3>
-                <div className='invoice-section'>
-                    <h5 className='table-title'><box-icon name='injection' color="#666666"></box-icon> Bảng dịch vụ</h5>
-                    <Table
-                        columns={columnsMedicalServices}
-                        dataSource={medicalServices.map((item, index) => ({ ...item, key: index }))}
-                        pagination={false}
-                    />
-                </div>
+            <div className='invoice-section'>
+                <h5 className='table-title'><box-icon name='injection' color="#666666"></box-icon> Bảng dịch vụ</h5>
+                <Table
+                    columns={columnsMedicalServices}
+                    dataSource={medicalServices.map((item, index) => ({ ...item, key: index }))}
+                    pagination={false}
+                />
+            </div>
         </div>
     );
 };

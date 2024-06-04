@@ -70,7 +70,7 @@ const Sidebar = () => {
                 className="icon-sidebar"
                 type="solid"
               ></box-icon>
-              <span className="item-nav">Quản lý lịch hẹn</span>
+              <span className="item-nav">Quản lý lịch</span>
             </Link>
           </li>
 

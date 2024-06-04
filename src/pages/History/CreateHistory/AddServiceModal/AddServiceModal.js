@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'antd';
 import { toast, Bounce } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './AddServiceModal.css';
 import { CloseCircleTwoTone } from '@ant-design/icons';
+import './AddServiceModal.css';
 
 const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status }) => {
     const [formData, setFormData] = useState([{
-        nameService: '',
+        name: '',
         quantity: '',
         examResult: [{ index: '', testValue: '', unit: '' }],
-        imageResult: [''],
+        imageResult: null,
         conclusion: ''
     }]);
 
@@ -29,10 +28,10 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
 
     const clearFormData = () => {
         setFormData([{
-            nameService: '',
+            name: '',
             quantity: '',
             examResult: [{ index: '', testValue: '', unit: '' }],
-            imageResult: [''],
+            imageResult: null,
             conclusion: ''
         }]);
     };
@@ -59,7 +58,7 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
 
     const checkLastService = () => {
         const lastService = formData[formData.length - 1];
-        if (!lastService.nameService || !lastService.quantity) {
+        if (!lastService.name || !lastService.quantity) {
             showToast("Vui lòng điền đầy đủ thông tin.");
             return false;
         }
@@ -78,10 +77,10 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
     const addMoreService = () => {
         if (checkLastService() && checkIsQuantity()) {
             setFormData(prevFormData => [...prevFormData, {
-                nameService: '',
+                name: '',
                 quantity: '',
                 examResult: [{ index: '', testValue: '', unit: '' }],
-                imageResult: [''],
+                imageResult: null,
                 conclusion: ''
             }]);
         }
@@ -96,25 +95,16 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
         });
     };
 
-    const handleExamResultChange = (serviceIndex, examIndex, e) => {
+    const handleExamResultChange = (serviceIndex, resultIndex, e) => {
         const { name, value } = e.target;
         setFormData(prevFormData => {
             const newData = [...prevFormData];
-            newData[serviceIndex].examResult[examIndex][name] = value;
+            newData[serviceIndex].examResult[resultIndex][name] = value;
             return newData;
         });
     };
 
-    const handleImageResultChange = (serviceIndex, imageIndex, e) => {
-        const { value } = e.target;
-        setFormData(prevFormData => {
-            const newData = [...prevFormData];
-            newData[serviceIndex].imageResult[imageIndex] = value;
-            return newData;
-        });
-    };
-
-    const addExamResult = (serviceIndex) => {
+    const addMoreExamResult = (serviceIndex) => {
         setFormData(prevFormData => {
             const newData = [...prevFormData];
             newData[serviceIndex].examResult.push({ index: '', testValue: '', unit: '' });
@@ -122,28 +112,15 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
         });
     };
 
-    const removeExamResult = (serviceIndex, examIndex) => {
+    const handleFileSelect = (index, e) => {
+        const file = e.target.files[0] || null;
         setFormData(prevFormData => {
             const newData = [...prevFormData];
-            newData[serviceIndex].examResult.splice(examIndex, 1);
+            newData[index].imageResult = file;
             return newData;
         });
-    };
 
-    const addImageResult = (serviceIndex) => {
-        setFormData(prevFormData => {
-            const newData = [...prevFormData];
-            newData[serviceIndex].imageResult.push('');
-            return newData;
-        });
-    };
-
-    const removeImageResult = (serviceIndex, imageIndex) => {
-        setFormData(prevFormData => {
-            const newData = [...prevFormData];
-            newData[serviceIndex].imageResult.splice(imageIndex, 1);
-            return newData;
-        });
+        console.log("Updated formData:", formData);
     };
 
     const handleSubmit = (e) => {
@@ -159,7 +136,7 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
     };
 
     return (
-        <Modal open={isOpen} onCancel={handleOnClose} footer={[
+        <Modal open={isOpen} onCancel={status === "update" ? handleOnClose : cancel} footer={[
             <button key="back" onClick={cancel} className='btn btn-warning addDrugBtn'>
                 Hủy
             </button>,
@@ -168,11 +145,9 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
             </button>,
         ]}>
             <h3 className='title-modal-service'>Thông tin dịch vụ</h3>
-            {status === 'create' && (
-                <div className='add-drug-box'>
-                    <button type="button" className='btn add-drug-btn' onClick={addMoreService}>Thêm dịch vụ</button>
-                </div>
-            )}
+            <div className='add-drug-box'>
+                <button type="button" className='btn add-drug-btn' onClick={addMoreService}>Thêm dịch vụ</button>
+            </div>
 
             <form onSubmit={handleSubmit} className='form-modal addDrug'>
                 {formData.map((service, serviceIndex) => (
@@ -191,8 +166,8 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
                             <input
                                 className="form-control"
                                 list="serviceNames"
-                                name="nameService"
-                                value={service.nameService}
+                                name="name"
+                                value={service.name}
                                 onChange={(e) => handleChange(serviceIndex, e)}
                                 placeholder="Chọn dịch vụ..."
                             />
@@ -216,65 +191,59 @@ const AddServiceModal = ({ isOpen, onClose, onSubmit, data, serviceNames, status
                                 <span className="input-group-text">( lần )</span>
                             </div>
                         </div>
-                        {/* <div className="form-group">
-                            <label>Kết quả xét nghiệm</label>
-                            {service.examResult.map((exam, examIndex) => (
-                                <div key={examIndex} className="exam-result">
-                                    <input
-                                        type="text"
-                                        className='form-control'
-                                        placeholder='Chỉ số'
-                                        name="index"
-                                        value={exam.index}
-                                        onChange={(e) => handleExamResultChange(serviceIndex, examIndex, e)}
+                        {status === 'update' && (
+                            <div className="form-group">
+                                <label>Kết quả xét nghiệm</label>
+                                {service.examResult.map((result, resultIndex) => (
+                                    <div key={resultIndex} className="exam-result-group">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Chỉ số"
+                                            name="index"
+                                            value={result.index}
+                                            onChange={(e) => handleExamResultChange(serviceIndex, resultIndex, e)}
+                                        />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Giá trị xét nghiệm"
+                                            name="testValue"
+                                            value={result.testValue}
+                                            onChange={(e) => handleExamResultChange(serviceIndex, resultIndex, e)}
+                                        />
+                                        <input
+                                            type="text"
+                                            className="form-control mb-3"
+                                            placeholder="Đơn vị"
+                                            name="unit"
+                                            value={result.unit}
+                                            onChange={(e) => handleExamResultChange(serviceIndex, resultIndex, e)}
+                                        />
+                                    </div>
+                                ))}
+                                <button type="button" className='btn btn-secondary add-exam-result-btn mt-2' onClick={() => addMoreExamResult(serviceIndex)}>
+                                    Thêm kết quả xét nghiệm
+                                </button>
+                            </div>
+                        )}
+
+                        {
+                            status === 'update' && (
+                                <div className="form-group">
+                                    <label>Kết luận</label>
+                                    <textarea
+                                        className="form-control"
+                                        name="conclusion"
+                                        value={service.conclusion}
+                                        onChange={(e) => handleChange(serviceIndex, e)}
+                                        placeholder="Nhập kết luận"
                                     />
-                                    <input
-                                        type="text"
-                                        className='form-control'
-                                        placeholder='Giá trị xét nghiệm'
-                                        name="testValue"
-                                        value={exam.testValue}
-                                        onChange={(e) => handleExamResultChange(serviceIndex, examIndex, e)}
-                                    />
-                                    <input
-                                        type="text"
-                                        className='form-control'
-                                        placeholder='Đơn vị'
-                                        name="unit"
-                                        value={exam.unit}
-                                        onChange={(e) => handleExamResultChange(serviceIndex, examIndex, e)}
-                                    />
-                                    <button type="button" onClick={() => removeExamResult(serviceIndex, examIndex)}>Xóa</button>
                                 </div>
-                            ))}
-                            <button type="button" onClick={() => addExamResult(serviceIndex)}>Thêm kết quả xét nghiệm</button>
-                        </div>
-                        <div className="form-group">
-                            <label>Kết quả hình ảnh</label>
-                            {service.imageResult.map((image, imageIndex) => (
-                                <div key={imageIndex} className="image-result">
-                                    <input
-                                        type="text"
-                                        className='form-control'
-                                        placeholder='Đường dẫn hình ảnh'
-                                        value={image}
-                                        onChange={(e) => handleImageResultChange(serviceIndex, imageIndex, e)}
-                                    />
-                                    <button type="button" onClick={() => removeImageResult(serviceIndex, imageIndex)}>Xóa</button>
-                                </div>
-                            ))}
-                            <button type="button" onClick={() => addImageResult(serviceIndex)}>Thêm kết quả hình ảnh</button>
-                        </div>*/}
-                        {/* <div className="form-group">
-                            <label>Kết luận</label>
-                            <textarea
-                                className="form-control"
-                                name="conclusion"
-                                // value={service.conclusion}
-                                onChange={(e) => handleChange(serviceIndex, e)}
-                                placeholder="Nhập kết luận"
-                            />
-                        </div> */}
+                            )
+                        }
+
+
                         <div className="drug-divider"></div>
                     </div>
                 ))}
